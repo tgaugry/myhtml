@@ -19,7 +19,7 @@ dependencies:
 for local usage need to build ext: `cd src/ext && make`
 
 ```crystal
-require "./src/myhtml"
+require "myhtml"
 
 str = if filename = ARGV[0]?
   File.read(filename)
