@@ -1,0 +1,10 @@
+name: myhtml
+version: 0.1.0
+
+authors:
+  - Konstantin Makarchev <kostya27@gmail.com>
+
+scripts:
+  postinstall: cd ext && make package
+
+license: MIT
