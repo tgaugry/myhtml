@@ -9,12 +9,13 @@ end
 parser = Myhtml::Parser.new
 parser.parse(str)
 
+$links = [] of Myhtml::Node
+
 def walk(node)
   return unless node
 
   if node.tag_id == 4
-    # puts "a: #{node.attributes["href"]?}"
-    puts "a"
+    $links << node
     return
   end
 
@@ -26,3 +27,5 @@ def walk(node)
 end
 
 walk(parser.root)
+
+p $links.size
