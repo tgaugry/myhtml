@@ -6,6 +6,8 @@ module Myhtml
     type MyhtmlTreeT = Void*
     type MyhtmlTreeNodeT = Void*
     type MyhtmlTreeAttrT = Void*
+    type MyhtmlTagIndexT = Void*
+    type MyhtmlTagIndexNodeT = Void*
     alias MyhtmlStatus = Int32
     alias MyhtmlTagIdT = LibC::SizeT
 
@@ -32,5 +34,11 @@ module Myhtml
     fun attribute_name = myhtml_attribute_name(attr : MyhtmlTreeAttrT*, length : LibC::SizeT*) : UInt8*
     fun attribute_value = myhtml_attribute_value(attr : MyhtmlTreeAttrT*, length : LibC::SizeT*) : UInt8*
     fun attribute_next = myhtml_attribute_next(attr : MyhtmlTreeAttrT*) : MyhtmlTreeAttrT*
+
+    fun tree_get_tag_index = myhtml_tree_get_tag_index(tree : MyhtmlTreeT*) : MyhtmlTagIndexT*
+    fun tag_index_first = myhtml_tag_index_first(tag_index : MyhtmlTagIndexT*, tag_id : MyhtmlTagIdT) : MyhtmlTagIndexNodeT*
+    fun tag_index_entry_count = myhtml_tag_index_entry_count(tag_index : MyhtmlTagIndexT*, tag_id : MyhtmlTagIdT) : LibC::SizeT
+    fun tag_index_tree_node = myhtml_tag_index_tree_node(index_node : MyhtmlTagIndexNodeT*) : MyhtmlTreeNodeT*
+    fun tag_index_next = myhtml_tag_index_next(index_node : MyhtmlTagIndexNodeT*) : MyhtmlTagIndexNodeT*
   end
 end
