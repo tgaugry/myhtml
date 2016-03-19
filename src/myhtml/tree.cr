@@ -1,5 +1,5 @@
 module Myhtml
-  struct Tree
+  class Tree
     getter tree
     
     def initialize(myhtml)
