@@ -27,6 +27,7 @@ module Myhtml
     end
 
     def finalize
+      @tree.destroy
       Lib.destroy(@myhtml)
     end
 

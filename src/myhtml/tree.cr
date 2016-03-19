@@ -11,7 +11,7 @@ module Myhtml
       end
     end
 
-    def finalize
+    def destroy
       Lib.tree_destroy(@tree)
     end
   end
