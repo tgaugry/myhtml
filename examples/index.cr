@@ -11,9 +11,6 @@ parser.parse(str)
 
 p parser.tags_count(0x02a)
 parser.each_tag(0x02a) do |node|
-  # p node.tag_name
-  # p node.attributes
-  p node
   p node.tag_name
-  puts node.attributes
+  p node.attributes
 end
