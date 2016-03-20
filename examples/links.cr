@@ -30,7 +30,7 @@ def extract_link(node)
 
   before = ""
   node.left_iterator.each do |node|
-    if node.tag_id == 0x001 # text
+    if node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
       text = node.tag_text
       if !text.empty? && !text.each_char.all?(&.whitespace?)
         before = text.strip
@@ -41,7 +41,7 @@ def extract_link(node)
 
   after = ""
   node.child.try &.right_iterator.each do |node|
-    if node.tag_id == 0x001 # text
+    if node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
       text = node.tag_text
       if !text.empty? && !text.each_char.all?(&.whitespace?)
         after = text.strip
@@ -55,4 +55,4 @@ end
 
 parser = Myhtml::Parser.new
 parser.parse(str)
-parser.each_tag(0x004) { |node| extract_link(node) }
+parser.each_tag(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A) { |node| extract_link(node) }

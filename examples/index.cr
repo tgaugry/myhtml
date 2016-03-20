@@ -9,8 +9,9 @@ end
 parser = Myhtml::Parser.new
 parser.parse(str)
 
-p parser.count_tags(0x02a)
-parser.each_tag(0x02a) do |node|
+p parser.count_tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV)
+
+parser.each_tag(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV) do |node|
   p node.tag_name
   p node.attributes
 end

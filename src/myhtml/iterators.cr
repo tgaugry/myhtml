@@ -43,7 +43,7 @@ module Myhtml
       @current_node = next_to(@current_node.not_nil!)
 
       if cn = @current_node
-        if cn.tag_id == 0x00
+        if cn.tag_id == Lib::MyhtmlTags::MyHTML_TAG__UNDEF
           stop
         else
           cn

@@ -8,7 +8,7 @@ describe Myhtml::Node do
     node = parser.root!.child!.next!.child!
     node.tag_name.should eq "div"
     node.attributes.should eq({"class" => "AAA", "style" => "color:red"})
-    node.tag_id.should eq 0x2a
+    node.tag_id.should eq Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV
     node.child!.tag_text.should eq "Haha"
   end
 
