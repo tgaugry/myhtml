@@ -8,7 +8,6 @@ module Myhtml
     type MyhtmlTreeAttrT = Void*
     type MyhtmlTagIndexT = Void*
     type MyhtmlTagIndexNodeT = Void*
-    alias MyhtmlStatus = Int32
     alias MyhtmlTagIdT = LibC::SizeT
 
     fun create = myhtml_create : MyhtmlT*
