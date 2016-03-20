@@ -19,8 +19,6 @@ dependencies:
 ```crystal
 require "myhtml"
 
-require "../src/myhtml"
-
 def walk(node, level = 0)
   puts "#{" " * level}#{node.tag_name}#{node.attributes}(#{node.tag_text})"
   node.each_child { |child| walk(child, level + 1) }
