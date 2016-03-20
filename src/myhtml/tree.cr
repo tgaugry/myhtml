@@ -5,8 +5,7 @@ module Myhtml
     def initialize(options = 0, threads_count = 1, queue_size = 0)
       @raw_myhtml = Lib.create
       res = Lib.init(@raw_myhtml, options, threads_count, queue_size) # MyHTML_OPTIONS_DEFAULT
-      
-      if res != 0 # OK_STATUS
+      if res != 0                                                     # OK_STATUS
         raise Error.new("init error #{res}")
       end
 
