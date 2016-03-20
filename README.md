@@ -16,8 +16,6 @@ dependencies:
 
 ## Usage
 
-for local usage need to build ext: `cd src/ext && make`
-
 ```crystal
 require "myhtml"
 
