@@ -13,8 +13,16 @@ module Myhtml
       Node.from_raw(@tree, Lib.node_child(@node))
     end
 
+    def child!
+      child.not_nil!
+    end
+
     def next
       Node.from_raw(@tree, Lib.node_next(@node))
+    end
+
+    def next!
+      self.next.not_nil!
     end
 
     def tag_id

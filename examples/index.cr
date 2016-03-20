@@ -9,7 +9,7 @@ end
 parser = Myhtml::Parser.new
 parser.parse(str)
 
-p parser.tags_count(0x02a)
+p parser.count_tags(0x02a)
 parser.each_tag(0x02a) do |node|
   p node.tag_name
   p node.attributes

@@ -17,7 +17,11 @@ module Myhtml
       @tree.root
     end
 
-    def tags_count(tag_id)
+    def root!
+      @tree.root.not_nil!
+    end
+
+    def count_tags(tag_id)
       Myhtml::Lib.tag_index_entry_count(tag_index, tag_id)
     end
 
@@ -34,6 +38,12 @@ module Myhtml
         end
       end
       self
+    end
+
+    def select_tags(tag_id)
+      res = [] of Node
+      each_tag(tag_id) { |node| res << node }
+      res
     end
 
     private def tag_index
