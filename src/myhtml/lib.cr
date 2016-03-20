@@ -11,7 +11,7 @@ module Myhtml
     alias MyhtmlTagIdT = LibC::SizeT
 
     fun create = myhtml_create : MyhtmlT*
-    fun init = myhtml_init(myhtml : MyhtmlT*, opt : Int32, thread_count : LibC::SizeT, queue_size : LibC::SizeT) : MyhtmlStatus
+    fun init = myhtml_init(myhtml : MyhtmlT*, opt : MyhtmlOptions, thread_count : LibC::SizeT, queue_size : LibC::SizeT) : MyhtmlStatus
 
     fun tree_create = myhtml_tree_create : MyhtmlTreeT*
     fun tree_init = myhtml_tree_init(tree : MyhtmlTreeT*, myhtml : MyhtmlT*) : MyhtmlStatus
