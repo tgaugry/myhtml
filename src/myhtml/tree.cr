@@ -2,9 +2,9 @@ module Myhtml
   class Tree
     getter raw_myhtml, raw_tree
 
-    def initialize(options = 0, threads_count = 1, queue_size = 0)
+    def initialize(options = Lib::MyhtmlOptions::MyHTML_OPTIONS_DEFAULT, threads_count = 1, queue_size = 0)
       @raw_myhtml = Lib.create
-      res = Lib.init(@raw_myhtml, options, threads_count, queue_size) # MyHTML_OPTIONS_DEFAULT
+      res = Lib.init(@raw_myhtml, options, threads_count, queue_size)
       if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
         raise Error.new("init error #{res}")
       end

@@ -1,6 +1,6 @@
 module Myhtml
   class Parser
-    def initialize(options = 0, threads_count = 1, queue_size = 0)
+    def initialize(options = Lib::MyhtmlOptions::MyHTML_OPTIONS_DEFAULT, threads_count = 1, queue_size = 0)
       @tree = Tree.new(options, threads_count, queue_size)
     end
 
