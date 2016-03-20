@@ -70,5 +70,19 @@ module Myhtml
         res
       end
     end
+
+    def each_child(&block : Node ->)
+      child = self.child
+      while child
+        yield child
+        child = child.next
+      end
+    end
+
+    def children
+      res = [] of Node
+      each_child { |node| res << node }
+      res
+    end
   end
 end

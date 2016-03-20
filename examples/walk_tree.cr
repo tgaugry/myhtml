@@ -23,10 +23,8 @@ def walk(node, level)
 
   puts
 
-  child = node.child
-  while child
+  node.each_child do |child|
     walk(child, level + 1)
-    child = child.next
   end
 end
 
