@@ -23,7 +23,7 @@ module Myhtml
     end
 
     def root
-      Node.from_raw(@tree, Lib.tree_get_node_html(@tree.tree))
+      Node.from_raw(self, Lib.tree_get_node_html(@tree.tree))
     end
 
     def finalize
@@ -40,7 +40,7 @@ module Myhtml
       while !index_node.null?
         node = Lib.tag_index_tree_node(index_node)
         unless node.null?
-          node = Node.from_raw(@tree, node).not_nil!
+          node = Node.from_raw(self, node).not_nil!
           yield node
           index_node = Lib.tag_index_next(index_node)
         else
