@@ -1,20 +1,11 @@
 module Myhtml
   class Parser
-    getter :myhtml, :tree
-
     def initialize(options = 0, threads_count = 1, queue_size = 0)
-      @myhtml = Lib.create
-      res = Lib.init(@myhtml, options, threads_count, queue_size) # MyHTML_OPTIONS_DEFAULT
-      
-      if res != 0 # OK_STATUS
-        raise Error.new("init error #{res}")
-      end
-
-      @tree = Tree.new(@myhtml)
+      @tree = Tree.new(options, threads_count, queue_size)
     end
 
     def parse(string, encoding = 0)
-      res = Lib.parse(@tree.tree, encoding, string.to_unsafe, string.size) # MyHTML_ENCODING_UTF_8
+      res = Lib.parse(@tree.raw_tree, encoding, string.to_unsafe, string.size) # MyHTML_ENCODING_UTF_8
       if res == 0
         :ok
       else
@@ -23,12 +14,7 @@ module Myhtml
     end
 
     def root
-      Node.from_raw(self, Lib.tree_get_node_html(@tree.tree))
-    end
-
-    def finalize
-      @tree.destroy
-      Lib.destroy(@myhtml)
+      @tree.root
     end
 
     def tags_count(tag_id)
@@ -40,7 +26,7 @@ module Myhtml
       while !index_node.null?
         node = Lib.tag_index_tree_node(index_node)
         unless node.null?
-          node = Node.from_raw(self, node).not_nil!
+          node = Node.from_raw(@tree, node).not_nil!
           yield node
           index_node = Lib.tag_index_next(index_node)
         else
@@ -51,7 +37,7 @@ module Myhtml
     end
 
     private def tag_index
-      @tag_index ||= Lib.tree_get_tag_index(@tree.tree)
+      @tag_index ||= Lib.tree_get_tag_index(@tree.raw_tree)
     end
   end
 end

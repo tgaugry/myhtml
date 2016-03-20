@@ -1,20 +1,20 @@
 module Myhtml
   struct Node
-    def self.from_raw(parser : Parser, raw_node : Lib::MyhtmlTreeNodeT*) : Node?
+    def self.from_raw(tree : Tree, raw_node : Lib::MyhtmlTreeNodeT*) : Node?
       unless raw_node.null?
-        Node.new(parser, raw_node)
+        Node.new(tree, raw_node)
       end
     end
 
-    def initialize(@parser : Parser, @node : Lib::MyhtmlTreeNodeT*)
+    def initialize(@tree : Tree, @node : Lib::MyhtmlTreeNodeT*)
     end
 
     def child
-      Node.from_raw(@parser, Lib.node_child(@node))
+      Node.from_raw(@tree, Lib.node_child(@node))
     end
 
     def next
-      Node.from_raw(@parser, Lib.node_next(@node))
+      Node.from_raw(@tree, Lib.node_next(@node))
     end
 
     def tag_id
@@ -22,7 +22,7 @@ module Myhtml
     end
 
     def tag_name_slice
-      res = Lib.tag_name_by_id(@parser.tree.tree, tag_id, out length)
+      res = Lib.tag_name_by_id(@tree.raw_tree, tag_id, out length)
       Slice.new(res, length)
     end
 
