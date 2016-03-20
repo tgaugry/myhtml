@@ -23,32 +23,21 @@ else
   </html>"
 end
 
-# example how to find anchor, and it left, right texts
 def extract_link(node)
-  anchor = node.child!.tag_text
+  anchor = node.child!.tag_text.strip
   href = node.attributes["href"]?
 
-  before = ""
-  node.left_iterator.each do |node|
+  find_text_tag = -> (node : Myhtml::Node) do
     if node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
       text = node.tag_text
       if !text.empty? && !text.each_char.all?(&.whitespace?)
-        before = text.strip
-        break
+        true
       end
     end
   end
 
-  after = ""
-  node.child.try &.right_iterator.each do |node|
-    if node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
-      text = node.tag_text
-      if !text.empty? && !text.each_char.all?(&.whitespace?)
-        after = text.strip
-        break
-      end
-    end
-  end
+  before = node.left_iterator.find(&find_text_tag).try(&.tag_text.strip)
+  after = (node.child || node).right_iterator.find(&find_text_tag).try(&.tag_text.strip)
 
   puts "(#{before}) <#{href}>(#{anchor}) (#{after})"
 end
@@ -56,3 +45,7 @@ end
 parser = Myhtml::Parser.new
 parser.parse(str)
 parser.each_tag(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A) { |node| extract_link(node) }
+
+# (Before) </link1>(Link1) (After)
+# (#) </link2>(Link2) (--)
+# (⬠ ⬡ ⬢) </link3>(Link3) (⬣ ⬤ ⬥ ⬦)
