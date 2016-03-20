@@ -19,7 +19,7 @@ module Myhtml
     fun tree_destroy = myhtml_tree_destroy(tree : MyhtmlTreeT*) : MyhtmlTreeT*
     fun destroy = myhtml_destroy(myhtml : MyhtmlT*) : MyhtmlT*
 
-    fun parse = myhtml_parse(tree : MyhtmlTreeT*, encoding : Int32, html : UInt8*, html_size : LibC::SizeT) : MyhtmlStatus
+    fun parse = myhtml_parse(tree : MyhtmlTreeT*, encoding : MyhtmlEncodingList, html : UInt8*, html_size : LibC::SizeT) : MyhtmlStatus
 
     fun tree_get_node_html = myhtml_tree_get_node_html(tree : MyhtmlTreeT*) : MyhtmlTreeNodeT*
     fun node_child = myhtml_node_child(node : MyhtmlTreeNodeT*) : MyhtmlTreeNodeT*

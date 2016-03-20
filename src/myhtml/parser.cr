@@ -4,8 +4,8 @@ module Myhtml
       @tree = Tree.new(options, threads_count, queue_size)
     end
 
-    def parse(string, encoding = 0)
-      res = Lib.parse(@tree.raw_tree, encoding, string.to_unsafe, string.size) # MyHTML_ENCODING_UTF_8
+    def parse(string, encoding = Lib::MyhtmlEncodingList::MyHTML_ENCODING_UTF_8)
+      res = Lib.parse(@tree.raw_tree, encoding, string.to_unsafe, string.size)
       if res == Lib::MyhtmlStatus::MyHTML_STATUS_OK
         :ok
       else
