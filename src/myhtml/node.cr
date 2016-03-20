@@ -55,6 +55,18 @@ module Myhtml
       end
     end
 
+    def attribute_by(string : String)
+      each_attribute do |k, v|
+        return String.new(v) if k == string.to_slice
+      end
+    end
+
+    def attribute_by(slice : Slice(UInt8))
+      each_attribute do |k, v|
+        return v if k == slice
+      end
+    end
+
     def attributes
       @attributes ||= begin
         res = {} of String => String
@@ -71,11 +83,28 @@ module Myhtml
         yield child
         child = child.next
       end
+      self
     end
 
     def children
       res = [] of Node
       each_child { |node| res << node }
+      res
+    end
+
+    def each_parent(&block : Node ->)
+      parent = self.parent
+      while parent
+        break if parent.tag_id == Lib::MyhtmlTags::MyHTML_TAG__UNDEF
+        yield parent
+        parent = parent.parent
+      end
+      self
+    end
+
+    def parents
+      res = [] of Node
+      each_parent { |node| res << node }
       res
     end
 
