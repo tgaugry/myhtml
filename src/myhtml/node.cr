@@ -9,21 +9,15 @@ module Myhtml
     def initialize(@tree : Tree, @node : Lib::MyhtmlTreeNodeT*)
     end
 
-    def child
-      Node.from_raw(@tree, Lib.node_child(@node))
-    end
+    {% for name in %w(child next parent prev last_child) %}
+      def {{name.id}}
+        Node.from_raw(@tree, Lib.node_{{name.id}}(@node))
+      end
 
-    def child!
-      child.not_nil!
-    end
-
-    def next
-      Node.from_raw(@tree, Lib.node_next(@node))
-    end
-
-    def next!
-      self.next.not_nil!
-    end
+      def {{name.id}}!
+        self.{{name.id}}.not_nil!
+      end
+    {% end %}
 
     def tag_id
       Lib.node_tag_id(@node)
@@ -83,6 +77,14 @@ module Myhtml
       res = [] of Node
       each_child { |node| res << node }
       res
+    end
+
+    def left_iterator
+      LeftIterator.new(self)
+    end
+
+    def right_iterator
+      RightIterator.new(self)
     end
   end
 end
