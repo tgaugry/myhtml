@@ -1,5 +1,5 @@
 module Myhtml
-  class RightIterator
+  struct RightIterator
     include Iterator(Node)
 
     def initialize(@start_node : Node)
@@ -32,7 +32,7 @@ module Myhtml
     end
   end
 
-  class LeftIterator
+  struct LeftIterator
     include Iterator(Node)
 
     def initialize(@start_node : Node)
@@ -70,6 +70,52 @@ module Myhtml
       else
         node
       end
+    end
+  end
+
+  struct ChildrenIterator
+    include Iterator(Node)
+
+    def initialize(@start_node : Node)
+      rewind
+    end
+
+    def next
+      if cn = @current_node
+        @current_node = cn.next
+        return cn
+      else
+        stop
+      end
+    end
+
+    def rewind
+      @current_node = @start_node.child
+    end
+  end
+
+  struct ParentsIterator
+    include Iterator(Node)
+
+    def initialize(@start_node : Node)
+      rewind
+    end
+
+    def next
+      @current_node = @current_node.not_nil!.parent
+      if cn = @current_node
+        if cn.tag_id == Lib::MyhtmlTags::MyHTML_TAG__UNDEF
+          stop
+        else
+          cn
+        end
+      else
+        stop
+      end
+    end
+
+    def rewind
+      @current_node = @start_node
     end
   end
 end

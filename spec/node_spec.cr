@@ -24,12 +24,59 @@ describe Myhtml::Node do
     node2.tag_name.should eq "span"
   end
 
+  it "each_child" do
+    parser = Myhtml::Parser.new
+    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
+
+    node = parser.root!.child!.next!
+    nodes = [] of Myhtml::Node
+    node.each_child { |ch| nodes << ch }
+    node1, node2 = nodes
+    node1.tag_name.should eq "div"
+    node2.tag_name.should eq "span"
+  end
+
+  it "each_child iterator" do
+    parser = Myhtml::Parser.new
+    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
+
+    node = parser.root!.child!.next!
+    node1, node2 = node.each_child.to_a
+    node1.tag_name.should eq "div"
+    node2.tag_name.should eq "span"
+  end
+
   it "parents" do
     parser = Myhtml::Parser.new
     parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
 
     node = parser.root!.right_iterator.to_a.last
     parents = node.parents
+    parents.size.should eq 2
+    node1, node2 = parents
+    node1.tag_name.should eq "body"
+    node2.tag_name.should eq "html"
+  end
+
+  it "each_parent" do
+    parser = Myhtml::Parser.new
+    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
+
+    node = parser.root!.right_iterator.to_a.last
+    parents = [] of Myhtml::Node
+    node.each_parent { |ch| parents << ch }
+    parents.size.should eq 2
+    node1, node2 = parents
+    node1.tag_name.should eq "body"
+    node2.tag_name.should eq "html"
+  end
+
+  it "each_parent iterator" do
+    parser = Myhtml::Parser.new
+    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
+
+    node = parser.root!.right_iterator.to_a.last
+    parents = node.each_parent.to_a
     parents.size.should eq 2
     node1, node2 = parents
     node1.tag_name.should eq "body"

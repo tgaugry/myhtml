@@ -18,13 +18,14 @@ str = if filename = ARGV[0]?
 
     <div>some<span>⬠ ⬡ ⬢</span></div>
     <a href='/link3'>Link3</a>
+    <script>asdf</script>
     <span>⬣ ⬤ ⬥ ⬦</span>
 
   </html>"
       end
 
 def extract_link(node)
-  anchor = node.child!.tag_text.strip
+  anchor = node.child.try &.tag_text.strip
   href = node.attribute_by("href")
 
   # closure check node for non empty text
@@ -32,11 +33,7 @@ def extract_link(node)
     if node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
       slice = node.tag_text_slice
       return if slice.size == 0
-      if !String.new(slice).each_char.all?(&.whitespace?)
-        ok = true
-        node.each_parent { |parent| ok = false unless parent.visible?; break }
-        ok
-      end
+      !String.new(slice).each_char.all?(&.whitespace?) && node.each_parent.all?(&.visible?)
     end
   end
 

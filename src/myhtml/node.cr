@@ -86,10 +86,12 @@ module Myhtml
       self
     end
 
+    def each_child
+      ChildrenIterator.new(self)
+    end
+
     def children
-      res = [] of Node
-      each_child { |node| res << node }
-      res
+      each_child.to_a
     end
 
     def each_parent(&block : Node ->)
@@ -102,10 +104,12 @@ module Myhtml
       self
     end
 
+    def each_parent
+      ParentsIterator.new(self)
+    end
+
     def parents
-      res = [] of Node
-      each_parent { |node| res << node }
-      res
+      each_parent.to_a
     end
 
     def left_iterator
