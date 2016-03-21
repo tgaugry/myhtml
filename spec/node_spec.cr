@@ -35,4 +35,18 @@ describe Myhtml::Node do
     node1.tag_name.should eq "body"
     node2.tag_name.should eq "html"
   end
+
+  it "visible?" do
+    parser = Myhtml::Parser.new
+    parser.parse("<body><style>bla</style></body>")
+    node = parser.root!.right_iterator.to_a[-2]
+    node.tag_name.should eq "style"
+    node.visible?.should eq false
+
+    parser = Myhtml::Parser.new
+    parser.parse("<body><div>bla</div></body>")
+    node = parser.root!.right_iterator.to_a[-2]
+    node.tag_name.should eq "div"
+    node.visible?.should eq true
+  end
 end

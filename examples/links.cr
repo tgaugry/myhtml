@@ -1,9 +1,9 @@
 require "../src/myhtml"
 
 str = if filename = ARGV[0]?
-  File.read(filename)
-else
-  "<html>
+        File.read(filename)
+      else
+        "<html>
     <div>
       Before
       <br>
@@ -11,7 +11,7 @@ else
       <br>
       After
     </div>
-    
+
     #
     <a href='/link2'>Link2</a>
     --
@@ -21,18 +21,22 @@ else
     <span>⬣ ⬤ ⬥ ⬦</span>
 
   </html>"
-end
+      end
 
 def extract_link(node)
   anchor = node.child!.tag_text.strip
   href = node.attribute_by("href")
 
   # closure check node for non empty text
-  text_tag = -> (node : Myhtml::Node) do
+  text_tag = ->(node : Myhtml::Node) do
     if node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
       slice = node.tag_text_slice
       return if slice.size == 0
-      !String.new(slice).each_char.all?(&.whitespace?)
+      if !String.new(slice).each_char.all?(&.whitespace?)
+        ok = true
+        node.each_parent { |parent| ok = false unless parent.visible?; break }
+        ok
+      end
     end
   end
 

@@ -115,5 +115,16 @@ module Myhtml
     def right_iterator
       RightIterator.new(self)
     end
+
+    def visible?
+      case tag_id
+      when Lib::MyhtmlTags::MyHTML_TAG_STYLE,
+           Lib::MyhtmlTags::MyHTML_TAG_COMMENT,
+           Lib::MyhtmlTags::MyHTML_TAG_SCRIPT
+        false
+      else
+        true
+      end
+    end
   end
 end
