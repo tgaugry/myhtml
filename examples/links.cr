@@ -20,7 +20,7 @@ str = if filename = ARGV[0]?
           <div>some<span>⬠ ⬡ ⬢</span></div>
           <a href='/link3'>Link3</a>
           <script>asdf</script>
-          <span>@</span>
+          <span>⬣ ⬤ ⬥ ⬦</span>
         </html>
         HTML
       end
@@ -50,4 +50,4 @@ parser.each_tag(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A) { |node| extract_link(nod
 
 # (Before) </link1>(Link1) (After)
 # (#) </link2>(Link2) (--)
-# (⬠ ⬡ ⬢) </link3>(Link3) (@)
+# (⬠ ⬡ ⬢) </link3>(Link3) (⬣ ⬤ ⬥ ⬦)

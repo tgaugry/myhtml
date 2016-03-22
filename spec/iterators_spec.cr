@@ -1,25 +1,25 @@
 require "./spec_helper"
 
 def parser
-  str = "
-  <html>
-    <div>
-      <table>
-        <tr>
-          <td></td>
-          <td>Bla</td>
-        </tr>
-      </table>
-      <a>text</a>
-    </div>
-    <br>
-    <span>
+  str = <<-HTML
+    <html>
       <div>
-        Text
+        <table>
+          <tr>
+            <td></td>
+            <td>Bla</td>
+          </tr>
+        </table>
+        <a>text</a>
       </div>
-    </span>
-  </html>
-  "
+      <br>
+      <span>
+        <div>
+          Text
+        </div>
+      </span>
+    </html>
+  HTML
 
   parser = Myhtml::Parser.new
   parser.parse(str)

@@ -23,28 +23,28 @@ end
 
 describe "integration" do
   it "parse links" do
-    str = "
-    <html>
-      <div>
-        Before
-        <br>
-        <a href='/link1'>Link1</a>
-        <br>
-        After
-      </div>
+    str = <<-HTML
+      <html>
+        <div>
+          Before
+          <br>
+          <a href='/link1'>Link1</a>
+          <br>
+          After
+        </div>
 
-      #
-      <a href='/link2'>Link2</a>
-      --
+        #
+        <a href='/link2'>Link2</a>
+        --
 
-      <div>some<span>⬠ ⬡ ⬢</span></div>
-      <a href='/link3'>Link3</a>
-      <script>asdf</script>
-      <span>⬣ ⬤ ⬥ ⬦</span>
+        <div>some<span>⬠ ⬡ ⬢</span></div>
+        <a href='/link3'>Link3</a>
+        <script>asdf</script>
+        <span>⬣ ⬤ ⬥ ⬦</span>
 
-      <a href='/link4'></a>
-    </html>
-    "
+        <a href='/link4'></a>
+      </html>
+    HTML
 
     parser = Myhtml::Parser.new
     parser.parse(str)
