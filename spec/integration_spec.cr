@@ -42,6 +42,7 @@ describe "integration" do
       <script>asdf</script>
       <span>⬣ ⬤ ⬥ ⬦</span>
 
+      <a href='/link4'></a>
     </html>
     "
 
@@ -49,10 +50,12 @@ describe "integration" do
     parser.parse(str)
     res = [] of Link
     parser.each_tag(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A) { |node| res << extract_link(node) }
-    link1, link2, link3 = res
+    res.size.should eq 4
+    link1, link2, link3, link4 = res
 
     link1.should eq Link.new("Before", "/link1", "Link1", "After")
     link2.should eq Link.new("#", "/link2", "Link2", "--")
     link3.should eq Link.new("⬠ ⬡ ⬢", "/link3", "Link3", "⬣ ⬤ ⬥ ⬦")
+    link4.should eq Link.new("⬣ ⬤ ⬥ ⬦", "/link4", nil, nil)
   end
 end
