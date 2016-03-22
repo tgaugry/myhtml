@@ -15,4 +15,21 @@ describe Myhtml::Node do
     node1.child!.tag_text.should eq "Haha"
     node2.child!.tag_text.should eq "blah"
   end
+
+  it "correctly works with unicode" do
+    str = <<-HTML
+      <html>
+      <head>
+        <meta name="keywords" content="аа, ааааааааааа, ааааааааа, ааа, ааааааа, ааааааааа"  />
+      </head>
+
+      <body id='normal' >
+        <a href="http://aaaa-aaa.ru/">#</a>
+      </body></html>
+    HTML
+
+    parser = Myhtml::Parser.new
+    parser.parse(str)
+    parser.select_tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A).size.should eq 1
+  end
 end
