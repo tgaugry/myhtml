@@ -3,25 +3,26 @@ require "../src/myhtml"
 str = if filename = ARGV[0]?
         File.read(filename)
       else
-        "<html>
-    <div>
-      Before
-      <br>
-      <a href='/link1'>Link1</a>
-      <br>
-      After
-    </div>
+        <<-HTML
+        <html>
+          <div>
+            Before
+            <br>
+            <a href='/link1'>Link1</a>
+            <br>
+            After
+          </div>
 
-    #
-    <a href='/link2'>Link2</a>
-    --
+          #
+          <a href='/link2'>Link2</a>
+          --
 
-    <div>some<span>⬠ ⬡ ⬢</span></div>
-    <a href='/link3'>Link3</a>
-    <script>asdf</script>
-    <span>⬣ ⬤ ⬥ ⬦</span>
-
-  </html>"
+          <div>some<span>⬠ ⬡ ⬢</span></div>
+          <a href='/link3'>Link3</a>
+          <script>asdf</script>
+          <span>@</span>
+        </html>
+        HTML
       end
 
 def extract_link(node)
@@ -49,4 +50,4 @@ parser.each_tag(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A) { |node| extract_link(nod
 
 # (Before) </link1>(Link1) (After)
 # (#) </link2>(Link2) (--)
-# (⬠ ⬡ ⬢) </link3>(Link3) (⬣ ⬤ ⬥ ⬦)
+# (⬠ ⬡ ⬢) </link3>(Link3) (@)
