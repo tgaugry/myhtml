@@ -6,10 +6,10 @@ def walk(node, level = 0)
 end
 
 str = if filename = ARGV[0]?
-  File.read(filename)
-else
-  "<html><Div><span class='test'>HTML</span></div></html>"
-end
+        File.read(filename)
+      else
+        "<html><Div><span class='test'>HTML</span></div></html>"
+      end
 
 parser = Myhtml::Parser.new
 parser.parse(str)
