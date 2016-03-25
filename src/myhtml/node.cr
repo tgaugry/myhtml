@@ -136,5 +136,9 @@ module Myhtml
         tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG_{{ name.upcase.id }}
       end
     {% end %}
+
+    def is_tag_noindex?
+      tag_id > Lib::MyhtmlTags::MyHTML_TAG_LAST_ENTRY && tag_name_slice == "noindex".to_slice
+    end
   end
 end
