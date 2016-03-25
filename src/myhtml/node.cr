@@ -20,7 +20,7 @@ module Myhtml
     {% end %}
 
     def tag_id
-      @tag_id ||= Lib.node_tag_id(@node)
+      Lib.node_tag_id(@node)
     end
 
     def tag_name_slice
