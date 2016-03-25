@@ -97,6 +97,24 @@ describe Myhtml::Node do
     node.visible?.should eq true
   end
 
+  it "object?" do
+    parser = Myhtml::Parser.new
+    parser.parse("<body><object>bla</object></body>")
+    node = parser.root!.right_iterator.to_a[-2]
+    node.tag_name.should eq "object"
+    node.object?.should eq true
+    node.child!.object?.should eq false
+  end
+
+  it "is_tag_div?" do
+    parser = Myhtml::Parser.new
+    parser.parse("<div>1</div>")
+    noindex = parser.root!.right_iterator.to_a[-2]
+    noindex.tag_name.should eq "div"
+    noindex.is_tag_div?.should eq true
+    noindex.child!.is_tag_div?.should eq false
+  end
+
   it "is_tag_noindex?" do
     parser = Myhtml::Parser.new
     parser.parse("<noindex>1</noindex>")

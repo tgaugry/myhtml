@@ -20,7 +20,7 @@ module Myhtml
     {% end %}
 
     def tag_id
-      Lib.node_tag_id(@node)
+      @tag_id ||= Lib.node_tag_id(@node)
     end
 
     def tag_name_slice
@@ -124,14 +124,29 @@ module Myhtml
       case tag_id
       when Lib::MyhtmlTags::MyHTML_TAG_STYLE,
            Lib::MyhtmlTags::MyHTML_TAG_COMMENT,
-           Lib::MyhtmlTags::MyHTML_TAG_SCRIPT
+           Lib::MyhtmlTags::MyHTML_TAG_SCRIPT,
+           Lib::MyhtmlTags::MyHTML_TAG_HEAD
         false
       else
         true
       end
     end
 
-    {% for name in %w(a div span table body _text) %}
+    def object?
+      case tag_id
+      when Myhtml::Lib::MyhtmlTags::MyHTML_TAG_APPLET,
+           Myhtml::Lib::MyhtmlTags::MyHTML_TAG_IFRAME,
+           Myhtml::Lib::MyhtmlTags::MyHTML_TAG_FRAME,
+           Myhtml::Lib::MyhtmlTags::MyHTML_TAG_FRAMESET,
+           Myhtml::Lib::MyhtmlTags::MyHTML_TAG_EMBED,
+           Myhtml::Lib::MyhtmlTags::MyHTML_TAG_OBJECT
+        true
+      else
+        false
+      end
+    end
+
+    {% for name in %w(a div span table body _text head script comment style noscript) %}
       def is_tag_{{ name.id }}?
         tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG_{{ name.upcase.id }}
       end
