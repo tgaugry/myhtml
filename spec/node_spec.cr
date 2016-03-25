@@ -96,4 +96,20 @@ describe Myhtml::Node do
     node.tag_name.should eq "div"
     node.visible?.should eq true
   end
+
+  it "is_tag_noindex?" do
+    parser = Myhtml::Parser.new
+    parser.parse("<noindex>1</noindex>")
+    noindex = parser.root!.right_iterator.to_a[-2]
+    noindex.tag_name.should eq "noindex"
+    noindex.is_tag_noindex?.should eq true
+    noindex.child!.is_tag_noindex?.should eq false
+
+    parser = Myhtml::Parser.new
+    parser.parse("<NOINDEX>1</NOINDEX>")
+    noindex = parser.root!.right_iterator.to_a[-2]
+    noindex.tag_name.should eq "noindex"
+    noindex.is_tag_noindex?.should eq true
+    noindex.child!.is_tag_noindex?.should eq false
+  end
 end
