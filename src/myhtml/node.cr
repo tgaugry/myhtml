@@ -130,5 +130,11 @@ module Myhtml
         true
       end
     end
+
+    {% for name in %w(a div span table body _text) %}
+      def is_tag_{{ name.id }}?
+        tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG_{{ name.upcase.id }}
+      end
+    {% end %}
   end
 end
