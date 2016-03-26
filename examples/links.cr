@@ -31,9 +31,9 @@ def extract_link(node)
 
   # closure check node for non empty text
   text_tag = ->(node : Myhtml::Node) do
-    if node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
-      node.each_parent.all? { |n| n.visible? && !n.object? } && !node.tag_text.strip.empty?
-    end
+    (node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT) &&
+      node.each_parent.all? { |n| n.visible? && !n.object? } &&
+      !node.tag_text.strip.empty?
   end
 
   before = node.left_iterator.find(&text_tag).try(&.tag_text.strip)
