@@ -146,7 +146,7 @@ module Myhtml
       end
     end
 
-    {% for name in %w(a div span table body _text head script comment style noscript) %}
+    {% for name in %w(a div span table body _text head script comment style noscript meta base map area) %}
       def is_tag_{{ name.id }}?
         tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG_{{ name.upcase.id }}
       end
