@@ -13,13 +13,10 @@ module Myhtml
       end
     end
 
-    def root
-      @tree.root
-    end
-
-    def root!
-      @tree.root.not_nil!
-    end
+    {% for name in %w{root html head body} %}
+      delegate {{ name.id }}, @tree
+      delegate {{ name.id }}!, @tree
+    {% end %}
 
     def count_tags(tag_id)
       Myhtml::Lib.tag_index_entry_count(tag_index, tag_id)
