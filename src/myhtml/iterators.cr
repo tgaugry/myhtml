@@ -85,7 +85,7 @@ module Myhtml
     def next
       if cn = @current_node
         @current_node = cn.next
-        return cn
+        cn
       else
         stop
       end
