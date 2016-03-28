@@ -59,12 +59,14 @@ module Myhtml
     end
 
     private def next_to(node)
-      deep_child(node.prev) || node.parent
+      if prev = node.prev
+        deep_child(prev)
+      else
+        node.parent
+      end
     end
 
     private def deep_child(node)
-      return unless node
-
       if child = node.last_child
         deep_child(child)
       else

@@ -13,7 +13,7 @@ module Myhtml
       end
     end
 
-    {% for name in %w{root html head body} %}
+    {% for name in %w(root html head body) %}
       delegate {{ name.id }}, @tree
       delegate {{ name.id }}!, @tree
     {% end %}
