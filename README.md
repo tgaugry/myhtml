@@ -1,5 +1,7 @@
 # MyHTML
 
+[![Build Status](https://travis-ci.org/kostya/myhtml.svg?branch=master)](http://travis-ci.org/kostya/myhtml)
+
 Crystal wrapper for HTML5 Parser https://github.com/lexborisov/myhtml
 
 ## Installation
