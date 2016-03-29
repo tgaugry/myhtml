@@ -35,6 +35,7 @@ parser.parse(str)
 walk(parser.root!)
 ```
 
+Output:
 ```
 html{}()
  head{}()
