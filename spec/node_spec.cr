@@ -14,6 +14,24 @@ describe Myhtml::Node do
     node.attribute_by("class".to_slice).should eq "AAA".to_slice
   end
 
+  it "attributes" do
+    parser = Myhtml::Parser.new
+    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div></body></html>")
+
+    node = parser.root!.child!.next!.child!
+    node.attributes.should eq({"class" => "AAA", "style" => "color:red"})
+    node.attribute_by("class").should eq "AAA"
+  end
+
+  it "ignore case attributes" do
+    parser = Myhtml::Parser.new
+    parser.parse("<html><body><div Class=AAA STYLE='color:red'>Haha</div></body></html>")
+
+    node = parser.root!.child!.next!.child!
+    node.attributes.should eq({"class" => "AAA", "style" => "color:red"})
+    node.attribute_by("class").should eq "AAA"
+  end
+
   it "children" do
     parser = Myhtml::Parser.new
     parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
