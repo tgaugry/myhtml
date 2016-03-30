@@ -32,4 +32,20 @@ describe Myhtml::Node do
     parser.parse(str)
     parser.select_tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A).size.should eq 1
   end
+
+  it "parse html with bom" do
+    slice = Slice.new(3, 0_u8)
+    slice[0] = 0xef.to_u8
+    slice[1] = 0xbb.to_u8
+    slice[2] = 0xbf.to_u8
+    str = String.new(slice)
+    str += "<html><head><title>1</title></head></html>"
+
+    parser = Myhtml::Parser.new
+    parser.parse(str)
+
+    title = parser.head!.child!
+    title.tag_name.should eq "title"
+    title.child.try(&.tag_text).should eq "1"
+  end
 end

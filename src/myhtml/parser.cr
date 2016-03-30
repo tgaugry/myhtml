@@ -5,7 +5,16 @@ module Myhtml
     end
 
     def parse(string, encoding = Lib::MyhtmlEncodingList::MyHTML_ENCODING_UTF_8)
-      res = Lib.parse(@tree.raw_tree, encoding, string.to_unsafe, string.bytesize)
+      pointer = string.to_unsafe
+      bytesize = string.bytesize
+
+      if Lib.encoding_detect_and_cut_bom(pointer, bytesize, out encoding2, out pointer2, out bytesize2)
+        pointer = pointer2
+        bytesize = bytesize2
+        encoding = encoding2
+      end
+
+      res = Lib.parse(@tree.raw_tree, encoding, pointer, bytesize)
       if res == Lib::MyhtmlStatus::MyHTML_STATUS_OK
         :ok
       else

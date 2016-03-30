@@ -3,7 +3,7 @@ package: ./myhtml-c/lib/static_libmyhtml.a
 
 ./myhtml-c:
 	git clone https://github.com/lexborisov/myhtml.git ./myhtml-c
-	cd myhtml-c && git reset --hard 4849ceecc34b33ddd662f108cabc9d35cb08b261
+	# cd myhtml-c && git reset --hard 4849ceecc34b33ddd662f108cabc9d35cb08b261
 
 ./myhtml-c/lib/static_libmyhtml.a: ./myhtml-c
 	cd myhtml-c && make MyHTML_BUILD_SHARED=OFF MyHTML_BUILD_WITHOUT_THREADS=YES
