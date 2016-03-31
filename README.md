@@ -22,7 +22,7 @@ dependencies:
 require "myhtml"
 
 def walk(node, level = 0)
-  puts "#{" " * level}#{node.tag_name}#{node.attributes}(#{node.tag_text})"
+  puts "#{" " * level}#{node.tag_name}#{node.attributes}(#{node.tag_text.strip})"
   node.each_child { |child| walk(child, level + 1) }
 end
 
