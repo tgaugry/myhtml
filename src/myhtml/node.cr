@@ -151,11 +151,15 @@ module Myhtml
       end
     end
 
-    {% for name in %w(a div span table body _text head script comment style noscript meta base map area) %}
+    {% for name in %w(a div span table body head script comment style noscript meta base map area) %}
       def is_tag_{{ name.id }}?
         tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG_{{ name.upcase.id }}
       end
     {% end %}
+
+    def is_text?
+      tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
+    end
 
     def is_tag_noindex?
       tag_id >= Lib::MyhtmlTags::MyHTML_TAG_LAST_ENTRY && tag_name_slice == "noindex".to_slice

@@ -31,7 +31,7 @@ def extract_link(node)
 
   # closure check node for non empty text
   text_tag = ->(node : Myhtml::Node) do
-    (node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT) &&
+    node.is_text? &&
       node.each_parent.all? { |n| n.visible? && !n.object? } &&
       !node.tag_text.strip.empty?
   end

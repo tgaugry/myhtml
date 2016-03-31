@@ -28,7 +28,7 @@ end
 
 INSPECT_NODE = ->(node : Myhtml::Node) {
   s = ""
-  if node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
+  if node.is_text?
     s += "(" + node.tag_text.strip + ")|" if !node.tag_text.strip.empty?
   else
     s += node.tag_name

@@ -8,7 +8,7 @@ def extract_link(node)
 
   # closure check node for non empty text
   text_tag = ->(node : Myhtml::Node) do
-    if node.tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
+    if node.is_text?
       slice = node.tag_text_slice
       return if slice.size == 0
       !String.new(slice).each_char.all?(&.whitespace?) && node.each_parent.all?(&.visible?)
