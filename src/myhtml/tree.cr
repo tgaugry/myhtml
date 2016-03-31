@@ -13,6 +13,7 @@ module Myhtml
       res = Lib.tree_init(@raw_tree, @raw_myhtml)
 
       if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+        Lib.destroy(@raw_myhtml)
         raise Error.new("tree_init error #{res}")
       end
     end
