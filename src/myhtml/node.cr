@@ -94,6 +94,11 @@ module Myhtml
       each_child.to_a
     end
 
+    def walk_tree(level = 0, &block : Node, Int32 ->)
+      yield self, level
+      each_child { |child| child.walk_tree(level + 1, &block) }
+    end
+
     def each_parent(&block : Node ->)
       parent = self.parent
       while parent

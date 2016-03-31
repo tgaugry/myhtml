@@ -71,4 +71,12 @@ describe "iterators" do
     res = parser.root!.left_iterator.map(&INSPECT_NODE).join
     res.should eq ""
   end
+
+  it "walk_tree" do
+    str = [] of String
+    parser.root!.walk_tree do |node|
+      str << INSPECT_NODE.call(node)
+    end
+    str.join("").should eq "html|head|body|div|table|tbody|tr|td|td|(Bla)|a|(text)|br|span|div|(Text)|"
+  end
 end
