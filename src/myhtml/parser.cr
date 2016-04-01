@@ -43,6 +43,10 @@ module Myhtml
       self
     end
 
+    def each_tag(tag_id)
+      EachTagIterator.new(@tree, tag_id)
+    end
+
     def select_tags(tag_id)
       res = [] of Node
       each_tag(tag_id) { |node| res << node }
@@ -50,7 +54,7 @@ module Myhtml
     end
 
     private def tag_index
-      @tag_index ||= Lib.tree_get_tag_index(@tree.raw_tree)
+      Lib.tree_get_tag_index(@tree.raw_tree)
     end
   end
 end

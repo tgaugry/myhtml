@@ -112,4 +112,29 @@ module Myhtml
       @current_node = @start_node
     end
   end
+
+  struct EachTagIterator
+    include Iterator(Node)
+
+    def initialize(@tree, @tag_id)
+      @tag_index = Lib.tree_get_tag_index(@tree.raw_tree)
+    end
+
+    def next
+      return stop if @index_node.null?
+
+      node = Lib.tag_index_tree_node(@index_node)
+      if node.null?
+        stop
+      else
+        node = Node.from_raw(@tree, node).not_nil!
+        @index_node = Lib.tag_index_next(@index_node)
+        node
+      end
+    end
+
+    def rewind
+      @index_node = Lib.tag_index_first(@tag_index, @tag_id)
+    end
+  end
 end
