@@ -15,11 +15,8 @@ module Myhtml
       end
 
       res = Lib.parse(@tree.raw_tree, encoding, pointer, bytesize)
-      if res == Lib::MyhtmlStatus::MyHTML_STATUS_OK
-        :ok
-      else
-        raise Error.new("parse error #{res}")
-      end
+      raise Error.new("parse error #{res}") if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+      self
     end
 
     {% for name in %w(root html head body) %}
