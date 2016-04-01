@@ -117,7 +117,9 @@ module Myhtml
     include Iterator(Node)
 
     def initialize(@tree, @tag_id)
-      @tag_index = Lib.tree_get_tag_index(@tree.raw_tree)
+      @tag_index = Pointer(Lib::MyhtmlTagIndexT).null
+      @index_node = Pointer(Lib::MyhtmlTagIndexNodeT).null
+      rewind
     end
 
     def next
@@ -134,6 +136,7 @@ module Myhtml
     end
 
     def rewind
+      @tag_index = Lib.tree_get_tag_index(@tree.raw_tree)
       @index_node = Lib.tag_index_first(@tag_index, @tag_id)
     end
   end

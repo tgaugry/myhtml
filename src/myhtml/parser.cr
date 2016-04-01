@@ -29,18 +29,7 @@ module Myhtml
     end
 
     def each_tag(tag_id, &block : Node ->)
-      index_node = Lib.tag_index_first(tag_index, tag_id)
-      while !index_node.null?
-        node = Lib.tag_index_tree_node(index_node)
-        unless node.null?
-          node = Node.from_raw(@tree, node).not_nil!
-          yield node
-          index_node = Lib.tag_index_next(index_node)
-        else
-          break
-        end
-      end
-      self
+      each_tag(tag_id).each { |n| block.call(n) }
     end
 
     def each_tag(tag_id)
@@ -48,9 +37,7 @@ module Myhtml
     end
 
     def select_tags(tag_id)
-      res = [] of Node
-      each_tag(tag_id) { |node| res << node }
-      res
+      each_tag(tag_id).to_a
     end
 
     private def tag_index

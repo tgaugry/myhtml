@@ -16,6 +16,21 @@ describe Myhtml::Node do
     node2.child!.tag_text.should eq "blah"
   end
 
+  it "each_tag" do
+    parser = Myhtml::Parser.new
+    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div>
+      <div>blah</div>
+      </body></html>")
+
+    nodes = [] of Myhtml::Node
+    parser.each_tag(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV) { |n| nodes << n }
+    nodes.size.should eq 2
+
+    node1, node2 = nodes
+    node1.child!.tag_text.should eq "Haha"
+    node2.child!.tag_text.should eq "blah"
+  end
+
   it "correctly works with unicode" do
     str = <<-HTML
       <html>
