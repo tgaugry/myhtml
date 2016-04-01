@@ -139,12 +139,12 @@ module Myhtml
 
     def object?
       case tag_id
-      when Myhtml::Lib::MyhtmlTags::MyHTML_TAG_APPLET,
-           Myhtml::Lib::MyhtmlTags::MyHTML_TAG_IFRAME,
-           Myhtml::Lib::MyhtmlTags::MyHTML_TAG_FRAME,
-           Myhtml::Lib::MyhtmlTags::MyHTML_TAG_FRAMESET,
-           Myhtml::Lib::MyhtmlTags::MyHTML_TAG_EMBED,
-           Myhtml::Lib::MyhtmlTags::MyHTML_TAG_OBJECT
+      when Lib::MyhtmlTags::MyHTML_TAG_APPLET,
+           Lib::MyhtmlTags::MyHTML_TAG_IFRAME,
+           Lib::MyhtmlTags::MyHTML_TAG_FRAME,
+           Lib::MyhtmlTags::MyHTML_TAG_FRAMESET,
+           Lib::MyhtmlTags::MyHTML_TAG_EMBED,
+           Lib::MyhtmlTags::MyHTML_TAG_OBJECT
         true
       else
         false
@@ -153,12 +153,12 @@ module Myhtml
 
     {% for name in %w(a div span table body head script comment style noscript meta base map area) %}
       def is_tag_{{ name.id }}?
-        tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG_{{ name.upcase.id }}
+        tag_id == Lib::MyhtmlTags::MyHTML_TAG_{{ name.upcase.id }}
       end
     {% end %}
 
     def is_text?
-      tag_id == Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT
+      tag_id == Lib::MyhtmlTags::MyHTML_TAG__TEXT
     end
 
     def is_tag_noindex?

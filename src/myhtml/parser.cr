@@ -25,7 +25,7 @@ module Myhtml
     {% end %}
 
     def count_tags(tag_id)
-      Myhtml::Lib.tag_index_entry_count(tag_index, tag_id)
+      Lib.tag_index_entry_count(tag_index, tag_id)
     end
 
     def each_tag(tag_id, &block : Node ->)
