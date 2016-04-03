@@ -42,10 +42,9 @@ def extract_link(node)
   puts "(#{before}) <#{href}>(#{anchor}) (#{after})"
 end
 
-parser = Myhtml::Parser.new
-parser.parse(str)
-parser.each_tag(:a) { |node| extract_link(node) }
+Myhtml::Parser.new.parse(str).each_tag(:a) { |node| extract_link(node) }
 
-# (Before) </link1>(Link1) (After)
-# (#) </link2>(Link2) (--)
-# (⬠ ⬡ ⬢) </link3>(Link3) (⬣ ⬤ ⬥ ⬦)
+# Output:
+#   (Before) </link1>(Link1) (After)
+#   (#) </link2>(Link2) (--)
+#   (⬠ ⬡ ⬢) </link3>(Link3) (⬣ ⬤ ⬥ ⬦)
