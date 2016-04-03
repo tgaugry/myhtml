@@ -155,9 +155,9 @@ module Myhtml
       end
     end
 
-    {% for name in %w(a div span table body head script comment style noscript meta base map area) %}
-      def is_tag_{{ name.id }}?
-        tag_id == Lib::MyhtmlTags::MyHTML_TAG_{{ name.upcase.id }}
+    {% for name in Lib::MyhtmlTags.constants %}
+      def is_tag_{{ name.gsub(/MyHTML_TAG_/, "").downcase.id }}?
+        tag_id == Myhtml::Lib::MyhtmlTags::{{ name.id }}
       end
     {% end %}
 
