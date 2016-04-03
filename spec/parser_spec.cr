@@ -8,12 +8,16 @@ describe Myhtml::Node do
       </body></html>")
 
     parser.count_tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).should eq 2
+    parser.count_tags(:div).should eq 2
     nodes = parser.select_tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV)
     nodes.size.should eq 2
 
     node1, node2 = nodes
     node1.child!.tag_text.should eq "Haha"
     node2.child!.tag_text.should eq "blah"
+
+    nodes = parser.select_tags(:div)
+    nodes.size.should eq 2
   end
 
   it "each_tag" do
@@ -29,6 +33,10 @@ describe Myhtml::Node do
     node1, node2 = nodes
     node1.child!.tag_text.should eq "Haha"
     node2.child!.tag_text.should eq "blah"
+
+    nodes = [] of Myhtml::Node
+    parser.each_tag(:div) { |n| nodes << n }
+    nodes.size.should eq 2
   end
 
   it "correctly works with unicode" do
@@ -46,6 +54,7 @@ describe Myhtml::Node do
     parser = Myhtml::Parser.new
     parser.parse(str)
     parser.select_tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A).size.should eq 1
+    parser.select_tags(:a).size.should eq 1
   end
 
   it "parse html with bom" do

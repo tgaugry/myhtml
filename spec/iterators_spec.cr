@@ -44,25 +44,25 @@ describe "iterators" do
   end
 
   it "right_iterator from middle" do
-    node = parser.select_tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_TD).first # td
+    node = parser.select_tags(:td).first # td
     res = node.right_iterator.map(&INSPECT_NODE).join
     res.should eq "td|(Bla)|a|(text)|br|span|div|(Text)|"
   end
 
   it "right_iterator from last" do
-    node = parser.select_tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT).last # text
+    node = parser.select_tags(:_text).last # text
     res = node.right_iterator.map(&INSPECT_NODE).join
     res.should eq ""
   end
 
   it "left_iterator" do
-    node = parser.select_tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG__TEXT).last # text
+    node = parser.select_tags(:_text).last # text
     res = node.left_iterator.map(&INSPECT_NODE).join
     res.should eq "(Text)|div|span|br|(text)|a|(Bla)|td|td|tr|tbody|table|div|body|head|html|"
   end
 
   it "left_iterator from middle" do
-    node = parser.select_tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_BR).first # br
+    node = parser.select_tags(:br).first # br
     res = node.left_iterator.map(&INSPECT_NODE).join
     res.should eq "(text)|a|(Bla)|td|td|tr|tbody|table|div|body|head|html|"
   end

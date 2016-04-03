@@ -49,7 +49,7 @@ describe "integration" do
     parser = Myhtml::Parser.new
     parser.parse(str)
     res = [] of Link
-    parser.each_tag(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A) { |node| res << extract_link(node) }
+    parser.each_tag(:a) { |node| res << extract_link(node) }
     res.size.should eq 4
     link1, link2, link3, link4 = res
 

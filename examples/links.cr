@@ -44,7 +44,7 @@ end
 
 parser = Myhtml::Parser.new
 parser.parse(str)
-parser.each_tag(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A) { |node| extract_link(node) }
+parser.each_tag(:a) { |node| extract_link(node) }
 
 # (Before) </link1>(Link1) (After)
 # (#) </link2>(Link2) (--)

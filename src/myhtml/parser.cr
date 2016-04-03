@@ -24,20 +24,36 @@ module Myhtml
       delegate {{ name.id }}!, @tree
     {% end %}
 
-    def count_tags(tag_id)
+    def count_tags(tag_id : Myhtml::Lib::MyhtmlTags)
       Lib.tag_index_entry_count(tag_index, tag_id)
     end
 
-    def each_tag(tag_id, &block : Node ->)
+    def count_tags(tag_sym : Symbol)
+      Lib.tag_index_entry_count(tag_index, Myhtml.tag_id_by_symbol(tag_sym))
+    end
+
+    def each_tag(tag_id : Myhtml::Lib::MyhtmlTags, &block : Node ->)
       each_tag(tag_id).each { |n| block.call(n) }
     end
 
-    def each_tag(tag_id)
+    def each_tag(tag_id : Myhtml::Lib::MyhtmlTags)
       EachTagIterator.new(@tree, tag_id)
     end
 
-    def select_tags(tag_id)
+    def select_tags(tag_id : Myhtml::Lib::MyhtmlTags)
       each_tag(tag_id).to_a
+    end
+
+    def each_tag(tag_sym : Symbol, &block : Node ->)
+      each_tag(Myhtml.tag_id_by_symbol(tag_sym)).each { |n| block.call(n) }
+    end
+
+    def each_tag(tag_sym : Symbol)
+      EachTagIterator.new(@tree, Myhtml.tag_id_by_symbol(tag_sym))
+    end
+
+    def select_tags(tag_sym : Symbol)
+      each_tag(Myhtml.tag_id_by_symbol(tag_sym)).to_a
     end
 
     private def tag_index

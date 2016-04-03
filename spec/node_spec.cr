@@ -9,6 +9,7 @@ describe Myhtml::Node do
     node.tag_name.should eq "div"
     node.attributes.should eq({"class" => "AAA", "style" => "color:red"})
     node.tag_id.should eq Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV
+    node.tag_sym.should eq :div
     node.child!.tag_text.should eq "Haha"
     node.attribute_by("class").should eq "AAA"
     node.attribute_by("class".to_slice).should eq "AAA".to_slice

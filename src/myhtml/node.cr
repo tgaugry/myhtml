@@ -23,6 +23,10 @@ module Myhtml
       Lib.node_tag_id(@node)
     end
 
+    def tag_sym
+      Myhtml.symbol_by_tag_id(tag_id)
+    end
+
     def tag_name_slice
       res = Lib.tag_name_by_id(@tree.raw_tree, tag_id, out length)
       Slice.new(res, length)
