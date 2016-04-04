@@ -11,7 +11,7 @@ def extract_link(node)
     if node.is_text?
       slice = node.tag_text_slice
       return if slice.size == 0
-      !String.new(slice).each_char.all?(&.whitespace?) && node.each_parent.all?(&.visible?)
+      !String.new(slice).each_char.all?(&.whitespace?) && node.parents.all?(&.visible?)
     end
   end
 
@@ -49,7 +49,7 @@ describe "integration" do
     parser = Myhtml::Parser.new
     parser.parse(str)
     res = [] of Link
-    parser.each_tag(:a) { |node| res << extract_link(node) }
+    parser.tags(:a).each { |node| res << extract_link(node) }
     res.size.should eq 4
     link1, link2, link3, link4 = res
 

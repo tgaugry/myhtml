@@ -4,7 +4,7 @@ require "../src/myhtml"
 
 def walk(node, level = 0)
   puts "#{" " * level}#{node.tag_name}#{node.attributes}(#{node.tag_text.strip})"
-  node.each_child { |child| walk(child, level + 1) }
+  node.children.each { |child| walk(child, level + 1) }
 end
 
 str = if filename = ARGV[0]?

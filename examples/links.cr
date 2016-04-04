@@ -34,7 +34,7 @@ def extract_link(node)
   # closure: check node for non empty text
   text_tag = ->(node : Myhtml::Node) do
     node.is_text? &&
-      node.each_parent.all? { |n| n.visible? && !n.object? } &&
+      node.parents.all? { |n| n.visible? && !n.object? } &&
       !node.tag_text.strip.empty?
   end
 
@@ -44,7 +44,7 @@ def extract_link(node)
   puts "(#{before}) <#{href}>(#{anchor}) (#{after})"
 end
 
-Myhtml::Parser.new.parse(str).each_tag(:a) { |node| extract_link(node) }
+Myhtml::Parser.new.parse(str).tags(:a).each { |node| extract_link(node) }
 
 # Output:
 #   (Before) </link1>(Link1) (After)

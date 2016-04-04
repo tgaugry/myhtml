@@ -81,44 +81,17 @@ module Myhtml
       end
     end
 
-    def each_child(&block : Node ->)
-      child = self.child
-      while child
-        yield child
-        child = child.next
-      end
-      self
-    end
-
-    def each_child
-      ChildrenIterator.new(self)
-    end
-
     def children
-      each_child.to_a
+      ChildrenIterator.new(self)
     end
 
     def walk_tree(level = 0, &block : Node, Int32 ->)
       yield self, level
-      each_child { |child| child.walk_tree(level + 1, &block) }
-    end
-
-    def each_parent(&block : Node ->)
-      parent = self.parent
-      while parent
-        break if parent.tag_id == Lib::MyhtmlTags::MyHTML_TAG__UNDEF
-        yield parent
-        parent = parent.parent
-      end
-      self
-    end
-
-    def each_parent
-      ParentsIterator.new(self)
+      children.each { |child| child.walk_tree(level + 1, &block) }
     end
 
     def parents
-      each_parent.to_a
+      ParentsIterator.new(self)
     end
 
     def left_iterator

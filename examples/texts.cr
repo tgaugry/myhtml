@@ -26,8 +26,8 @@ str = if filename = ARGV[0]?
 
 def words(parser)
   w = [] of String
-  parser.each_tag(:_text) do |node|
-    good_node = node.each_parent.all? do |node|
+  parser.tags(:_text).each do |node|
+    good_node = node.parents.all? do |node|
       node.visible? &&
         !node.object? &&
         !node.is_tag_a? &&

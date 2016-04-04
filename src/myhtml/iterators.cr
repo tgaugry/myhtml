@@ -139,5 +139,9 @@ module Myhtml
       @tag_index = Lib.tree_get_tag_index(@tree.raw_tree)
       @index_node = Lib.tag_index_first(@tag_index, @tag_id)
     end
+
+    def count
+      Lib.tag_index_entry_count(@tag_index, @tag_id)
+    end
   end
 end
