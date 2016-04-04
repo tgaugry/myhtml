@@ -143,5 +143,9 @@ module Myhtml
     def count
       Lib.tag_index_entry_count(@tag_index, @tag_id)
     end
+
+    def size
+      count
+    end
   end
 end
