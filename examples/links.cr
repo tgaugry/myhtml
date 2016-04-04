@@ -27,24 +27,22 @@ str = if filename = ARGV[0]?
         HTML
       end
 
-def extract_link(node)
-  anchor = node.child.try &.tag_text.strip
-  href = node.attribute_by("href")
-
-  # closure: check node for non empty text
-  text_tag = ->(node : Myhtml::Node) do
-    node.is_text? &&
-      node.parents.all? { |n| n.visible? && !n.object? } &&
-      !node.tag_text.strip.empty?
-  end
-
-  before = node.left_iterator.find(&text_tag).try(&.tag_text.strip)
-  after = (node.child || node).right_iterator.find(&text_tag).try(&.tag_text.strip)
-
-  puts "(#{before}) <#{href}>(#{anchor}) (#{after})"
+def find_first_good_text(iterator)
+  iterator
+    .select(&.is_text?)
+    .select(&.parents.all? { |n| n.visible? && !n.object? } )
+    .map(&.tag_text.strip)
+    .reject(&.empty?)
+    .first?
 end
 
-Myhtml::Parser.new.parse(str).tags(:a).each { |node| extract_link(node) }
+Myhtml::Parser.new.parse(str).tags(:a).each do |node|
+  anchor = node.child.try &.tag_text.strip
+  href = node.attribute_by("href")
+  before = find_first_good_text(node.left_iterator)
+  after = find_first_good_text((node.child || node).right_iterator)
+  puts "(#{before}) <#{href}>(#{anchor}) (#{after})"
+end
 
 # Output:
 #   (Before) </link1>(Link1) (After)

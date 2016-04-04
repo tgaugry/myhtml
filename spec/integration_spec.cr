@@ -21,35 +21,57 @@ def extract_link(node)
   Link.new before, href, anchor, after
 end
 
+def find_first_good_text(iterator)
+  iterator
+    .select(&.is_text?)
+    .select(&.parents.all? { |n| n.visible? && !n.object? } )
+    .map(&.tag_text.strip)
+    .reject(&.empty?)
+    .first?
+end
+
+def extract_links2(parser)
+  parser.tags(:a).map do |node|
+    anchor = node.child.try &.tag_text.strip
+    href = node.attribute_by("href")
+    before = find_first_good_text(node.left_iterator)
+    after = find_first_good_text((node.child || node).right_iterator)
+    Link.new before, href, anchor, after
+  end
+end
+
+def parser_links
+  str = <<-HTML
+    <html>
+      <div>
+        Before
+        <br>
+        <a href='/link1'>Link1</a>
+        <br>
+        After
+      </div>
+
+      #
+      <a href='/link2'>Link2</a>
+      --
+
+      <div>some<span>⬠ ⬡ ⬢</span></div>
+      <a href='/link3'>Link3</a>
+      <script>asdf</script>
+      <span>⬣ ⬤ ⬥ ⬦</span>
+
+      <a href='/link4'></a>
+    </html>
+  HTML
+
+  parser = Myhtml::Parser.new
+  parser.parse(str)
+end
+
 describe "integration" do
   it "parse links" do
-    str = <<-HTML
-      <html>
-        <div>
-          Before
-          <br>
-          <a href='/link1'>Link1</a>
-          <br>
-          After
-        </div>
-
-        #
-        <a href='/link2'>Link2</a>
-        --
-
-        <div>some<span>⬠ ⬡ ⬢</span></div>
-        <a href='/link3'>Link3</a>
-        <script>asdf</script>
-        <span>⬣ ⬤ ⬥ ⬦</span>
-
-        <a href='/link4'></a>
-      </html>
-    HTML
-
-    parser = Myhtml::Parser.new
-    parser.parse(str)
     res = [] of Link
-    parser.tags(:a).each { |node| res << extract_link(node) }
+    parser_links.tags(:a).each { |node| res << extract_link(node) }
     res.size.should eq 4
     link1, link2, link3, link4 = res
 
@@ -58,4 +80,16 @@ describe "integration" do
     link3.should eq Link.new("⬠ ⬡ ⬢", "/link3", "Link3", "⬣ ⬤ ⬥ ⬦")
     link4.should eq Link.new("⬣ ⬤ ⬥ ⬦", "/link4", nil, nil)
   end
+
+  it "parse links, chained iterators" do
+    res = extract_links2(parser_links).to_a
+    res.size.should eq 4
+    link1, link2, link3, link4 = res
+
+    link1.should eq Link.new("Before", "/link1", "Link1", "After")
+    link2.should eq Link.new("#", "/link2", "Link2", "--")
+    link3.should eq Link.new("⬠ ⬡ ⬢", "/link3", "Link3", "⬣ ⬤ ⬥ ⬦")
+    link4.should eq Link.new("⬣ ⬤ ⬥ ⬦", "/link4", nil, nil)
+  end
+
 end
