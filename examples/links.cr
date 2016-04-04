@@ -33,7 +33,6 @@ def good_texts?(iterator)
     .select(&.parents.all? { |n| n.visible? && !n.object? } )
     .map(&.tag_text.strip)
     .reject(&.empty?)
-    .first?
 end
 
 Myhtml::Parser.new.parse(str).tags(:a).each do |node|
