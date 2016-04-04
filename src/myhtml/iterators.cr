@@ -129,9 +129,8 @@ module Myhtml
       if node.null?
         stop
       else
-        node = Node.new(@tree, node)
         @index_node = Lib.tag_index_next(@index_node)
-        node
+        Node.new(@tree, node)
       end
     end
 
