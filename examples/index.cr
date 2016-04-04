@@ -1,3 +1,5 @@
+# Example: find tags
+
 require "../src/myhtml"
 
 str = if filename = ARGV[0]?

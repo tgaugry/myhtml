@@ -1,3 +1,5 @@
+# Example: print all html tree
+
 require "../src/myhtml"
 
 def walk(node, level = 0)

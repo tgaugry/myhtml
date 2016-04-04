@@ -1,3 +1,5 @@
+# Example: extract links and around texts from html
+
 require "../src/myhtml"
 
 str = if filename = ARGV[0]?
@@ -29,7 +31,7 @@ def extract_link(node)
   anchor = node.child.try &.tag_text.strip
   href = node.attribute_by("href")
 
-  # closure check node for non empty text
+  # closure: check node for non empty text
   text_tag = ->(node : Myhtml::Node) do
     node.is_text? &&
       node.each_parent.all? { |n| n.visible? && !n.object? } &&
