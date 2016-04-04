@@ -24,22 +24,18 @@ str = if filename = ARGV[0]?
         HTML
       end
 
-def words(parser)
-  w = [] of String
-  parser.tags(:_text).each do |node|
-    good_node = node.parents.all? do |node|
-      node.visible? &&
-        !node.object? &&
-        !node.is_tag_a? &&
-        !node.is_tag_noindex?
-    end
-
-    if good_node
-      part = node.tag_text.strip
-      w << part.gsub(/\s{2,}/, " ") unless part.empty?
-    end
+struct Myhtml::Node
+  def textable?
+    visible? && !object? && !is_tag_a? && !is_tag_noindex?
   end
-  w
+end
+
+def words(parser)
+  parser.tags(:_text)                    # iterate through all TEXT nodes
+    .select(&.parents.all?(&.textable?)) # select only which parents is visible good tag
+    .map(&.tag_text.strip)               # mapping stripped node text
+    .reject(&.empty?)                    # reject empty texts
+    .map(&.gsub(/\s{2,}/, " "))          # remove extra spaces in middle of strings
 end
 
 parser = Myhtml::Parser.new

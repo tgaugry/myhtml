@@ -1,5 +1,7 @@
 module Myhtml
   struct Node
+    @node : Lib::MyhtmlTreeNodeT*
+
     def self.from_raw(tree : Tree, raw_node : Lib::MyhtmlTreeNodeT*) : Node?
       unless raw_node.null?
         Node.new(tree, raw_node)
