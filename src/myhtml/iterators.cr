@@ -129,7 +129,7 @@ module Myhtml
       if node.null?
         stop
       else
-        node = Node.from_raw(@tree, node).not_nil!
+        node = Node.new(@tree, node)
         @index_node = Lib.tag_index_next(@index_node)
         node
       end
