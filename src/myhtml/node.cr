@@ -136,7 +136,7 @@ module Myhtml
 
     {% for name in Lib::MyhtmlTags.constants %}
       def is_tag_{{ name.gsub(/MyHTML_TAG_/, "").downcase.id }}?
-        tag_id == Myhtml::Lib::MyhtmlTags::{{ name.id }}
+        tag_id == Lib::MyhtmlTags::{{ name.id }}
       end
     {% end %}
 
