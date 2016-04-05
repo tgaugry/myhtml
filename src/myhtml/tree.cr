@@ -23,7 +23,7 @@ module Myhtml
       Lib.destroy(@raw_myhtml)
     end
 
-    {% for name in %w{head body html root} %}
+    {% for name in %w(head body html root) %}
       def {{ name.id }}
         Node.from_raw(self, Lib.tree_get_node_{{(name == "root" ? "html" : name).id}}(@raw_tree))
       end

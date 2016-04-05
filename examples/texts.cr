@@ -31,7 +31,8 @@ struct Myhtml::Node
 end
 
 def words(parser)
-  parser.tags(:_text)                    # iterate through all TEXT nodes
+  parser
+    .tags(:_text)                        # iterate through all TEXT nodes
     .select(&.parents.all?(&.textable?)) # select only which parents is visible good tag
     .map(&.tag_text.strip)               # mapping stripped node text
     .reject(&.empty?)                    # reject empty texts
