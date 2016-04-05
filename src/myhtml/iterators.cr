@@ -92,6 +92,40 @@ module Myhtml
     end
   end
 
+  struct DeepChildrenIterator
+    include Iterator(Node)
+
+    def initialize(@start_node : Node)
+      rewind
+    end
+
+    def next
+      @current_node = next_to(@current_node.not_nil!)
+      return stop if @current_node == @stop_node
+
+      if cn = @current_node
+        cn
+      else
+        stop
+      end
+    end
+
+    def rewind
+      @current_node = @start_node
+      @stop_node = @start_node.try(&.next) || next_parent(@start_node)
+    end
+
+    private def next_to(node)
+      node.child || node.next || next_parent(node)
+    end
+
+    private def next_parent(node)
+      if parent = node.parent
+        parent.next || next_parent(parent)
+      end
+    end
+  end
+
   struct ParentsIterator
     include Iterator(Node)
 

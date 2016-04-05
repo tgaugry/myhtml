@@ -43,6 +43,11 @@ describe "iterators" do
     res.should eq "head|body|div|table|tbody|tr|td|td|(Bla)|a|(text)|br|span|div|(Text)|"
   end
 
+  it "deep_children from html is equal to right_iterator" do
+    res = parser.root!.deep_children.map(&INSPECT_NODE).join
+    res.should eq "head|body|div|table|tbody|tr|td|td|(Bla)|a|(text)|br|span|div|(Text)|"
+  end
+
   it "right_iterator from middle" do
     node = parser.tags(:td).first # td
     res = node.right_iterator.map(&INSPECT_NODE).join
@@ -79,4 +84,11 @@ describe "iterators" do
     end
     str.join("").should eq "html|head|body|div|table|tbody|tr|td|td|(Bla)|a|(text)|br|span|div|(Text)|"
   end
+
+  it "deep_children from div" do
+    div = parser.tags(:div).first
+    res = div.deep_children.map(&INSPECT_NODE).join
+    res.should eq "table|tbody|tr|td|td|(Bla)|a|(text)|"
+  end
+
 end

@@ -87,6 +87,10 @@ module Myhtml
       ChildrenIterator.new(self)
     end
 
+    def deep_children
+      DeepChildrenIterator.new(self)
+    end
+
     def walk_tree(level = 0, &block : Node, Int32 ->)
       yield self, level
       children.each { |child| child.walk_tree(level + 1, &block) }
