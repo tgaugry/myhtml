@@ -29,7 +29,7 @@ str = if filename = ARGV[0]?
 
 def good_texts?(iterator)
   iterator
-    .select(&.is_text?)
+    .tags(:_text)
     .select(&.parents.all? { |n| n.visible? && !n.object? } )
     .map(&.tag_text.strip)
     .reject(&.empty?)

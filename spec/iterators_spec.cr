@@ -91,4 +91,10 @@ describe "iterators" do
     res.should eq "table|tbody|tr|td|td|(Bla)|a|(text)|"
   end
 
+  it "iterator tags on other iterator" do
+    div = parser.tags(:div).first
+    res = div.deep_children.tags(:_text).map(&.tag_text.strip).reject(&.empty?).to_a
+    res.should eq %w{Bla text}
+  end
+
 end

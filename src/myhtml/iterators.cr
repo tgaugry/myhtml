@@ -1,6 +1,17 @@
 module Myhtml
+  module TagsIterator
+    def tags(tag_id : Myhtml::Lib::MyhtmlTags)
+      select { |node| node.tag_id == tag_id }
+    end
+
+    def tags(tag_sym : Symbol)
+      tags(Myhtml.tag_id_by_symbol(tag_sym))
+    end
+  end
+
   struct RightIterator
     include Iterator(Node)
+    include TagsIterator
 
     def initialize(@start_node : Node)
       rewind
@@ -34,6 +45,7 @@ module Myhtml
 
   struct LeftIterator
     include Iterator(Node)
+    include TagsIterator
 
     def initialize(@start_node : Node)
       rewind
@@ -73,6 +85,7 @@ module Myhtml
 
   struct ChildrenIterator
     include Iterator(Node)
+    include TagsIterator
 
     def initialize(@start_node : Node)
       rewind
@@ -94,6 +107,7 @@ module Myhtml
 
   struct DeepChildrenIterator
     include Iterator(Node)
+    include TagsIterator
 
     def initialize(@start_node : Node)
       rewind
@@ -128,6 +142,7 @@ module Myhtml
 
   struct ParentsIterator
     include Iterator(Node)
+    include TagsIterator
 
     def initialize(@start_node : Node)
       rewind
