@@ -19,17 +19,11 @@ module Myhtml
 
     def next
       @current_node = @current_node.not_nil!.right
-
-      if cn = @current_node
-        cn
-      else
-        stop
-      end
+      @current_node || stop
     end
 
     def rewind
       @current_node = @start_node
-      self
     end
   end
 
@@ -53,7 +47,6 @@ module Myhtml
 
     def rewind
       @current_node = @start_node
-      self
     end
   end
 
@@ -90,12 +83,7 @@ module Myhtml
     def next
       @current_node = @current_node.not_nil!.right
       return stop if @current_node == @stop_node
-
-      if cn = @current_node
-        cn
-      else
-        stop
-      end
+      @current_node || stop
     end
 
     def rewind

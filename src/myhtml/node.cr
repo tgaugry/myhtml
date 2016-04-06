@@ -22,12 +22,7 @@ module Myhtml
     {% end %}
 
     def deep_child
-      # last_child.try(&.deep_child) || self
-      if l = last_child
-        l.deep_child
-      else
-        self
-      end
+      last_child.try(&.deep_child) || self
     end
 
     # left node to current
