@@ -18,7 +18,7 @@ module Myhtml
     end
 
     def next
-      @current_node = next_to(@current_node.not_nil!)
+      @current_node = @current_node.not_nil!.right
 
       if cn = @current_node
         cn
@@ -31,16 +31,6 @@ module Myhtml
       @current_node = @start_node
       self
     end
-
-    private def next_to(node)
-      node.child || node.next || next_parent(node)
-    end
-
-    private def next_parent(node)
-      if parent = node.parent
-        parent.next || next_parent(parent)
-      end
-    end
   end
 
   struct LeftIterator
@@ -52,7 +42,7 @@ module Myhtml
     end
 
     def next
-      @current_node = next_to(@current_node.not_nil!)
+      @current_node = @current_node.not_nil!.left
 
       if (cn = @current_node) && (cn.tag_id != Lib::MyhtmlTags::MyHTML_TAG__UNDEF)
         cn
@@ -64,22 +54,6 @@ module Myhtml
     def rewind
       @current_node = @start_node
       self
-    end
-
-    private def next_to(node)
-      if prev = node.prev
-        deep_child(prev)
-      else
-        node.parent
-      end
-    end
-
-    private def deep_child(node)
-      if child = node.last_child
-        deep_child(child)
-      else
-        node
-      end
     end
   end
 
@@ -114,7 +88,7 @@ module Myhtml
     end
 
     def next
-      @current_node = next_to(@current_node.not_nil!)
+      @current_node = @current_node.not_nil!.right
       return stop if @current_node == @stop_node
 
       if cn = @current_node
@@ -126,17 +100,7 @@ module Myhtml
 
     def rewind
       @current_node = @start_node
-      @stop_node = @start_node.try(&.next) || next_parent(@start_node)
-    end
-
-    private def next_to(node)
-      node.child || node.next || next_parent(node)
-    end
-
-    private def next_parent(node)
-      if parent = node.parent
-        parent.next || next_parent(parent)
-      end
+      @stop_node = @start_node.try(&.next) || @start_node.next_parent
     end
   end
 
