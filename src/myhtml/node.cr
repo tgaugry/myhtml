@@ -21,34 +21,6 @@ module Myhtml
       end
     {% end %}
 
-    def deep_child
-      last_child.try(&.deep_child) || self
-    end
-
-    # left node to current
-    def left
-      prev.try(&.deep_child) || parent
-    end
-
-    def left!
-      left.not_nil!
-    end
-
-    def next_parent
-      if p = self.parent
-        p.next || p.next_parent
-      end
-    end
-
-    # right node to current
-    def right
-      child || self.next || next_parent
-    end
-
-    def right!
-      right.not_nil!
-    end
-
     def tag_id
       Lib.node_tag_id(@node)
     end
@@ -175,6 +147,41 @@ module Myhtml
     def is_tag_noindex?
       tag_id >= Lib::MyhtmlTags::MyHTML_TAG_LAST_ENTRY && tag_name_slice == "noindex".to_slice
     end
-  end
 
+    def deep_child
+      last_child.try(&.deep_child) || self
+    end
+
+    # left node to current
+    def left
+      prev.try(&.deep_child) || parent
+    end
+
+    def left!
+      left.not_nil!
+    end
+
+    def next_parent
+      if p = self.parent
+        p.next || p.next_parent
+      end
+    end
+
+    # right node to current
+    def right
+      child || self.next || next_parent
+    end
+
+    def flat_right
+      self.next || next_parent
+    end
+
+    def flat_right!
+      flat_right.not_nil!
+    end
+
+    def right!
+      right.not_nil!
+    end
+  end
 end

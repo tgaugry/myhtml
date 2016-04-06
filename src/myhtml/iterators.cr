@@ -88,7 +88,7 @@ module Myhtml
 
     def rewind
       @current_node = @start_node
-      @stop_node = @start_node.try(&.next) || @start_node.next_parent
+      @stop_node = @start_node.flat_right
     end
   end
 
