@@ -41,4 +41,4 @@ end
 
 parser = Myhtml::Parser.new
 parser.parse(str)
-puts words(parser).join(" ")
+puts words(parser).join(" | ")
