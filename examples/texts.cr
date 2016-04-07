@@ -36,7 +36,7 @@ def words(parser)
     .select(&.parents.all?(&.textable?)) # select only which parents is visible good tag
     .map(&.tag_text.strip)               # mapping stripped node text
     .reject(&.empty?)                    # reject empty texts
-    .map(&.gsub(/\s{2,}/, " "))          # remove extra spaces in middle of strings
+    .map(&.gsub(/\s+/, " "))          # remove extra spaces in middle of strings
 end
 
 parser = Myhtml::Parser.new
