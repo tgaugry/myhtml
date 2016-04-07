@@ -48,9 +48,9 @@ def words(parser)
   parser
     .tags(:_text)                        # iterate through all TEXT nodes
     .select(&.parents.all?(&.textable?)) # select only which parents is visible good tag
-    .map(&.tag_text)                     # mapping stripped node text
+    .map(&.tag_text)                     # mapping node text
     .reject(&.each_char.all?(&.blank?))  # reject blanked texts
-    .map(&.strip.gsub(/\s+/, " "))       # remove extra spaces in middle of strings
+    .map(&.strip.gsub(/\s+/, " "))       # remove extra spaces
 end
 
 parser = Myhtml::Parser.new
