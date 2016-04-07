@@ -24,6 +24,20 @@ str = if filename = ARGV[0]?
         HTML
       end
 
+struct Char
+  def blank?
+    case ord
+    when 9, 0xa, 0xb, 0xc, 0xd, 0x20, 0x85, 0xa0, 0x1680, 0x180e,
+         0x2000, 0x2001, 0x2002, 0x2003, 0x2004, 0x2005, 0x2006,
+         0x2007, 0x2008, 0x2009, 0x200a, 0x2028, 0x2029, 0x202f,
+         0x205f, 0x3000
+      true
+    else
+      false
+    end
+  end
+end
+
 struct Myhtml::Node
   def textable?
     visible? && !object? && !is_tag_a? && !is_tag_noindex?
@@ -34,9 +48,9 @@ def words(parser)
   parser
     .tags(:_text)                        # iterate through all TEXT nodes
     .select(&.parents.all?(&.textable?)) # select only which parents is visible good tag
-    .map(&.tag_text.strip)               # mapping stripped node text
-    .reject(&.empty?)                    # reject empty texts
-    .map(&.gsub(/\s+/, " "))             # remove extra spaces in middle of strings
+    .map(&.tag_text)                     # mapping stripped node text
+    .reject(&.each_char.all?(&.blank?))  # reject blanked texts
+    .map(&.strip.gsub(/\s+/, " "))       # remove extra spaces in middle of strings
 end
 
 parser = Myhtml::Parser.new
