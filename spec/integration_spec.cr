@@ -24,7 +24,7 @@ end
 def find_first_good_text(iterator)
   iterator
     .select(&.is_text?)
-    .select(&.parents.all? { |n| n.visible? && !n.object? } )
+    .select(&.parents.all? { |n| n.visible? && !n.object? })
     .map(&.tag_text.strip)
     .reject(&.empty?)
     .first?
@@ -91,5 +91,4 @@ describe "integration" do
     link3.should eq Link.new("⬠ ⬡ ⬢", "/link3", "Link3", "⬣ ⬤ ⬥ ⬦")
     link4.should eq Link.new("⬣ ⬤ ⬥ ⬦", "/link4", nil, nil)
   end
-
 end
