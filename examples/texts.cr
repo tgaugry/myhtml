@@ -50,7 +50,7 @@ def words(parser)
     .select(&.parents.all?(&.textable?)) # select only which parents is visible good tag
     .map(&.tag_text)                     # mapping node text
     .reject(&.each_char.all?(&.blank?))  # reject blanked texts
-    .map(&.strip.gsub(/\s{2,}/, " "))       # remove extra spaces
+    .map(&.strip.gsub(/\s{2,}/, " "))    # remove extra spaces
 end
 
 parser = Myhtml::Parser.new
