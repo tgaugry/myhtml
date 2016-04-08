@@ -49,25 +49,25 @@ describe "iterators" do
   end
 
   it "right_iterator from middle" do
-    node = parser.tags(:td).first # td
+    node = parser.nodes(:td).first # td
     res = node.right_iterator.map(&INSPECT_NODE).join
     res.should eq "td|(Bla)|a|(text)|br|span|div|(Text)|"
   end
 
   it "right_iterator from last" do
-    node = parser.tags(:_text).to_a.last # text
+    node = parser.nodes(:_text).to_a.last # text
     res = node.right_iterator.map(&INSPECT_NODE).join
     res.should eq ""
   end
 
   it "left_iterator" do
-    node = parser.tags(:_text).to_a.last # text
+    node = parser.nodes(:_text).to_a.last # text
     res = node.left_iterator.map(&INSPECT_NODE).join
     res.should eq "(Text)|div|span|br|(text)|a|(Bla)|td|td|tr|tbody|table|div|body|head|html|"
   end
 
   it "left_iterator from middle" do
-    node = parser.tags(:br).first # br
+    node = parser.nodes(:br).first # br
     res = node.left_iterator.map(&INSPECT_NODE).join
     res.should eq "(text)|a|(Bla)|td|td|tr|tbody|table|div|body|head|html|"
   end
@@ -86,14 +86,14 @@ describe "iterators" do
   end
 
   it "deep_children from div" do
-    div = parser.tags(:div).first
+    div = parser.nodes(:div).first
     res = div.deep_children.map(&INSPECT_NODE).join
     res.should eq "table|tbody|tr|td|td|(Bla)|a|(text)|"
   end
 
   it "iterator tags on other iterator" do
-    div = parser.tags(:div).first
-    res = div.deep_children.tags(:_text).map(&.tag_text.strip).reject(&.empty?).to_a
+    div = parser.nodes(:div).first
+    res = div.deep_children.nodes(:_text).map(&.tag_text.strip).reject(&.empty?).to_a
     res.should eq %w(Bla text)
   end
 end

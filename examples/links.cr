@@ -29,13 +29,13 @@ str = if filename = ARGV[0]?
 
 def good_texts?(iterator)
   iterator
-    .tags(:_text)
+    .nodes(:_text)
     .select(&.parents.all? { |n| n.visible? && !n.object? })
     .map(&.tag_text.strip)
     .reject(&.empty?)
 end
 
-Myhtml::Parser.new.parse(str).tags(:a).each do |node|
+Myhtml::Parser.new.parse(str).nodes(:a).each do |node|
   anchor = node.child.try &.tag_text.strip
   href = node.attribute_by("href")
   before = good_texts?(node.left_iterator).first?

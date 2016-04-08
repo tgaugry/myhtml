@@ -31,7 +31,7 @@ def find_first_good_text(iterator)
 end
 
 def extract_links2(parser)
-  parser.tags(:a).map do |node|
+  parser.nodes(:a).map do |node|
     anchor = node.child.try &.tag_text.strip
     href = node.attribute_by("href")
     before = find_first_good_text(node.left_iterator)
@@ -71,7 +71,7 @@ end
 describe "integration" do
   it "parse links" do
     res = [] of Link
-    parser_links.tags(:a).each { |node| res << extract_link(node) }
+    parser_links.nodes(:a).each { |node| res << extract_link(node) }
     res.size.should eq 4
     link1, link2, link3, link4 = res
 

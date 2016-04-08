@@ -24,12 +24,12 @@ module Myhtml
       delegate {{ name.id }}!, @tree
     {% end %}
 
-    def tags(tag_id : Myhtml::Lib::MyhtmlTags)
+    def nodes(tag_id : Myhtml::Lib::MyhtmlTags)
       EachTagIterator.new(@tree, tag_id)
     end
 
-    def tags(tag_sym : Symbol)
-      EachTagIterator.new(@tree, Myhtml.tag_id_by_symbol(tag_sym))
+    def nodes(tag_sym : Symbol)
+      nodes(Myhtml.tag_id_by_symbol(tag_sym))
     end
   end
 end

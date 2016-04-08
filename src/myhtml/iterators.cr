@@ -1,11 +1,11 @@
 module Myhtml
   module TagsIterator
-    def tags(tag_id : Myhtml::Lib::MyhtmlTags)
+    def nodes(tag_id : Myhtml::Lib::MyhtmlTags)
       select { |node| node.tag_id == tag_id }
     end
 
-    def tags(tag_sym : Symbol)
-      tags(Myhtml.tag_id_by_symbol(tag_sym))
+    def nodes(tag_sym : Symbol)
+      nodes(Myhtml.tag_id_by_symbol(tag_sym))
     end
   end
 

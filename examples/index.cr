@@ -11,9 +11,9 @@ str = if filename = ARGV[0]?
 parser = Myhtml::Parser.new
 parser.parse(str)
 
-p parser.tags(:div).count
+p parser.nodes(:div).count
 
-parser.tags(:div).each do |node|
+parser.nodes(:div).each do |node|
   p node.tag_name
   p node.attributes
 end

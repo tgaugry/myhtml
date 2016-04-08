@@ -7,16 +7,16 @@ describe Myhtml::Node do
       <div>blah</div>
       </body></html>")
 
-    parser.tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).count.should eq 2
-    parser.tags(:div).count.should eq 2
-    nodes = parser.tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).to_a
+    parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).count.should eq 2
+    parser.nodes(:div).count.should eq 2
+    nodes = parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).to_a
     nodes.size.should eq 2
 
     node1, node2 = nodes
     node1.child!.tag_text.should eq "Haha"
     node2.child!.tag_text.should eq "blah"
 
-    nodes = parser.tags(:div).to_a
+    nodes = parser.nodes(:div).to_a
     nodes.size.should eq 2
   end
 
@@ -27,7 +27,7 @@ describe Myhtml::Node do
       </body></html>")
 
     nodes = [] of Myhtml::Node
-    parser.tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).each { |n| nodes << n }
+    parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).each { |n| nodes << n }
     nodes.size.should eq 2
 
     node1, node2 = nodes
@@ -35,7 +35,7 @@ describe Myhtml::Node do
     node2.child!.tag_text.should eq "blah"
 
     nodes = [] of Myhtml::Node
-    parser.tags(:div).each { |n| nodes << n }
+    parser.nodes(:div).each { |n| nodes << n }
     nodes.size.should eq 2
   end
 
@@ -53,8 +53,8 @@ describe Myhtml::Node do
 
     parser = Myhtml::Parser.new
     parser.parse(str)
-    parser.tags(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A).size.should eq 1
-    parser.tags(:a).size.should eq 1
+    parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A).size.should eq 1
+    parser.nodes(:a).size.should eq 1
   end
 
   it "parse html with bom" do
