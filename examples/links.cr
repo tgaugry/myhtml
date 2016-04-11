@@ -3,7 +3,7 @@
 require "../src/myhtml"
 
 str = if filename = ARGV[0]?
-        File.read(filename)
+        File.read(filename, "UTF-8", invalid: :skip)
       else
         <<-HTML
         <html>

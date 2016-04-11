@@ -148,13 +148,13 @@ module Myhtml
       tag_id >= Lib::MyhtmlTags::MyHTML_TAG_LAST_ENTRY && tag_name_slice == "noindex".to_slice
     end
 
-    def deep_child
-      last_child.try(&.deep_child) || self
+    def deepest_child
+      last_child.try(&.deepest_child) || self
     end
 
     # left node to current
     def left
-      prev.try(&.deep_child) || parent
+      prev.try(&.deepest_child) || parent
     end
 
     def left!
