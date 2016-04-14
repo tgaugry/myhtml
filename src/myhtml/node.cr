@@ -1,6 +1,7 @@
 module Myhtml
   struct Node
     @node : Lib::MyhtmlTreeNodeT*
+    @attributes : Hash(String, String)?
 
     def self.from_raw(tree : Tree, raw_node : Lib::MyhtmlTreeNodeT*) : Node?
       unless raw_node.null?

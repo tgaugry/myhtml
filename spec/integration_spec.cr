@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-record Link, before, href, anchor, after
+record Link, before : String?, href : String?, anchor : String?, after : String?
 
 def extract_link(node)
   anchor = node.child.try &.tag_text.strip

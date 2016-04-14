@@ -1,6 +1,6 @@
 module Myhtml
   module TagsIterator
-    def nodes(tag_id : Myhtml::Lib::MyhtmlTags)
+    def nodes(tag_id : Lib::MyhtmlTags)
       select { |node| node.tag_id == tag_id }
     end
 
@@ -54,6 +54,8 @@ module Myhtml
     include Iterator(Node)
     include TagsIterator
 
+    @current_node : Node?
+
     def initialize(@start_node : Node)
       rewind
     end
@@ -75,6 +77,8 @@ module Myhtml
   struct DeepChildrenIterator
     include Iterator(Node)
     include TagsIterator
+
+    @stop_node : Node?
 
     def initialize(@start_node : Node)
       rewind
@@ -117,7 +121,7 @@ module Myhtml
   struct EachTagIterator
     include Iterator(Node)
 
-    def initialize(@tree, @tag_id)
+    def initialize(@tree : Tree, @tag_id : Lib::MyhtmlTags)
       @tag_index = Pointer(Lib::MyhtmlTagIndexT).null
       @index_node = Pointer(Lib::MyhtmlTagIndexNodeT).null
       rewind
