@@ -27,7 +27,7 @@ str = if filename = ARGV[0]?
         HTML
       end
 
-def good_texts?(iterator)
+def good_texts_iterator(iterator)
   iterator
     .nodes(:_text)
     .select(&.parents.all? { |n| n.visible? && !n.object? })
@@ -36,10 +36,10 @@ def good_texts?(iterator)
 end
 
 Myhtml::Parser.new.parse(str).nodes(:a).each do |node|
-  anchor = node.child.try &.tag_text.strip
+  anchor = good_texts_iterator(node.children).join(" ")
   href = node.attribute_by("href")
-  before = good_texts?(node.left_iterator).first?
-  after = good_texts?((node.child || node).right_iterator).first?
+  before = good_texts_iterator(node.left_iterator).first?
+  after = good_texts_iterator((node.child || node).right_iterator).first?
   puts "(#{before}) <#{href}>(#{anchor}) (#{after})"
 end
 
