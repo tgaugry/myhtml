@@ -158,10 +158,6 @@ module Myhtml
       prev.try(&.lastest_child) || parent
     end
 
-    def left!
-      left.not_nil!
-    end
-
     def next_parent
       if p = self.parent
         p.next || p.next_parent
@@ -177,12 +173,10 @@ module Myhtml
       self.next || next_parent
     end
 
-    def flat_right!
-      flat_right.not_nil!
-    end
-
-    def right!
-      right.not_nil!
-    end
+    {% for name in %w(lastest_child left right next_parent flat_right) %}
+      def {{name.id}}!
+        self.{{name.id}}.not_nil!
+      end
+    {% end %}
   end
 end
