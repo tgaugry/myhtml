@@ -158,7 +158,7 @@ module Myhtml
       prev.try(&.lastest_child) || parent
     end
 
-    def next_parent
+    protected def next_parent
       if p = self.parent
         p.next || p.next_parent
       end
