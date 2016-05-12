@@ -1,6 +1,6 @@
 module Myhtml
   # cd src/ext && make
-  @[Link(ldflags: "#{__DIR__}/../ext/myhtml-c/lib/static_libmyhtml.a")]
+  @[Link(ldflags: "#{__DIR__}/../ext/myhtml-c/lib/libmyhtml_static.a")]
   lib Lib
     type MyhtmlT = Void*
     type MyhtmlTreeT = Void*
