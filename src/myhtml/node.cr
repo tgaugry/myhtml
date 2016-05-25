@@ -22,6 +22,10 @@ module Myhtml
       end
     {% end %}
 
+    def remove!
+      Lib.node_remove(@node)
+    end
+
     def tag_id
       Lib.node_tag_id(@node)
     end

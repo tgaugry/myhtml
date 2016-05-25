@@ -149,4 +149,17 @@ describe Myhtml::Node do
     noindex.is_tag_noindex?.should eq true
     noindex.child!.is_tag_noindex?.should eq false
   end
+
+  it "remove!" do
+    html_string = "<html><body><div id='first'>Haha</div><div id='second'>Hehe</div><div id='third'>Hoho</div></body></html>"
+    id_array = %w(first second third)
+    (0..2).each do |i|
+      parser = Myhtml::Parser.new
+      parser.parse html_string
+      parser.root!.child!.next!.children.to_a.at(i).remove!
+      parser.root!.child!.next!.children.to_a.map(&.attribute_by("id")).should(
+        eq id_array.dup.tap(&.delete_at(i))
+      )
+    end
+  end
 end
