@@ -15,6 +15,15 @@ dependencies:
     github: kostya/myhtml
 ```
 
+Development Setup:
+```shell
+  git clone https://github.com/kostya/myhtml.git
+  cd myhtml
+  make
+
+  crystal spec
+```
+
 
 ## Usage
 
