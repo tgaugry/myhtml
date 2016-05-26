@@ -15,7 +15,10 @@ dependencies:
     github: kostya/myhtml
 ```
 
-Development Setup:
+And run `crystal deps`
+
+## Development Setup:
+
 ```shell
   git clone https://github.com/kostya/myhtml.git
   cd myhtml
