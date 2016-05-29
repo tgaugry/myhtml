@@ -1,6 +1,6 @@
 module Myhtml
   lib Lib
-    enum MyhtmlTags
+    enum MyhtmlTags : LibC::SizeT
       MyHTML_TAG__UNDEF              = 0x000
       MyHTML_TAG__TEXT               = 0x001
       MyHTML_TAG__COMMENT            = 0x002
