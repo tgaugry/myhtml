@@ -20,8 +20,8 @@ module Myhtml
     end
 
     {% for name in %w(root html head body) %}
-      delegate {{ name.id }}, @tree
-      delegate {{ name.id }}!, @tree
+      delegate {{ name.id }}, to: @tree
+      delegate {{ name.id }}!, to: @tree
     {% end %}
 
     def nodes(tag_id : Myhtml::Lib::MyhtmlTags)
