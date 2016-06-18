@@ -29,7 +29,11 @@ module Myhtml
       end
 
       def {{ name.id }}!
-        {{ name.id }}.not_nil!
+        if val = {{ name.id }}
+          val
+        else
+          raise Error.new("Empty node, expected `{{name.id}}` to present on tree")
+        end
       end
     {% end %}
   end

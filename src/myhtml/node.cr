@@ -16,9 +16,15 @@ module Myhtml
       def {{name.id}}
         Node.from_raw(@tree, Lib.node_{{name.id}}(@node))
       end
+    {% end %}
 
+    {% for name in %w(child next parent prev last_child lastest_child left right next_parent flat_right) %}
       def {{name.id}}!
-        self.{{name.id}}.not_nil!
+        if val = self.{{ name.id }}
+          val
+        else
+          raise Error.new("Empty node, '{{name.id}}' called from #{to_string}")
+        end
       end
     {% end %}
 
@@ -177,10 +183,12 @@ module Myhtml
       self.next || next_parent
     end
 
-    {% for name in %w(lastest_child left right next_parent flat_right) %}
-      def {{name.id}}!
-        self.{{name.id}}.not_nil!
-      end
-    {% end %}
+    # simple method to inspect node
+    def to_string
+      text = is_text? ? "(" + tag_text.strip + ")" : ""
+      text = text.size > 30 ? text[0..30] + "..." : text
+      attrs = attributes.any? ? " " + attributes.inspect : ""
+      "<#{tag_name}#{attrs}>#{text}"
+    end
   end
 end

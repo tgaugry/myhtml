@@ -15,6 +15,14 @@ describe Myhtml::Node do
     node.attribute_by("class".to_slice).should eq "AAA".to_slice
   end
 
+  it "raise error when no node" do
+    parser = Myhtml::Parser.new
+    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div></body></html>")
+    node = parser.root!.child!.next!.child!.child!
+    expect_raises(Myhtml::Error, /Empty node/) { node.child! }
+    # expect_raises(Myhtml::Error, /Empty node/) { node.child! }
+  end
+
   it "attributes" do
     parser = Myhtml::Parser.new
     parser.parse("<html><body><div class=AAA style='color:red'>Haha</div></body></html>")
