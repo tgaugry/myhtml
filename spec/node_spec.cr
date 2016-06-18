@@ -20,7 +20,6 @@ describe Myhtml::Node do
     parser.parse("<html><body><div class=AAA style='color:red'>Haha</div></body></html>")
     node = parser.root!.child!.next!.child!.child!
     expect_raises(Myhtml::Error, /Empty node/) { node.child! }
-    # expect_raises(Myhtml::Error, /Empty node/) { node.child! }
   end
 
   it "attributes" do
