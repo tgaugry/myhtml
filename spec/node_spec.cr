@@ -17,7 +17,7 @@ describe Myhtml::Node do
 
   it "raise error when no node" do
     parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div></body></html>")
+    parser.parse("<html><body><div class=AAA style='color:red'>Hahasdfjasdfladshfasldkfhadsfkdashfaklsjdfhalsdfdsafsda</div></body></html>")
     node = parser.root!.child!.next!.child!.child!
     expect_raises(Myhtml::Error, /Empty node/) { node.child! }
   end

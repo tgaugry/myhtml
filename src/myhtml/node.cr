@@ -186,7 +186,7 @@ module Myhtml
     # simple method to inspect node
     def to_string
       text = is_text? ? "(" + tag_text.strip + ")" : ""
-      text = text.size > 30 ? text[0..30] + "..." : text
+      text = text.size > 30 ? text[0..30] + "...)" : text
       attrs = attributes.any? ? " " + attributes.inspect : ""
       "<#{tag_name}#{attrs}>#{text}"
     end
