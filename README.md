@@ -13,6 +13,7 @@ Add this to your application's `shard.yml`:
 dependencies:
   myhtml:
     github: kostya/myhtml
+    branch: master
 ```
 
 And run `crystal deps`
