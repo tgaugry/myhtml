@@ -1,7 +1,9 @@
+require "./node"
+
 module Myhtml
   module TagsIterator
     def nodes(tag_id : Lib::MyhtmlTags)
-      select { |node| node.tag_id == tag_id }
+      self.select { |node| node.tag_id == tag_id }
     end
 
     def nodes(tag_sym : Symbol)
