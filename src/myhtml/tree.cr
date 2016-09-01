@@ -16,11 +16,19 @@ module Myhtml
         Lib.destroy(@raw_myhtml)
         raise Error.new("tree_init error #{res}")
       end
+      @finalized = false
+    end
+
+    def free
+      unless @finalized
+        Lib.tree_destroy(@raw_tree)
+        Lib.destroy(@raw_myhtml)
+        @finalized = true
+      end
     end
 
     def finalize
-      Lib.tree_destroy(@raw_tree)
-      Lib.destroy(@raw_myhtml)
+      free
     end
 
     {% for name in %w(head body html root) %}

@@ -72,4 +72,14 @@ describe Myhtml::Node do
     title.tag_name.should eq "title"
     title.child.try(&.tag_text).should eq "1"
   end
+
+  it "manually call free, to save memory" do
+    10000.times do
+      parser = Myhtml::Parser.new
+      parser.parse("<html><body><div class=AAA style='color:red'>Haha</div>
+        <div>blah</div>
+        </body></html>")
+      parser.free
+    end
+  end
 end
