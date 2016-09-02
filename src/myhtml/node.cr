@@ -159,6 +159,10 @@ module Myhtml
       tag_id >= Lib::MyhtmlTags::MyHTML_TAG_LAST_ENTRY && tag_name_slice == "noindex".to_slice
     end
 
+    def is_tag_nofollow?
+      tag_id >= Lib::MyhtmlTags::MyHTML_TAG_LAST_ENTRY && tag_name_slice == "nofollow".to_slice
+    end
+
     def lastest_child
       last_child.try(&.lastest_child) || self
     end
