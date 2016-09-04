@@ -1,7 +1,7 @@
 module Myhtml
   class Parser
-    def initialize(options = Lib::MyhtmlOptions::MyHTML_OPTIONS_DEFAULT, threads_count = 1, queue_size = 0)
-      @tree = Tree.new(options, threads_count, queue_size)
+    def initialize(options = Lib::MyhtmlOptions::MyHTML_OPTIONS_DEFAULT, threads_count = 1, queue_size = 0, tree_options = nil)
+      @tree = Tree.new(options, threads_count, queue_size, tree_options = nil)
     end
 
     def parse(string, encoding = Lib::MyhtmlEncodingList::MyHTML_ENCODING_UTF_8)
