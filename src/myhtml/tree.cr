@@ -12,7 +12,6 @@ module Myhtml
       @raw_tree = Lib.tree_create
       res = Lib.tree_init(@raw_tree, @raw_myhtml)
 
-      # tree_options ||= Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_SKIP_WHITESPACE_TOKEN | Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_WITHOUT_DOCTYPE_IN_TREE
       Lib.tree_parse_flags_set(@raw_tree, tree_options) if tree_options
 
       if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK

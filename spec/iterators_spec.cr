@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-def parser
+def parser(**args)
   str = <<-HTML
     <html>
       <div>
@@ -21,7 +21,7 @@ def parser
     </html>
   HTML
 
-  parser = Myhtml::Parser.new
+  parser = Myhtml::Parser.new(**args)
   parser.parse(str)
   parser
 end
@@ -61,6 +61,13 @@ describe "iterators" do
   end
 
   it "left_iterator" do
+    node = parser.nodes(:_text).to_a.last # text
+    res = node.left_iterator.map(&INSPECT_NODE).join
+    res.should eq "(Text)|div|span|br|(text)|a|(Bla)|td|td|tr|tbody|table|div|body|head|html|"
+  end
+
+  it "left_iterator with another tree_options" do
+    parser = parser(tree_options: Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_SKIP_WHITESPACE_TOKEN | Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_WITHOUT_DOCTYPE_IN_TREE)
     node = parser.nodes(:_text).to_a.last # text
     res = node.left_iterator.map(&INSPECT_NODE).join
     res.should eq "(Text)|div|span|br|(text)|a|(Bla)|td|td|tr|tbody|table|div|body|head|html|"
