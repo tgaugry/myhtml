@@ -10,4 +10,10 @@ describe Myhtml do
     parser.root!.child!.next!.tag_name.should eq "body"
     parser.root!.child!.next!.child!.tag_text.should eq "BLA"
   end
+
+  it "version" do
+    v = Myhtml.version_string
+    v.size.should be > 0
+  end
+
 end

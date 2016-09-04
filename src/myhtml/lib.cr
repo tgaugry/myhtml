@@ -10,6 +10,12 @@ module Myhtml
     type MyhtmlTagIndexNodeT = Void*
     alias MyhtmlTagIdT = MyhtmlTags
 
+    struct MyhtmlVersion
+      major : Int32
+      minor : Int32
+      patch : Int32
+    end
+
     fun create = myhtml_create : MyhtmlT*
     fun init = myhtml_init(myhtml : MyhtmlT*, opt : MyhtmlOptions, thread_count : LibC::SizeT, queue_size : LibC::SizeT) : MyhtmlStatus
 
@@ -22,6 +28,7 @@ module Myhtml
     fun parse = myhtml_parse(tree : MyhtmlTreeT*, encoding : MyhtmlEncodingList, html : UInt8*, html_size : LibC::SizeT) : MyhtmlStatus
 
     fun encoding_detect_and_cut_bom = myhtml_encoding_detect_and_cut_bom(text : UInt8*, length : LibC::SizeT, encoding : MyhtmlEncodingList*, new_text : UInt8**, new_size : LibC::SizeT*) : Bool
+    fun version = myhtml_version : MyhtmlVersion
 
     fun tree_get_document = myhtml_tree_get_document(tree : MyhtmlTreeT*) : MyhtmlTreeNodeT*
     fun tree_get_node_html = myhtml_tree_get_node_html(tree : MyhtmlTreeT*) : MyhtmlTreeNodeT*
