@@ -24,7 +24,7 @@ module Myhtml
           :{{ name.gsub(/MyHTML_TAG_/, "").downcase.id }}
       {% end %}
       else
-        raise Error.new("Unknown tag_id #{tag_id.inspect}")
+        :unknown
       end
     end
   end
