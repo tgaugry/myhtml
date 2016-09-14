@@ -15,5 +15,4 @@ describe Myhtml do
     v = Myhtml.version_string
     v.size.should be > 0
   end
-
 end
