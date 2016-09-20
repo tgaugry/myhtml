@@ -23,9 +23,9 @@ module Myhtml
 
     def free
       unless @finalized
+        @finalized = true
         Lib.tree_destroy(@raw_tree)
         Lib.destroy(@raw_myhtml)
-        @finalized = true
       end
     end
 
