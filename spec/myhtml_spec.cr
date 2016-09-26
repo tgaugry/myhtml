@@ -15,4 +15,11 @@ describe Myhtml do
     v = Myhtml.version_string
     v.size.should be > 0
   end
+
+  it "decode_html_entities" do
+    Myhtml.decode_html_entities("").should eq ""
+    Myhtml.decode_html_entities(" ").should eq " "
+    Myhtml.decode_html_entities("Chris").should eq "Chris"
+    Myhtml.decode_html_entities("Christoph Gärtner&ddd").should eq "Christoph Gärtner&ddd"
+  end
 end
