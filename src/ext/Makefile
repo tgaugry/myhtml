@@ -2,7 +2,9 @@
 package: ./myhtml-c/lib/static_libmyhtml.a
 
 ./myhtml-c:
-	git clone --depth 1 https://github.com/lexborisov/myhtml.git ./myhtml-c
+	# git clone --depth 1 https://github.com/lexborisov/myhtml.git ./myhtml-c
+	git clone https://github.com/kostya/myhtml-1.git ./myhtml-c
+	cd myhtml-c && git checkout data
 	# cd myhtml-c && git reset --hard 4849ceecc34b33ddd662f108cabc9d35cb08b261
 
 ./myhtml-c/lib/static_libmyhtml.a: ./myhtml-c

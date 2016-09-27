@@ -169,4 +169,13 @@ describe Myhtml::Node do
       )
     end
   end
+
+  it "get set data" do
+    parser = Myhtml::Parser.new
+    parser.parse("<body><object>bla</object></body>")
+    node = parser.root!.right_iterator.to_a[-2]
+    node.tag_name.should eq "object"
+    node.object?.should eq true
+    node.child!.object?.should eq false
+  end
 end
