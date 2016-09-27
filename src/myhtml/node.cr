@@ -150,5 +150,13 @@ module Myhtml
       attrs = attributes.any? ? " " + attributes.inspect : ""
       "<#{tag_name}#{attrs}>#{text}"
     end
+
+    def data=(d : Void*)
+      Lib.node_set_data(@node, d)
+    end
+
+    def data
+      Lib.node_get_data(@node)
+    end
   end
 end
