@@ -120,7 +120,11 @@ module Myhtml
     end
 
     def lastest_child
-      last_child.try(&.lastest_child) || self
+      result_node = self
+      while current_node = result_node.last_child
+        result_node = current_node
+      end
+      result_node
     end
 
     # left node to current
@@ -129,8 +133,10 @@ module Myhtml
     end
 
     protected def next_parent
-      if p = self.parent
-        p.next || p.next_parent
+      current_node = self
+      while current_node = current_node.parent
+        nxt = current_node.next
+        return nxt if nxt
       end
     end
 
