@@ -184,4 +184,12 @@ describe Myhtml::Node do
 
     parser.root!.data.null?.should eq true
   end
+
+  it "serialization" do
+    parser = Myhtml::Parser.new
+    parser.parse("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
+    node = parser.nodes(:div).first
+    node.serialize.should eq %Q[<div class="AAA" style="color:red">]
+    node.deep_serialize.should eq %Q[<div class="AAA" style="color:red">Haha <span>11</span></div>]
+  end
 end

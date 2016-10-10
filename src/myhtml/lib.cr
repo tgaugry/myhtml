@@ -9,11 +9,18 @@ module Myhtml
     type MyhtmlTagIndexT = Void*
     type MyhtmlTagIndexNodeT = Void*
     alias MyhtmlTagIdT = MyhtmlTags
+    type MyhtmlCallbackSerializeF = UInt8*, LibC::SizeT, Void* ->
 
     struct MyhtmlVersion
       major : Int32
       minor : Int32
       patch : Int32
+    end
+
+    struct MyhtmlStringRawT
+      data : UInt8*
+      size : LibC::SizeT
+      length : LibC::SizeT
     end
 
     fun create = myhtml_create : MyhtmlT*
@@ -61,5 +68,11 @@ module Myhtml
     fun tag_index_entry_count = myhtml_tag_index_entry_count(tag_index : MyhtmlTagIndexT*, tag_id : MyhtmlTagIdT) : LibC::SizeT
     fun tag_index_tree_node = myhtml_tag_index_tree_node(index_node : MyhtmlTagIndexNodeT*) : MyhtmlTreeNodeT*
     fun tag_index_next = myhtml_tag_index_next(index_node : MyhtmlTagIndexNodeT*) : MyhtmlTagIndexNodeT*
+
+    fun serialization = myhtml_serialization(tree : MyhtmlTreeT*, node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
+    fun serialization_node = myhtml_serialization_node(tree : MyhtmlTreeT*, node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
+
+    fun string_raw_clean_all = myhtml_string_raw_clean_all(str_raw : MyhtmlStringRawT*)
+    fun string_raw_destroy = myhtml_string_raw_destroy(str_raw : MyhtmlStringRawT*, destroy_obj : Bool) : MyhtmlStringRawT*
   end
 end
