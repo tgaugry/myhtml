@@ -23,6 +23,12 @@ module Myhtml
       length : LibC::SizeT
     end
 
+    struct MyhtmlCollectionT
+      list : MyhtmlTreeNodeT**
+      size : LibC::SizeT
+      length : LibC::SizeT
+    end
+
     fun create = myhtml_create : MyhtmlT*
     fun init = myhtml_init(myhtml : MyhtmlT*, opt : MyhtmlOptions, thread_count : LibC::SizeT, queue_size : LibC::SizeT) : MyhtmlStatus
 
@@ -74,5 +80,10 @@ module Myhtml
 
     fun string_raw_clean_all = myhtml_string_raw_clean_all(str_raw : MyhtmlStringRawT*)
     fun string_raw_destroy = myhtml_string_raw_destroy(str_raw : MyhtmlStringRawT*, destroy_obj : Bool) : MyhtmlStringRawT*
+
+    fun get_nodes_by_attribute_value = myhtml_get_nodes_by_attribute_value(tree : MyhtmlTreeT*,
+                                                                           collection : MyhtmlCollectionT*, node : MyhtmlTreeNodeT*, case_insensitive : Bool, key : UInt8*, key_len : LibC::SizeT,
+                                                                           value : UInt8*, value_len : LibC::SizeT, status : MyhtmlStatus*) : MyhtmlCollectionT*
+    fun collection_destroy = myhtml_collection_destroy(collection : MyhtmlCollectionT*) : MyhtmlCollectionT*
   end
 end

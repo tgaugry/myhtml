@@ -154,4 +154,26 @@ module Myhtml
       count
     end
   end
+
+  class CollectionIterator
+    include Iterator(Node)
+
+    def initialize(@tree : Tree, @collection : Lib::MyhtmlCollectionT*)
+      @id = 0
+    end
+
+    def next
+      if @id < @collection.value.length
+        node = @collection.value.list[@id]
+        @id += 1
+        Node.new(@tree, node)
+      else
+        stop
+      end
+    end
+
+    def finalize
+      Lib.collection_destroy(@collection)
+    end
+  end
 end

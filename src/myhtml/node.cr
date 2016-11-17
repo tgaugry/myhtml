@@ -171,6 +171,11 @@ module Myhtml
       Lib.node_get_data(@node)
     end
 
+    def nodes_by_attribute(key : String, value : String)
+      col = Lib.get_nodes_by_attribute_value(@tree.raw_tree, nil, @node, false, key.to_unsafe, key.bytesize, value.to_unsafe, value.bytesize, out status)
+      CollectionIterator.new(@tree, col)
+    end
+
     def deep_serialize
       str = Lib::MyhtmlStringRawT.new
       Lib.string_raw_clean_all(pointerof(str))
