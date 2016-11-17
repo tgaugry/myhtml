@@ -193,11 +193,23 @@ describe Myhtml::Node do
     node.deep_serialize.should eq %Q[<div class="AAA" style="color:red">Haha <span>11</span></div>]
   end
 
-  it "find nodes by attribute" do
-    parser = Myhtml::Parser.new
-    parser.parse(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
-    nodes = parser.root!.nodes_by_attribute("class", "AAA").to_a
-    nodes.map(&.tag_sym).should eq [:div, :a]
-    nodes.last.attribute_by("href").should eq "#"
+  context "find nodes by attribute" do
+    it "find nodes by attribute" do
+      parser = Myhtml::Parser.new
+      parser.parse(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
+      nodes = parser.root!.nodes_by_attribute("class", "AAA").to_a
+      nodes.map(&.tag_sym).should eq [:div, :a]
+      nodes.last.attribute_by("href").should eq "#"
+    end
+
+    it "find nodes by attribute from scope node" do
+      parser = Myhtml::Parser.new
+      parser.parse(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
+      node = parser.nodes(:span).first
+
+      nodes = node.nodes_by_attribute("class", "AAA").to_a
+      nodes.map(&.tag_sym).should eq [:a]
+      nodes.last.attribute_by("href").should eq "#"
+    end
   end
 end

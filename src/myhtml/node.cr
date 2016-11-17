@@ -171,8 +171,13 @@ module Myhtml
       Lib.node_get_data(@node)
     end
 
-    def nodes_by_attribute(key : String, value : String)
-      col = Lib.get_nodes_by_attribute_value(@tree.raw_tree, nil, @node, false, key.to_unsafe, key.bytesize, value.to_unsafe, value.bytesize, out status)
+    def nodes_by_attribute(key : String, value : String, case_sensitive = false)
+      col = Lib.get_nodes_by_attribute_value(@tree.raw_tree, nil, @node, case_sensitive, key.to_unsafe, key.bytesize, value.to_unsafe, value.bytesize, out status)
+      if status != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+        Lib.collection_destroy(col)
+        raise Error.new("nodes_by_attribute error #{status}, for `#{key}`, `#{value}`")
+      end
+
       CollectionIterator.new(@tree, col)
     end
 
