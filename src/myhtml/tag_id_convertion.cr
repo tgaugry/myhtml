@@ -30,4 +30,20 @@ module Myhtml
   end
 
   gen_symbol_by_tag_id
+
+  @@tags_string_sym_map : Hash(String, Symbol)?
+
+  def self.tags_string_sym_map
+    @@tags_string_sym_map ||= begin
+      h = Hash(String, Symbol).new
+      {% for name in Lib::MyhtmlTags.constants.map(&.gsub(/MyHTML_TAG_/, "").downcase) %}
+        h["{{ name.id }}"] = :{{ name.id }}
+      {% end %}
+      h
+    end
+  end
+
+  def self.tag_symbol_by_string(str : String)
+    tags_string_sym_map.fetch(str) { raise Error.new("Unknown tag #{str.inspect}") }
+  end
 end
