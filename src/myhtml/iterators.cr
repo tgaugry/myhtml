@@ -9,6 +9,10 @@ module Myhtml
     def nodes(tag_sym : Symbol)
       nodes(Myhtml.tag_id_by_symbol(tag_sym))
     end
+
+    def nodes(tag_str : String)
+      nodes(Myhtml.symbol_by_string!(tag_str))
+    end
   end
 
   struct RightIterator
