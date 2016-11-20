@@ -76,7 +76,7 @@ module Myhtml
     end
   end
 
-  struct DeepChildrenIterator
+  struct ScopeIterator
     include Iterator(Node)
     include TagsIterator
 

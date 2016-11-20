@@ -104,8 +104,8 @@ module Myhtml
       ChildrenIterator.new(self)
     end
 
-    def deep_children
-      DeepChildrenIterator.new(self)
+    def scope
+      ScopeIterator.new(self)
     end
 
     def walk_tree(level = 0, &block : Node, Int32 ->)
