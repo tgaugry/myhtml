@@ -9,6 +9,7 @@ describe Myhtml::Node do
 
     parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).count.should eq 2
     parser.nodes(:div).count.should eq 2
+    parser.nodes("div").count.should eq 2
     nodes = parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).to_a
     nodes.size.should eq 2
 
@@ -55,6 +56,7 @@ describe Myhtml::Node do
     parser.parse(str)
     parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A).size.should eq 1
     parser.nodes(:a).size.should eq 1
+    parser.nodes("a").size.should eq 1
   end
 
   it "parse html with bom" do
@@ -81,5 +83,11 @@ describe Myhtml::Node do
         </body></html>")
       parser.free
     end
+  end
+
+  it "raise when non supported tag name is given by String" do
+    parser = Myhtml::Parser.new
+    parser.parse("<html></html>")
+    expect_raises(Myhtml::Error, /Unknown tag "xxx"/) { parser.nodes("xxx") }
   end
 end
