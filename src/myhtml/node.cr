@@ -16,6 +16,10 @@ module Myhtml
     def initialize(@tree : Tree, @node : Lib::MyhtmlTreeNodeT*)
     end
 
+    def raw_node
+      @node
+    end
+
     {% for name in %w(child next parent prev last_child) %}
       def {{name.id}}
         Node.from_raw(@tree, Lib.node_{{name.id}}(@node))
