@@ -1,5 +1,7 @@
 module Myhtml
   struct Parser
+    getter tree
+
     def initialize(tree_options = nil)
       options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE
       threads_count = 1
