@@ -159,7 +159,7 @@ module Myhtml
     end
   end
 
-  class CollectionIterator
+  struct CollectionIterator
     include Iterator(Node)
 
     def initialize(@tree : Tree, @collection : Lib::MyhtmlCollectionT*)
@@ -178,6 +178,10 @@ module Myhtml
 
     def finalize
       Lib.collection_destroy(@collection)
+    end
+
+    def rewind
+      @id = 0
     end
   end
 end
