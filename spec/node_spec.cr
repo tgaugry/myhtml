@@ -211,5 +211,12 @@ describe Myhtml::Node do
       nodes.map(&.tag_sym).should eq [:a]
       nodes.last.attribute_by("href").should eq "#"
     end
+
+    it "nodes for empty collection, should not segfault" do
+      parser = Myhtml::Parser.new
+      parser.parse(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
+      nodes = parser.root!.nodes_by_attribute("class", "safsadfsd").to_a
+      nodes.map(&.tag_sym).to_a.empty?.should eq true
+    end
   end
 end
