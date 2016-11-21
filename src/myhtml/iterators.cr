@@ -162,13 +162,23 @@ module Myhtml
   struct CollectionIterator
     include Iterator(Node)
 
+    @length : LibC::SizeT
+    @list : Lib::MyhtmlTreeNodeT**
+
     def initialize(@tree : Tree, @collection : Lib::MyhtmlCollectionT*)
       @id = 0
+      unless @collection.null?
+        @length = @collection.value.length
+        @list = @collection.value.list
+      else
+        @length = LibC::SizeT.new(0)
+        @list = Pointer(Lib::MyhtmlTreeNodeT*).new(0)
+      end
     end
 
     def next
-      if @id < @collection.value.length
-        node = @collection.value.list[@id]
+      if @id < @length
+        node = @list[@id]
         @id += 1
         Node.new(@tree, node)
       else
