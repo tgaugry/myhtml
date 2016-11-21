@@ -67,3 +67,6 @@ html{}()
 
 [examples](https://github.com/kostya/myhtml/tree/master/examples)
 
+## CSS Selectors with shard modest
+
+[modest](https://github.com/kostya/modest)
