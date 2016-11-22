@@ -5,7 +5,7 @@ authors:
   - Konstantin Makarchev <kostya27@gmail.com>
 
 scripts:
-  postinstall: cd ext && make package
+  postinstall: cd src/ext && make package
 
 development_dependencies:
   blank:
