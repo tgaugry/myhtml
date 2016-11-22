@@ -164,12 +164,13 @@ module Myhtml
 
     @length : LibC::SizeT
     @list : Lib::MyhtmlTreeNodeT**
+    getter raw_collection
 
-    def initialize(@tree : Tree, @collection : Lib::MyhtmlCollectionT*)
+    def initialize(@tree : Tree, @raw_collection : Lib::MyhtmlCollectionT*)
       @id = 0
-      unless @collection.null?
-        @length = @collection.value.length
-        @list = @collection.value.list
+      unless @raw_collection.null?
+        @length = @raw_collection.value.length
+        @list = @raw_collection.value.list
       else
         @length = LibC::SizeT.new(0)
         @list = Pointer(Lib::MyhtmlTreeNodeT*).new(0)
@@ -187,7 +188,7 @@ module Myhtml
     end
 
     def finalize
-      Lib.collection_destroy(@collection)
+      Lib.collection_destroy(@raw_collection)
     end
 
     def rewind
