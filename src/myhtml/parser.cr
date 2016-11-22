@@ -2,11 +2,15 @@ module Myhtml
   struct Parser
     getter tree
 
-    def initialize(tree_options = nil)
+    def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil)
       options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE
       threads_count = 1
       queue_size = 0
       @tree = Tree.new(options, threads_count, queue_size, tree_options = nil)
+    end
+
+    def self.new(page : String, tree_options : Lib::MyhtmlTreeParseFlags? = nil)
+      self.new(tree_options).parse(page)
     end
 
     def parse(string, encoding = Lib::MyhtmlEncodingList::MyHTML_ENCODING_UTF_8)

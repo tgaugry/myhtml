@@ -2,7 +2,7 @@ module Myhtml
   class Tree
     getter raw_myhtml, raw_tree
 
-    def initialize(options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE, threads_count = 1, queue_size = 0, tree_options = nil)
+    def initialize(options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE, threads_count = 1, queue_size = 0, tree_options : Lib::MyhtmlTreeParseFlags? = nil)
       @raw_myhtml = Lib.create
       res = Lib.init(@raw_myhtml, options, threads_count, queue_size)
       if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK

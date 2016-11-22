@@ -2,8 +2,7 @@ require "./spec_helper"
 
 describe Myhtml do
   it "parser work" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html>BLA</html>")
+    parser = Myhtml::Parser.new("<html>BLA</html>")
 
     parser.root!.tag_name.should eq "html"
     parser.root!.child!.tag_name.should eq "head"

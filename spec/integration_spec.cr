@@ -64,8 +64,7 @@ def parser_links
     </html>
   HTML
 
-  parser = Myhtml::Parser.new
-  parser.parse(str)
+  parser = Myhtml::Parser.new(str)
 end
 
 describe "integration" do

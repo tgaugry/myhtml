@@ -40,8 +40,7 @@ def words(parser)
     .map(&.strip.gsub(/\s{2,}/, " "))    # remove extra spaces
 end
 
-parser = Myhtml::Parser.new
-parser.parse(str)
+parser = Myhtml::Parser.new(str)
 puts words(parser).join(" | ")
 
 # Output:

@@ -21,8 +21,7 @@ def parser(**args)
     </html>
   HTML
 
-  parser = Myhtml::Parser.new(**args)
-  parser.parse(str)
+  parser = Myhtml::Parser.new(str, **args)
   parser
 end
 

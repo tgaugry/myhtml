@@ -21,6 +21,7 @@ module Myhtml
     end
 
     getter tree
+
     def raw_tree
       @tree.raw_tree
     end

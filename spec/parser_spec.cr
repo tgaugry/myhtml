@@ -2,8 +2,7 @@ require "./spec_helper"
 
 describe Myhtml::Node do
   it "select_tags" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div>
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div>
       <div>blah</div>
       </body></html>")
 
@@ -22,8 +21,7 @@ describe Myhtml::Node do
   end
 
   it "each_tag" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div>
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div>
       <div>blah</div>
       </body></html>")
 
@@ -52,8 +50,7 @@ describe Myhtml::Node do
       </body></html>
     HTML
 
-    parser = Myhtml::Parser.new
-    parser.parse(str)
+    parser = Myhtml::Parser.new(str)
     parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A).size.should eq 1
     parser.nodes(:a).size.should eq 1
     parser.nodes("a").size.should eq 1
@@ -67,8 +64,7 @@ describe Myhtml::Node do
     str = String.new(slice)
     str += "<html><head><title>1</title></head></html>"
 
-    parser = Myhtml::Parser.new
-    parser.parse(str)
+    parser = Myhtml::Parser.new(str)
 
     title = parser.head!.child!
     title.tag_name.should eq "title"
@@ -77,8 +73,7 @@ describe Myhtml::Node do
 
   it "manually call free, to save memory" do
     10000.times do
-      parser = Myhtml::Parser.new
-      parser.parse("<html><body><div class=AAA style='color:red'>Haha</div>
+      parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div>
         <div>blah</div>
         </body></html>")
       parser.free
@@ -86,8 +81,7 @@ describe Myhtml::Node do
   end
 
   it "raise when non supported tag name is given by String" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html></html>")
+    parser = Myhtml::Parser.new("<html></html>")
     expect_raises(Myhtml::Error, /Unknown tag "xxx"/) { parser.nodes("xxx") }
   end
 end

@@ -47,8 +47,7 @@ str = if filename = ARGV[0]?
         "<html><Div><span class='test'>HTML</span></div></html>"
       end
 
-parser = Myhtml::Parser.new
-parser.parse(str)
+parser = Myhtml::Parser.new(str)
 walk(parser.root!)
 ```
 

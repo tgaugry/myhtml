@@ -2,8 +2,7 @@ require "./spec_helper"
 
 describe Myhtml::Node do
   it "node from root" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div></body></html>")
 
     node = parser.root!.child!.next!.child!
     node.tag_name.should eq "div"
@@ -16,15 +15,13 @@ describe Myhtml::Node do
   end
 
   it "raise error when no node" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Hahasdfjasdfladshfasldkfhadsfkdashfaklsjdfhalsdfdsafsda</div></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Hahasdfjasdfladshfasldkfhadsfkdashfaklsjdfhalsdfdsafsda</div></body></html>")
     node = parser.root!.child!.next!.child!.child!
     expect_raises(Myhtml::Error, /Empty node/) { node.child! }
   end
 
   it "attributes" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div></body></html>")
 
     node = parser.root!.child!.next!.child!
     node.attributes.should eq({"class" => "AAA", "style" => "color:red"})
@@ -32,8 +29,7 @@ describe Myhtml::Node do
   end
 
   it "ignore case attributes" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div Class=AAA STYLE='color:red'>Haha</div></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div Class=AAA STYLE='color:red'>Haha</div></body></html>")
 
     node = parser.root!.child!.next!.child!
     node.attributes.should eq({"class" => "AAA", "style" => "color:red"})
@@ -41,8 +37,7 @@ describe Myhtml::Node do
   end
 
   it "children" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
 
     node = parser.root!.child!.next!
     node1, node2 = node.children.to_a
@@ -51,8 +46,7 @@ describe Myhtml::Node do
   end
 
   it "each_child" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
 
     node = parser.root!.child!.next!
     nodes = [] of Myhtml::Node
@@ -63,8 +57,7 @@ describe Myhtml::Node do
   end
 
   it "each_child iterator" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
 
     node = parser.root!.child!.next!
     node1, node2 = node.children.to_a
@@ -73,8 +66,7 @@ describe Myhtml::Node do
   end
 
   it "parents" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
 
     node = parser.root!.right_iterator.to_a.last
     parents = node.parents.to_a
@@ -85,8 +77,7 @@ describe Myhtml::Node do
   end
 
   it "each_parent" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
 
     node = parser.root!.right_iterator.to_a.last
     parents = [] of Myhtml::Node
@@ -98,8 +89,7 @@ describe Myhtml::Node do
   end
 
   it "each_parent iterator" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div><span></span></body></html>")
 
     node = parser.root!.right_iterator.to_a.last
     parents = node.parents.to_a
@@ -110,22 +100,19 @@ describe Myhtml::Node do
   end
 
   it "visible?" do
-    parser = Myhtml::Parser.new
-    parser.parse("<body><style>bla</style></body>")
+    parser = Myhtml::Parser.new("<body><style>bla</style></body>")
     node = parser.root!.right_iterator.to_a[-2]
     node.tag_name.should eq "style"
     node.visible?.should eq false
 
-    parser = Myhtml::Parser.new
-    parser.parse("<body><div>bla</div></body>")
+    parser = Myhtml::Parser.new("<body><div>bla</div></body>")
     node = parser.root!.right_iterator.to_a[-2]
     node.tag_name.should eq "div"
     node.visible?.should eq true
   end
 
   it "object?" do
-    parser = Myhtml::Parser.new
-    parser.parse("<body><object>bla</object></body>")
+    parser = Myhtml::Parser.new("<body><object>bla</object></body>")
     node = parser.root!.right_iterator.to_a[-2]
     node.tag_name.should eq "object"
     node.object?.should eq true
@@ -133,8 +120,7 @@ describe Myhtml::Node do
   end
 
   it "is_tag_div?" do
-    parser = Myhtml::Parser.new
-    parser.parse("<div>1</div>")
+    parser = Myhtml::Parser.new("<div>1</div>")
     noindex = parser.root!.right_iterator.to_a[-2]
     noindex.tag_name.should eq "div"
     noindex.is_tag_div?.should eq true
@@ -142,15 +128,13 @@ describe Myhtml::Node do
   end
 
   it "is_tag_noindex?" do
-    parser = Myhtml::Parser.new
-    parser.parse("<noindex>1</noindex>")
+    parser = Myhtml::Parser.new("<noindex>1</noindex>")
     noindex = parser.root!.right_iterator.to_a[-2]
     noindex.tag_name.should eq "noindex"
     noindex.is_tag_noindex?.should eq true
     noindex.child!.is_tag_noindex?.should eq false
 
-    parser = Myhtml::Parser.new
-    parser.parse("<NOINDEX>1</NOINDEX>")
+    parser = Myhtml::Parser.new("<NOINDEX>1</NOINDEX>")
     noindex = parser.root!.right_iterator.to_a[-2]
     noindex.tag_name.should eq "noindex"
     noindex.is_tag_noindex?.should eq true
@@ -161,8 +145,7 @@ describe Myhtml::Node do
     html_string = "<html><body><div id='first'>Haha</div><div id='second'>Hehe</div><div id='third'>Hoho</div></body></html>"
     id_array = %w(first second third)
     (0..2).each do |i|
-      parser = Myhtml::Parser.new
-      parser.parse html_string
+      parser = Myhtml::Parser.new html_string
       parser.root!.child!.next!.children.to_a.at(i).remove!
       parser.root!.child!.next!.children.to_a.map(&.attribute_by("id")).should(
         eq id_array.dup.tap(&.delete_at(i))
@@ -171,8 +154,7 @@ describe Myhtml::Node do
   end
 
   it "get set data" do
-    parser = Myhtml::Parser.new
-    parser.parse("<body><object>bla</object></body>")
+    parser = Myhtml::Parser.new("<body><object>bla</object></body>")
     node = parser.body!
 
     str = "bla"
@@ -186,8 +168,7 @@ describe Myhtml::Node do
   end
 
   it "serialization" do
-    parser = Myhtml::Parser.new
-    parser.parse("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
     node = parser.nodes(:div).first
     node.serialize.should eq %Q[<div class="AAA" style="color:red">]
     node.deep_serialize.should eq %Q[<div class="AAA" style="color:red">Haha <span>11</span></div>]
@@ -195,16 +176,14 @@ describe Myhtml::Node do
 
   context "find nodes by attribute" do
     it "find nodes by attribute" do
-      parser = Myhtml::Parser.new
-      parser.parse(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
+      parser = Myhtml::Parser.new(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
       nodes = parser.root!.nodes_by_attribute("class", "AAA").to_a
       nodes.map(&.tag_sym).should eq [:div, :a]
       nodes.last.attribute_by("href").should eq "#"
     end
 
     it "find nodes by attribute from scope node" do
-      parser = Myhtml::Parser.new
-      parser.parse(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
+      parser = Myhtml::Parser.new(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
       node = parser.nodes(:span).first
 
       nodes = node.nodes_by_attribute("class", "AAA").to_a
@@ -213,8 +192,7 @@ describe Myhtml::Node do
     end
 
     it "nodes for empty collection, should not segfault" do
-      parser = Myhtml::Parser.new
-      parser.parse(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
+      parser = Myhtml::Parser.new(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
       nodes = parser.root!.nodes_by_attribute("class", "safsadfsd").to_a
       nodes.map(&.tag_sym).to_a.empty?.should eq true
     end
