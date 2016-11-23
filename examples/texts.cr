@@ -1,7 +1,6 @@
 # Example: extract only texts from html
 
 require "../src/myhtml"
-require "blank"
 
 str = if filename = ARGV[0]?
         File.read(filename, "UTF-8", invalid: :skip)
