@@ -159,7 +159,7 @@ module Myhtml
     end
   end
 
-  struct CollectionIterator
+  class CollectionIterator
     include Iterator(Node)
 
     @length : LibC::SizeT
