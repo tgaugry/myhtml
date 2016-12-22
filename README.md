@@ -74,7 +74,7 @@ html{}()
 
 ## Benchmark
 
-Comparing with ruby-nokorigi(libxml), and crystal-crystagiri(libxml). Parse 1000 times google page, code: https://github.com/kostya/modest/tree/master/bench
+Comparing with nokorigi(libxml), and crystagiri(libxml). Parse 1000 times google page, code: https://github.com/kostya/modest/tree/master/bench
 
 ```crystal
 require "modest"
@@ -91,9 +91,18 @@ p links.last
 p s
 ```
 
+Parse + Selectors
 
 | Lang     |  Package           | Time, s | Memory, MiB |
 | -------- | ------------------ | ------- | ----------- |
-| Crystal  | modest(myhtml)     | 2.62    | 9.8         |
-| Crystal  | Crystagiri(LibXML) | 19.89   | 11.5        |
-| Ruby 2.2 | Nokogiri(LibXML)   | 45.82   | 136.2       |
+| Crystal  | modest(myhtml)     | 2.52    | 7.7         |
+| Crystal  | Crystagiri(LibXML) | 19.89   | 14.3        |
+| Ruby 2.2 | Nokogiri(LibXML)   | 45.05   | 136.2       |
+
+Selectors Only (files with suffix 2)
+
+| Lang     |  Package           | Time, s | Memory, MiB |
+| -------- | ------------------ | ------- | ----------- |
+| Crystal  | modest(myhtml)     | 0.18    | 4.6         |
+| Crystal  | Crystagiri(LibXML) | 12.30   | 6.6         |
+| Ruby 2.2 | Nokogiri(LibXML)   | 28.06   | 68.8        |
