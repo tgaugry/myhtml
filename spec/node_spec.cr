@@ -197,4 +197,12 @@ describe Myhtml::Node do
       nodes.map(&.tag_sym).to_a.empty?.should eq true
     end
   end
+
+  context "inner_text" do
+    it "work" do
+      parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha<span>11</span>bla</div></body></html>")
+      parser.nodes(:div).first.inner_text.should eq "Haha bla"
+      parser.nodes(:span).first.inner_text.should eq "11"
+    end
+  end
 end

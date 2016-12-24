@@ -214,5 +214,9 @@ module Myhtml
         raise Error.new("Unknown problem with serialization")
       end
     end
+
+    def inner_text
+      self.children.nodes(:_text).map { |node| node.tag_text }.join(' ')
+    end
   end
 end
