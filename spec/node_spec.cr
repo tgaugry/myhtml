@@ -167,11 +167,11 @@ describe Myhtml::Node do
     parser.root!.data.null?.should eq true
   end
 
-  it "serialization" do
+  it "to_html" do
     parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
     node = parser.nodes(:div).first
-    node.serialize.should eq %Q[<div class="AAA" style="color:red">]
-    node.deep_serialize.should eq %Q[<div class="AAA" style="color:red">Haha <span>11</span></div>]
+    # node.serialize.should eq %Q[<div class="AAA" style="color:red">]
+    node.to_html.should eq %Q[<div class="AAA" style="color:red">Haha <span>11</span></div>]
   end
 
   context "find nodes by attribute" do
