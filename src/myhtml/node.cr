@@ -222,7 +222,7 @@ module Myhtml
                    self.children
                  end
 
-      iterator.nodes(:_text).map { |node| node.tag_text }.join(' ')
+      iterator.nodes(:_text).map { |node| node.tag_text.strip }.join(' ').strip
     end
   end
 end
