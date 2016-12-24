@@ -215,8 +215,14 @@ module Myhtml
     #   end
     # end
 
-    def inner_text
-      self.children.nodes(:_text).map { |node| node.tag_text }.join(' ')
+    def inner_text(deep = true)
+      iterator = if deep
+                   self.scope
+                 else
+                   self.children
+                 end
+
+      iterator.nodes(:_text).map { |node| node.tag_text }.join(' ')
     end
   end
 end
