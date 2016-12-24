@@ -215,14 +215,14 @@ module Myhtml
     #   end
     # end
 
-    def inner_text(deep = true)
+    def inner_text(join_with = nil, deep = true)
       iterator = if deep
                    self.scope
                  else
                    self.children
                  end
 
-      iterator.nodes(:_text).map { |node| node.tag_text.strip }.join(' ').strip
+      iterator.nodes(:_text).map { |node| node.tag_text }.join(join_with).strip
     end
   end
 end
