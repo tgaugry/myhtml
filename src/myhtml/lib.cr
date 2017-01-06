@@ -69,12 +69,6 @@ module Myhtml
     fun attribute_value = myhtml_attribute_value(attr : MyhtmlTreeAttrT*, length : LibC::SizeT*) : UInt8*
     fun attribute_next = myhtml_attribute_next(attr : MyhtmlTreeAttrT*) : MyhtmlTreeAttrT*
 
-    fun tree_get_tag_index = myhtml_tree_get_tag_index(tree : MyhtmlTreeT*) : MyhtmlTagIndexT*
-    fun tag_index_first = myhtml_tag_index_first(tag_index : MyhtmlTagIndexT*, tag_id : MyhtmlTagIdT) : MyhtmlTagIndexNodeT*
-    fun tag_index_entry_count = myhtml_tag_index_entry_count(tag_index : MyhtmlTagIndexT*, tag_id : MyhtmlTagIdT) : LibC::SizeT
-    fun tag_index_tree_node = myhtml_tag_index_tree_node(index_node : MyhtmlTagIndexNodeT*) : MyhtmlTreeNodeT*
-    fun tag_index_next = myhtml_tag_index_next(index_node : MyhtmlTagIndexNodeT*) : MyhtmlTagIndexNodeT*
-
     fun serialization = myhtml_serialization(tree : MyhtmlTreeT*, node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
     fun serialization_node = myhtml_serialization_node(tree : MyhtmlTreeT*, node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
 
@@ -84,6 +78,11 @@ module Myhtml
     fun get_nodes_by_attribute_value = myhtml_get_nodes_by_attribute_value(tree : MyhtmlTreeT*,
                                                                            collection : MyhtmlCollectionT*, node : MyhtmlTreeNodeT*, case_insensitive : Bool, key : UInt8*, key_len : LibC::SizeT,
                                                                            value : UInt8*, value_len : LibC::SizeT, status : MyhtmlStatus*) : MyhtmlCollectionT*
+
+    fun get_nodes_by_tag_id = myhtml_get_nodes_by_tag_id(tree : MyhtmlTreeT*,
+                                                         collection : MyhtmlCollectionT*, tag_id : MyhtmlTagIdT,
+                                                         status : MyhtmlStatus*) : MyhtmlCollectionT*
+
     fun collection_destroy = myhtml_collection_destroy(collection : MyhtmlCollectionT*) : MyhtmlCollectionT*
   end
 end

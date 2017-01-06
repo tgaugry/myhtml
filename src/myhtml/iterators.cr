@@ -124,41 +124,6 @@ module Myhtml
     end
   end
 
-  struct EachTagIterator
-    include Iterator(Node)
-
-    def initialize(@tree : Tree, @tag_id : Lib::MyhtmlTags)
-      @tag_index = Pointer(Lib::MyhtmlTagIndexT).null
-      @index_node = Pointer(Lib::MyhtmlTagIndexNodeT).null
-      rewind
-    end
-
-    def next
-      return stop if @index_node.null?
-
-      node = Lib.tag_index_tree_node(@index_node)
-      if node.null?
-        stop
-      else
-        @index_node = Lib.tag_index_next(@index_node)
-        Node.new(@tree, node)
-      end
-    end
-
-    def rewind
-      @tag_index = Lib.tree_get_tag_index(@tree.raw_tree)
-      @index_node = Lib.tag_index_first(@tag_index, @tag_id)
-    end
-
-    def count
-      Lib.tag_index_entry_count(@tag_index, @tag_id)
-    end
-
-    def size
-      count
-    end
-  end
-
   class CollectionIterator
     include Iterator(Node)
 
@@ -185,6 +150,10 @@ module Myhtml
       else
         stop
       end
+    end
+
+    def size
+      @length
     end
 
     def finalize

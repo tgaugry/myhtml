@@ -3,7 +3,7 @@ CRYSTALFLAGS ?= --release
 
 .PHONY: all package spec
 all: bin_index bin_walk_tree bin_links bin_texts
-package: src/ext/myhtml-c/lib/static_libmyhtml.a
+package: src/ext/myhtml-c/lib/libmyhtml_static.a
 
 bin_index: src/*.cr src/**/*.cr examples/index.cr package
 	$(CRYSTAL) build examples/index.cr $(CRYSTALFLAGS) -o $@
@@ -17,7 +17,7 @@ bin_links: src/*.cr src/**/*.cr examples/links.cr package
 bin_texts: src/*.cr src/**/*.cr examples/texts.cr package
 	$(CRYSTAL) build examples/texts.cr $(CRYSTALFLAGS) -o $@
 
-src/ext/myhtml-c/lib/static_libmyhtml.a:
+src/ext/myhtml-c/lib/libmyhtml_static.a:
 	cd src/ext && make package
 
 spec:
@@ -25,4 +25,4 @@ spec:
 
 .PHONY: clean
 clean:
-	rm -f bin_* src/ext/myhtml-c/lib/static_libmyhtml.a
+	rm -f bin_* src/ext/myhtml-c/lib/libmyhtml_static.a
