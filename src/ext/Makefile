@@ -13,7 +13,7 @@ package: ./myhtml-c/lib/libmyhtml_static.a
 	# rm $(FILENAME)
 
 ./myhtml-c/lib/libmyhtml_static.a: ./myhtml-c
-	cd myhtml-c && make MyHTML_BUILD_SHARED=OFF MyHTML_BUILD_WITHOUT_THREADS=YES MyHTML_OPTIMIZATION_LEVEL=-O3
+	cd myhtml-c && make lib MyHTML_BUILD_SHARED=OFF MyHTML_BUILD_WITHOUT_THREADS=YES MyHTML_OPTIMIZATION_LEVEL=-O3
 
 .PHONY: clean
 clean:
