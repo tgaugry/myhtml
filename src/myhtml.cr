@@ -1,5 +1,5 @@
 module Myhtml
-  VERSION = "0.14"
+  VERSION = "0.15"
 
   class Error < Exception
   end
