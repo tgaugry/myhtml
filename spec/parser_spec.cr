@@ -84,4 +84,15 @@ describe Myhtml::Node do
     parser = Myhtml::Parser.new("<html></html>")
     expect_raises(Myhtml::Error, /Unknown tag "xxx"/) { parser.nodes("xxx") }
   end
+
+  it "not sigfaulting on more than 1024 elements" do
+    str = "<html>" + "<div class=A>ooo</div>" * 2000 + "</html>"
+    parser = Myhtml::Parser.new(str)
+
+    c = 0
+    parser.nodes(:div).each do |node|
+      c += 1 if node.attribute_by("class")
+    end
+    c.should eq 2000
+  end
 end
