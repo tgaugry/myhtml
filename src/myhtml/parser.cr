@@ -39,12 +39,7 @@ module Myhtml
     {% end %}
 
     def nodes(tag_id : Myhtml::Lib::MyhtmlTags)
-      col = Lib.get_nodes_by_tag_id(@tree.raw_tree, nil, tag_id, out status)
-      if status != Lib::MyhtmlStatus::MyHTML_STATUS_OK
-        Lib.collection_destroy(col)
-        raise Error.new("get_nodes_by_tag_id error #{status}, for `#{tag_id}`")
-      end
-      CollectionIterator.new(@tree, col)
+      CollectionIterator.new(@tree, Lib.get_nodes_by_tag_id(@tree.raw_tree, nil, tag_id, out status))
     end
 
     def nodes(tag_sym : Symbol)

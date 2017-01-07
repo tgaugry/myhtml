@@ -6,9 +6,9 @@ describe Myhtml::Node do
       <div>blah</div>
       </body></html>")
 
-    parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).to_a.size.should eq 2
-    parser.nodes(:div).to_a.size.should eq 2
-    parser.nodes("div").to_a.size.should eq 2
+    parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).size.should eq 2
+    parser.nodes(:div).size.should eq 2
+    parser.nodes("div").size.should eq 2
     nodes = parser.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).to_a
     nodes.size.should eq 2
 
