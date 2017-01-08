@@ -26,3 +26,4 @@ spec:
 .PHONY: clean
 clean:
 	rm -f bin_* src/ext/myhtml-c/lib/libmyhtml_static.a
+	rm -rf ./src/ext/myhtml-c
