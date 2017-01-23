@@ -215,8 +215,13 @@ module Myhtml
     #   end
     # end
 
-    def inner_text(join_with = nil, deep = true)
-      (deep ? scope : children).nodes(:_text).map(&.tag_text).join(join_with).strip
+    def inner_text(join_with : String | Char | Nil = nil, deep = true)
+      String.build do |buf|
+        (deep ? scope : children).nodes(:_text).each_with_index do |node, i|
+          buf << join_with if join_with && i != 0
+          buf << node.tag_text.strip
+        end
+      end
     end
   end
 end
