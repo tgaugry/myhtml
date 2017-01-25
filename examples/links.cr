@@ -36,7 +36,7 @@ def good_texts_iterator(iterator)
 end
 
 Myhtml::Parser.new(str).nodes(:a).each do |node|
-  anchor = good_texts_iterator(node.children).join(" ")
+  anchor = node.inner_text(deep: true)
   href = node.attribute_by("href")
   before = good_texts_iterator(node.left_iterator).first?
   after = good_texts_iterator((node.child || node).right_iterator).first?
