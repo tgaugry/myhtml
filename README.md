@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/kostya/myhtml.svg?branch=master)](http://travis-ci.org/kostya/myhtml)
 
-Crystal wrapper for HTML5 Parser https://github.com/lexborisov/myhtml
+Fast HTML5 Parser (Crystal wrapper for https://github.com/lexborisov/myhtml)
 
 ## Installation
 
@@ -13,7 +13,6 @@ Add this to your application's `shard.yml`:
 dependencies:
   myhtml:
     github: kostya/myhtml
-    branch: master
 ```
 
 And run `crystal deps`
@@ -24,10 +23,8 @@ And run `crystal deps`
   git clone https://github.com/kostya/myhtml.git
   cd myhtml
   make
-
   crystal spec
 ```
-
 
 ## Usage
 
