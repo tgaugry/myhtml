@@ -34,6 +34,8 @@ page = "<html>...</html>"
 myhtml = Myhtml::Parser.new(page)
 ```
 
+[Basic Usage Example](https://github.com/kostya/myhtml/tree/master/examples/usage.cr)
+
 ## More Examples
 
 [examples](https://github.com/kostya/myhtml/tree/master/examples)
