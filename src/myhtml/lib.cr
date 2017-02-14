@@ -69,8 +69,8 @@ module Myhtml
     fun attribute_value = myhtml_attribute_value(attr : MyhtmlTreeAttrT*, length : LibC::SizeT*) : UInt8*
     fun attribute_next = myhtml_attribute_next(attr : MyhtmlTreeAttrT*) : MyhtmlTreeAttrT*
 
-    fun serialization = myhtml_serialization(tree : MyhtmlTreeT*, node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
-    fun serialization_node = myhtml_serialization_node(tree : MyhtmlTreeT*, node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
+    fun serialization = myhtml_serialization(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
+    fun serialization_node = myhtml_serialization_node(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
 
     fun string_raw_clean_all = myhtml_string_raw_clean_all(str_raw : MyhtmlStringRawT*)
     fun string_raw_destroy = myhtml_string_raw_destroy(str_raw : MyhtmlStringRawT*, destroy_obj : Bool) : MyhtmlStringRawT*

@@ -194,7 +194,7 @@ module Myhtml
     def to_html
       str = Lib::MyhtmlStringRawT.new
       Lib.string_raw_clean_all(pointerof(str))
-      if Lib.serialization(@tree.raw_tree, @node, pointerof(str))
+      if Lib.serialization(@node, pointerof(str))
         res = String.new(str.data, str.length)
         Lib.string_raw_destroy(pointerof(str), false)
         res
