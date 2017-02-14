@@ -43,7 +43,7 @@ module Myhtml
     {% end %}
 
     def remove!
-      Lib.node_remove(@tree.raw_tree, @node)
+      Lib.node_remove(@node)
     end
 
     def tag_id
