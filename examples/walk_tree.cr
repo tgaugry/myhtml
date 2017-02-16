@@ -3,7 +3,7 @@
 require "../src/myhtml"
 
 def walk(node, level = 0)
-  puts "#{" " * level}#{node.tag_name}#{node.attributes}(#{node.tag_text.strip})"
+  puts "#{" " * level}#{node.inspect}"
   node.children.each { |child| walk(child, level + 1) }
 end
 

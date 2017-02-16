@@ -199,16 +199,42 @@ describe Myhtml::Node do
   end
 
   context "inner_text" do
-    it "work" do
+    assert do
       parser = Myhtml::Parser.new("<html><body>1<div class=AAA style='color:red'>Haha<span>11</span>bla</div> 2 </body></html>")
       parser.body!.inner_text(join_with: ' ').should eq "1 Haha 11 bla 2"
       parser.body!.inner_text(join_with: ' ', deep: false).should eq "1 2"
+    end
 
+    assert do
+      parser = Myhtml::Parser.new("<html><body>1<div class=AAA style='color:red'>Haha<span>11</span>bla</div> 2 </body></html>")
+      parser.body!.inner_text(join_with: nil).should eq "1Haha11bla 2 "
+      parser.body!.inner_text(join_with: nil, deep: false).should eq "1 2 "
+    end
+
+    assert do
+      parser = Myhtml::Parser.new("<html><body>1<div class=AAA style='color:red'>Haha<span>11</span>bla</div> 2 </body></html>")
       parser.nodes(:div).first.inner_text.should eq "Haha11bla"
       parser.nodes(:div).first.inner_text(deep: false).should eq "Hahabla"
+    end
 
+    assert do
+      parser = Myhtml::Parser.new("<html><body>1<div class=AAA style='color:red'>Haha<span>11</span>bla</div> 2 </body></html>")
       parser.nodes(:span).first.inner_text.should eq "11"
       parser.nodes(:span).first.inner_text(deep: false).should eq "11"
+    end
+  end
+
+  context "inspect" do
+    it "work" do
+      parser = Myhtml::Parser.new(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
+
+      node = parser.nodes(:div).first
+      node.inspect.should eq "Myhtml::Node(tag_name: \"div\", attributes: {\"class\" => \"AAA\", \"style\" => \"color:red\"})"
+
+      node.child!.inspect.should eq "Myhtml::Node(tag_name: \"-text\", tag_text: \"Haha \")"
+
+      node = parser.nodes(:span).first
+      node.inspect.should eq "Myhtml::Node(tag_name: \"span\")"
     end
   end
 end
