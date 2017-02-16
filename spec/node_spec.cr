@@ -222,7 +222,7 @@ describe Myhtml::Node do
       node = parser.nodes(:div).first
       node.inspect.should eq "Myhtml::Node(tag_name: \"div\", attributes: {\"class\" => \"AAA\", \"style\" => \"color:red\"})"
 
-      node.child!.inspect.should eq "Myhtml::Node(tag_name: \"-text\", text: \"Haha \")"
+      node.child!.inspect.should eq "Myhtml::Node(tag_name: \"-text\", tag_text: \"Haha \")"
 
       node = parser.nodes(:span).first
       node.inspect.should eq "Myhtml::Node(tag_name: \"span\")"

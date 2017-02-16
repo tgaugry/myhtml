@@ -223,7 +223,7 @@ module Myhtml
       if tag_id == Lib::MyhtmlTags::MyHTML_TAG__TEXT
         text = tag_text
         text = text.size > 30 ? text[0..30] + "...)" : text
-        io << ", text: "
+        io << ", tag_text: "
         text.inspect(io)
       elsif attributes.any?
         io << ", attributes: "
