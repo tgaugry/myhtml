@@ -37,7 +37,7 @@ module Myhtml
         if val = self.{{ name.id }}
           val
         else
-          raise Error.new("Empty node, '{{name.id}}' called from #{to_string}")
+          raise Error.new("Empty node, '{{name.id}}' called from #{self.inspect}")
         end
       end
     {% end %}
@@ -165,14 +165,6 @@ module Myhtml
       self.next || next_parent
     end
 
-    # simple method to inspect node
-    def to_string
-      text = is_text? ? "(" + tag_text.strip + ")" : ""
-      text = text.size > 30 ? text[0..30] + "...)" : text
-      attrs = attributes.any? ? " " + attributes.inspect : ""
-      "<#{tag_name}#{attrs}>#{text}"
-    end
-
     def data=(d : Void*)
       Lib.node_set_data(@node, d)
     end
@@ -222,6 +214,22 @@ module Myhtml
           buf << node.tag_text.strip
         end
       end
+    end
+
+    def inspect(io : IO)
+      io << "Myhtml::Node("
+      io << "tag_name: "
+      tag_name.inspect(io)
+      if tag_id == Lib::MyhtmlTags::MyHTML_TAG__TEXT
+        text = tag_text
+        text = text.size > 30 ? text[0..30] + "...)" : text
+        io << ", text: "
+        text.inspect(io)
+      elsif attributes.any?
+        io << ", attributes: "
+        attributes.inspect(io)
+      end
+      io << ")"
     end
   end
 end

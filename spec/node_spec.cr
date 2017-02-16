@@ -214,4 +214,18 @@ describe Myhtml::Node do
       parser.nodes(:span).first.inner_text(deep: false).should eq "11"
     end
   end
+
+  context "inspect" do
+    it "work" do
+      parser = Myhtml::Parser.new(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
+
+      node = parser.nodes(:div).first
+      node.inspect.should eq "Myhtml::Node(tag_name: \"div\", attributes: {\"class\" => \"AAA\", \"style\" => \"color:red\"})"
+
+      node.child!.inspect.should eq "Myhtml::Node(tag_name: \"-text\", text: \"Haha \")"
+
+      node = parser.nodes(:span).first
+      node.inspect.should eq "Myhtml::Node(tag_name: \"span\")"
+    end
+  end
 end
