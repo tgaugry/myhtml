@@ -211,7 +211,11 @@ module Myhtml
       String.build do |buf|
         (deep ? scope : children).nodes(:_text).each_with_index do |node, i|
           buf << join_with if join_with && i != 0
-          buf << node.tag_text.strip
+          buf << if join_with
+            node.tag_text.strip
+          else
+            node.tag_text
+          end
         end
       end
     end

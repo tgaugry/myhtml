@@ -200,7 +200,7 @@ describe Myhtml::Node do
 
   context "inner_text" do
     it "work" do
-      parser = Myhtml::Parser.new("<html><body>1<div class=AAA style='color:red'>Haha<span>11</span>bla</div>2</body></html>")
+      parser = Myhtml::Parser.new("<html><body>1<div class=AAA style='color:red'>Haha<span>11</span>bla</div> 2 </body></html>")
       parser.body!.inner_text(join_with: ' ').should eq "1 Haha 11 bla 2"
       parser.body!.inner_text(join_with: ' ', deep: false).should eq "1 2"
 
