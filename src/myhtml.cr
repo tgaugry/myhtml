@@ -25,6 +25,13 @@ module Myhtml
   ensure
     parser.try &.free
   end
+
+  # "text/html; charset=Windows-1251" => MyHTML_ENCODING_WINDOWS_1251
+  def self.parse_charset(encoding : String) : Myhtml::Lib::MyhtmlEncodingList?
+    if Lib.encoding_extracting_character_encoding_from_charset(encoding.to_unsafe, encoding.bytesize, out e)
+      e
+    end
+  end
 end
 
 require "./myhtml/*"

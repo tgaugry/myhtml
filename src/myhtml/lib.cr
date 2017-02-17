@@ -88,6 +88,6 @@ module Myhtml
     # encoding
     fun encoding_prescan_stream_to_determine_encoding = myhtml_encoding_prescan_stream_to_determine_encoding(data : UInt8*, data_size : LibC::SizeT) : MyhtmlEncodingList
     fun encoding_name_by_id = myhtml_encoding_name_by_id(encoding : MyhtmlEncodingList, length : LibC::SizeT*) : UInt8*
-    fun encoding_algorithm_extracting_character_encoding_from_meta_element = myhtml_encoding_algorithm_extracting_character_encoding_from_meta_element(data : UInt8*, data_size : LibC::SizeT, encoding : MyhtmlEncodingList*) : Bool
+    fun encoding_extracting_character_encoding_from_charset = myhtml_encoding_extracting_character_encoding_from_charset(data : UInt8*, data_size : LibC::SizeT, encoding : MyhtmlEncodingList*) : Bool
   end
 end

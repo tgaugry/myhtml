@@ -1,29 +1,37 @@
 module Myhtml
   struct Parser
-    getter tree
+    getter tree, encoding
 
-    def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil)
+    @encoding : Lib::MyhtmlEncodingList
+
+    def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, @detect_encoding_from_meta : Bool = false)
       options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE
       threads_count = 1
       queue_size = 0
+      @encoding = encoding || Lib::MyhtmlEncodingList::MyHTML_ENCODING_DEFAULT
       @tree = Tree.new(options, threads_count, queue_size, tree_options = nil)
     end
 
-    def self.new(page : String, tree_options : Lib::MyhtmlTreeParseFlags? = nil)
-      self.new(tree_options).parse(page)
+    def self.new(page : String, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, detect_encoding_from_meta : Bool = false)
+      self.new(tree_options: tree_options, encoding: encoding, detect_encoding_from_meta: detect_encoding_from_meta).parse(page)
     end
 
-    def parse(string, encoding = Lib::MyhtmlEncodingList::MyHTML_ENCODING_UTF_8)
+    protected def parse(string)
       pointer = string.to_unsafe
       bytesize = string.bytesize
 
       if Lib.encoding_detect_and_cut_bom(pointer, bytesize, out encoding2, out pointer2, out bytesize2)
         pointer = pointer2
         bytesize = bytesize2
-        encoding = encoding2
+        @encoding = encoding2
+      elsif @detect_encoding_from_meta
+        enc = Lib.encoding_prescan_stream_to_determine_encoding(pointer, bytesize)
+        if enc != Lib::MyhtmlEncodingList::MyHTML_ENCODING_NOT_DETERMINED
+          @encoding = enc
+        end
       end
 
-      res = Lib.parse(@tree.raw_tree, encoding, pointer, bytesize)
+      res = Lib.parse(@tree.raw_tree, @encoding, pointer, bytesize)
       raise Error.new("parse error #{res}") if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
       self
     end
