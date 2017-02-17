@@ -1,7 +1,7 @@
 require "./spec_helper"
 
-PAGE1 = File.read("./spec/fixtures/1.html")
-PAGE2 = File.read("./spec/fixtures/2.html")
+PAGE1 = File.read("./spec/fixtures/1.htm")
+PAGE2 = File.read("./spec/fixtures/2.htm")
 
 describe Myhtml::Node do
   it "default" do

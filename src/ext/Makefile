@@ -1,4 +1,4 @@
-FILENAME := v3.0.0.tar.gz
+FILENAME := v3.0.1.tar.gz
 
 .PHONY: package
 package: ./myhtml-c/lib/libmyhtml_static.a
