@@ -27,4 +27,10 @@ describe Myhtml::Node do
     parser.encoding.should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251
     parser.nodes(:div).first.inner_text.should eq "хаха"
   end
+
+  # it "detect by text" do
+  #   parser = Myhtml::Parser.new(PAGE2, detect_encoding: true)
+  #   parser.encoding.should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251
+  #   parser.nodes(:div).first.inner_text.should eq "хаха"
+  # end
 end

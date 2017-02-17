@@ -4,7 +4,7 @@ module Myhtml
 
     @encoding : Lib::MyhtmlEncodingList
 
-    def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, @detect_encoding_from_meta : Bool = false)
+    def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, @detect_encoding_from_meta : Bool = false, @detect_encoding : Bool = false)
       options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE
       threads_count = 1
       queue_size = 0
@@ -12,8 +12,8 @@ module Myhtml
       @tree = Tree.new(options, threads_count, queue_size, tree_options = nil)
     end
 
-    def self.new(page : String, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, detect_encoding_from_meta : Bool = false)
-      self.new(tree_options: tree_options, encoding: encoding, detect_encoding_from_meta: detect_encoding_from_meta).parse(page)
+    def self.new(page : String, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, detect_encoding_from_meta : Bool = false, detect_encoding : Bool = false)
+      self.new(tree_options: tree_options, encoding: encoding, detect_encoding_from_meta: detect_encoding_from_meta, detect_encoding: detect_encoding).parse(page)
     end
 
     protected def parse(string)
@@ -28,6 +28,10 @@ module Myhtml
         enc = Lib.encoding_prescan_stream_to_determine_encoding(pointer, bytesize)
         if enc != Lib::MyhtmlEncodingList::MyHTML_ENCODING_NOT_DETERMINED
           @encoding = enc
+        end
+      elsif @detect_encoding
+        if Lib.encoding_detect(pointer, bytesize, out enc2)
+          @encoding = enc2
         end
       end
 
