@@ -4,7 +4,7 @@ module Myhtml
 
     @encoding : Lib::MyhtmlEncodingList
 
-    def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, @detect_encoding_from_meta : Bool = false, @detect_encoding : Bool = false)
+    protected def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, @detect_encoding_from_meta : Bool = false, @detect_encoding : Bool = false)
       options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE
       threads_count = 1
       queue_size = 0

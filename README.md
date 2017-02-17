@@ -52,6 +52,9 @@ myhtml = Myhtml::Parser.new(page)
 require "myhtml"
 page = "<html>...</html>"
 
+# by default page parsed as UTF-8
+myhtml = Myhtml::Parser.new(page)
+
 # set encoding directly
 myhtml = Myhtml::Parser.new(page, encoding: Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251)
 
