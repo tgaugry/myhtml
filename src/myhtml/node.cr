@@ -222,12 +222,18 @@ module Myhtml
       io << "Myhtml::Node("
       io << "tag_name: "
       tag_name.inspect(io)
-      if tag_id == Lib::MyhtmlTags::MyHTML_TAG__TEXT
+      case _tag_id = tag_id
+      when Lib::MyhtmlTags::MyHTML_TAG__TEXT,
+           Lib::MyhtmlTags::MyHTML_TAG__COMMENT,
+           Lib::MyhtmlTags::MyHTML_TAG_STYLE,
+           Lib::MyhtmlTags::MyHTML_TAG_SCRIPT
         text = tag_text
         text = text.size > 30 ? text[0..30] + "...)" : text
         io << ", tag_text: "
         text.inspect(io)
-      elsif attributes.any?
+      end
+
+      if (_tag_id != Lib::MyhtmlTags::MyHTML_TAG__TEXT && _tag_id != Lib::MyhtmlTags::MyHTML_TAG__COMMENT) && attributes.any?
         io << ", attributes: "
         attributes.inspect(io)
       end

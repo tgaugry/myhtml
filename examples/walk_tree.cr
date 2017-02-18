@@ -3,7 +3,7 @@
 require "../src/myhtml"
 
 def walk(node, level = 0)
-  puts "#{" " * level}#{node.inspect}"
+  puts "#{" " * level * 2}#{node.inspect}"
   node.children.each { |child| walk(child, level + 1) }
 end
 
@@ -13,5 +13,5 @@ str = if filename = ARGV[0]?
         "<html><Div><span class='test'>HTML</span></div></html>"
       end
 
-parser = Myhtml::Parser.new(str)
+parser = Myhtml::Parser.new(str, tree_options: Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_SKIP_WHITESPACE_TOKEN)
 walk(parser.root!)
