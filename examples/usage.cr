@@ -34,7 +34,7 @@ myhtml.nodes(:div).each do |node|
 
   pp node.to_html    # => "<div class=\"aaa\">bla</div>"
   pp node.inner_text # => "bla"
-  pp node.to_string  # inspect node: "<div {\"class\" => \"aaa\"}>"
+  pp node            # => Myhtml::Node(tag_name: "div", attributes: {"class" => "aaa"})
 
   # tree navigate methods (methods with !, returns not_nil! node):
   node.child      # Myhtml::Node?, first child of node
