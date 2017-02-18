@@ -91,7 +91,19 @@ describe Myhtml::Node do
 
     c = 0
     parser.nodes(:div).each do |node|
-      c += 1 if node.attribute_by("class")
+      c += 1 if node.attribute_by("class") == "A"
+    end
+    c.should eq 2000
+  end
+
+  it "parse_stream" do
+    str = "<html><body>" + "<div class=A>ooo</div>" * 2000 + "</body></html>"
+    io = IO::Memory.new(str)
+
+    parser = Myhtml::Parser.new(io)
+    c = 0
+    parser.nodes(:div).each do |node|
+      c += 1 if node.attribute_by("class") == "A"
     end
     c.should eq 2000
   end

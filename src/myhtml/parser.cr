@@ -12,8 +12,14 @@ module Myhtml
       @tree = Tree.new(options, threads_count, queue_size, tree_options = nil)
     end
 
+    # parse from string
     def self.new(page : String, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, detect_encoding_from_meta : Bool = false, detect_encoding : Bool = false)
       self.new(tree_options: tree_options, encoding: encoding, detect_encoding_from_meta: detect_encoding_from_meta, detect_encoding: detect_encoding).parse(page)
+    end
+
+    # parse from stream
+    def self.new(io : IO, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil)
+      self.new(tree_options: tree_options, encoding: encoding).parse_stream(io)
     end
 
     protected def parse(string)
@@ -36,7 +42,38 @@ module Myhtml
       end
 
       res = Lib.parse(@tree.raw_tree, @encoding, pointer, bytesize)
-      raise Error.new("parse error #{res}") if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+      if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+        free
+        raise Error.new("parse error #{res}")
+      end
+
+      self
+    end
+
+    BUFFER_SIZE = 8192
+
+    protected def parse_stream(io : IO)
+      buffers = Array(Bytes).new
+      Lib.encoding_set(@tree.raw_tree, @encoding)
+
+      loop do
+        buffer = Bytes.new(BUFFER_SIZE)
+        read_size = io.read(buffer)
+        break if read_size == 0
+
+        res = Lib.parse_chunk(@tree.raw_tree, buffer.to_unsafe, read_size)
+        if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+          free
+          raise Error.new("parse_chunk error #{res}")
+        end
+      end
+
+      res = Lib.parse_chunk_end(@tree.raw_tree)
+      if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+        free
+        raise Error.new("parse_chunk_end error #{res}")
+      end
+
       self
     end
 

@@ -41,7 +41,8 @@ module Myhtml
     fun tree_parse_flags_set = myhtml_tree_parse_flags_set(tree : MyhtmlTreeT*, parse_flags : MyhtmlTreeParseFlags)
 
     fun parse = myhtml_parse(tree : MyhtmlTreeT*, encoding : MyhtmlEncodingList, html : UInt8*, html_size : LibC::SizeT) : MyhtmlStatus
-
+    fun parse_chunk = myhtml_parse_chunk(tree : MyhtmlTreeT*, html : UInt8*, html_size : LibC::SizeT) : MyhtmlStatus
+    fun parse_chunk_end = myhtml_parse_chunk_end(tree : MyhtmlTreeT*) : MyhtmlStatus
     fun encoding_detect_and_cut_bom = myhtml_encoding_detect_and_cut_bom(text : UInt8*, length : LibC::SizeT, encoding : MyhtmlEncodingList*, new_text : UInt8**, new_size : LibC::SizeT*) : Bool
     fun version = myhtml_version : MyhtmlVersion
 
@@ -86,6 +87,7 @@ module Myhtml
     fun collection_destroy = myhtml_collection_destroy(collection : MyhtmlCollectionT*) : MyhtmlCollectionT*
 
     # encoding
+    fun encoding_set = myhtml_encoding_set(tree : MyhtmlTreeT*, encoding : MyhtmlEncodingList)
     fun encoding_prescan_stream_to_determine_encoding = myhtml_encoding_prescan_stream_to_determine_encoding(data : UInt8*, data_size : LibC::SizeT) : MyhtmlEncodingList
     fun encoding_name_by_id = myhtml_encoding_name_by_id(encoding : MyhtmlEncodingList, length : LibC::SizeT*) : UInt8*
     fun encoding_extracting_character_encoding_from_charset = myhtml_encoding_extracting_character_encoding_from_charset(data : UInt8*, data_size : LibC::SizeT, encoding : MyhtmlEncodingList*) : Bool
