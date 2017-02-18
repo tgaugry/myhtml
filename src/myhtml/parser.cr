@@ -61,6 +61,7 @@ module Myhtml
         read_size = io.read(buffer)
         break if read_size == 0
 
+        buffers << buffer
         res = Lib.parse_chunk(@tree.raw_tree, buffer.to_unsafe, read_size)
         if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
           free
