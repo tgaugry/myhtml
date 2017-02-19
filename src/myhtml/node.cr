@@ -76,6 +76,10 @@ module Myhtml
       end
     end
 
+    def any_attribute?
+      !Lib.node_attribute_first(@node).null?
+    end
+
     def each_attribute(&block)
       name_length = LibC::SizeT.new(0)
       value_length = LibC::SizeT.new(0)
@@ -233,7 +237,7 @@ module Myhtml
         text.inspect(io)
       end
 
-      if (_tag_id != Lib::MyhtmlTags::MyHTML_TAG__TEXT && _tag_id != Lib::MyhtmlTags::MyHTML_TAG__COMMENT) && attributes.any?
+      if (_tag_id != Lib::MyhtmlTags::MyHTML_TAG__TEXT && _tag_id != Lib::MyhtmlTags::MyHTML_TAG__COMMENT) && any_attribute?
         io << ", attributes: "
         attributes.inspect(io)
       end
