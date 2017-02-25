@@ -30,14 +30,21 @@ module Myhtml
         pointer = pointer2
         bytesize = bytesize2
         @encoding = encoding2
-      elsif @detect_encoding_from_meta
-        enc = Lib.encoding_prescan_stream_to_determine_encoding(pointer, bytesize)
-        if enc != Lib::MyhtmlEncodingList::MyHTML_ENCODING_NOT_DETERMINED
-          @encoding = enc
+      else
+        detected = false
+
+        if @detect_encoding_from_meta
+          enc = Lib.encoding_prescan_stream_to_determine_encoding(pointer, bytesize)
+          if enc != Lib::MyhtmlEncodingList::MyHTML_ENCODING_NOT_DETERMINED
+            detected = true
+            @encoding = enc
+          end
         end
-      elsif @detect_encoding
-        if Lib.encoding_detect(pointer, bytesize, out enc2)
-          @encoding = enc2
+
+        if @detect_encoding && !detected
+          if Lib.encoding_detect(pointer, bytesize, out enc2)
+            @encoding = enc2
+          end
         end
       end
 

@@ -67,5 +67,11 @@ describe Myhtml::Node do
       myhtml.encoding.should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251
       myhtml.nodes(:div).first.inner_text.should eq "Загрузка. Пожалуйста, подождите..."
     end
+
+    it "detect from meta and trigrams" do
+      myhtml = Myhtml::Parser.new(PAGE25, detect_encoding: true, detect_encoding_from_meta: true)
+      myhtml.encoding.should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251
+      myhtml.nodes(:div).first.inner_text.should eq "Загрузка. Пожалуйста, подождите..."
+    end
   end
 end
