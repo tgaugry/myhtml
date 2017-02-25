@@ -11,7 +11,7 @@ module Myhtml
     end
 
     def nodes(tag_str : String)
-      nodes(Myhtml.tag_symbol_by_string(tag_str))
+      nodes(Myhtml.tag_id_by_string(tag_str))
     end
   end
 
