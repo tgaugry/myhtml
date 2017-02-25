@@ -2,7 +2,7 @@ CRYSTAL ?= crystal
 CRYSTALFLAGS ?= --release
 
 .PHONY: all package spec
-all: bin_usage bin_walk_tree bin_links bin_texts
+all: bin_usage bin_walk_tree bin_links bin_texts bin_encoding
 package: src/ext/myhtml-c/lib/libmyhtml_static.a
 
 bin_usage: src/*.cr src/**/*.cr examples/usage.cr package
@@ -16,6 +16,9 @@ bin_links: src/*.cr src/**/*.cr examples/links.cr package
 
 bin_texts: src/*.cr src/**/*.cr examples/texts.cr package
 	$(CRYSTAL) build examples/texts.cr $(CRYSTALFLAGS) -o $@
+
+bin_encoding: src/*.cr src/**/*.cr examples/encoding.cr package
+	  $(CRYSTAL) build examples/encoding.cr $(CRYSTALFLAGS) -o $@
 
 src/ext/myhtml-c/lib/libmyhtml_static.a:
 	cd src/ext && make package

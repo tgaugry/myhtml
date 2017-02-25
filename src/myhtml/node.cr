@@ -195,6 +195,7 @@ module Myhtml
         Lib.string_raw_destroy(pointerof(str), false)
         res
       else
+        Lib.string_raw_destroy(pointerof(str), false)
         raise Error.new("Unknown problem with serialization")
       end
     end
@@ -232,7 +233,7 @@ module Myhtml
            Lib::MyhtmlTags::MyHTML_TAG_STYLE,
            Lib::MyhtmlTags::MyHTML_TAG_SCRIPT
         text = tag_text
-        text = text.size > 30 ? text[0..30] + "...)" : text
+        text = text.size > 30 ? text[0..30] + "..." : text
         io << ", tag_text: "
         text.inspect(io)
       end

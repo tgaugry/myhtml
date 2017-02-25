@@ -44,7 +44,7 @@ module Myhtml
     fun parse_chunk = myhtml_parse_chunk(tree : MyhtmlTreeT*, html : UInt8*, html_size : LibC::SizeT) : MyhtmlStatus
     fun parse_chunk_end = myhtml_parse_chunk_end(tree : MyhtmlTreeT*) : MyhtmlStatus
     fun encoding_detect_and_cut_bom = myhtml_encoding_detect_and_cut_bom(text : UInt8*, length : LibC::SizeT, encoding : MyhtmlEncodingList*, new_text : UInt8**, new_size : LibC::SizeT*) : Bool
-    fun version = myhtml_version : MyhtmlVersion
+    fun version = myhtml_version() : MyhtmlVersion
 
     fun tree_get_document = myhtml_tree_get_document(tree : MyhtmlTreeT*) : MyhtmlTreeNodeT*
     fun tree_get_node_html = myhtml_tree_get_node_html(tree : MyhtmlTreeT*) : MyhtmlTreeNodeT*
