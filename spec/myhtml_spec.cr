@@ -23,14 +23,14 @@ describe Myhtml do
   end
 
   context "parse_charset" do
-    assert { Myhtml.parse_charset("text/html; charset=utf-8").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_DEFAULT }
-    # assert { Myhtml.parse_charset("text/html; charset=unicode").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251 }
-    assert { Myhtml.parse_charset("text/html; charset=Windows-1251").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251 }
-    assert { Myhtml.parse_charset("text/html; charset=cp1251").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251 }
-    assert { Myhtml.parse_charset("text/html; charset='cp1251'").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251 }
-    assert { Myhtml.parse_charset("text/html; charset=\"cp1251\"").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251 }
-    assert { Myhtml.parse_charset("text/html; charset=euc-jp").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_EUC_JP }
-    assert { Myhtml.parse_charset("text/html; charset=").should eq nil }
-    assert { Myhtml.parse_charset("text/html").should eq nil }
+    it { Myhtml.parse_charset("text/html; charset=utf-8").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_DEFAULT }
+    # it { Myhtml.parse_charset("text/html; charset=unicode").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251 }
+    it { Myhtml.parse_charset("text/html; charset=Windows-1251").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251 }
+    it { Myhtml.parse_charset("text/html; charset=cp1251").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251 }
+    it { Myhtml.parse_charset("text/html; charset='cp1251'").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251 }
+    it { Myhtml.parse_charset("text/html; charset=\"cp1251\"").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_WINDOWS_1251 }
+    it { Myhtml.parse_charset("text/html; charset=euc-jp").should eq Myhtml::Lib::MyhtmlEncodingList::MyHTML_ENCODING_EUC_JP }
+    it { Myhtml.parse_charset("text/html; charset=").should eq nil }
+    it { Myhtml.parse_charset("text/html").should eq nil }
   end
 end
