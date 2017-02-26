@@ -4,6 +4,9 @@ module Myhtml
   class Error < Exception
   end
 
+  class EmptyNodeError < Error
+  end
+
   def self.lib_version
     v = Lib.version
     {v.major, v.minor, v.patch}

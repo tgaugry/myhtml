@@ -17,7 +17,7 @@ describe Myhtml::Node do
   it "raise error when no node" do
     parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Hahasdfjasdfladshfasldkfhadsfkdashfaklsjdfhalsdfdsafsda</div></body></html>")
     node = parser.root!.child!.next!.child!.child!
-    expect_raises(Myhtml::Error, /Empty node/) { node.child! }
+    expect_raises(Myhtml::EmptyNodeError, /'child' called from Myhtml::Node/) { node.child! }
   end
 
   it "attributes" do
@@ -171,7 +171,6 @@ describe Myhtml::Node do
     it "deep" do
       parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
       node = parser.nodes(:div).first
-      # node.serialize.should eq %Q[<div class="AAA" style="color:red">]
       node.to_html.should eq %Q[<div class="AAA" style="color:red">Haha <span>11</span></div>]
     end
 

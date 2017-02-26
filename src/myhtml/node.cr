@@ -37,7 +37,7 @@ module Myhtml
         if val = self.{{ name.id }}
           val
         else
-          raise Error.new("Empty node, '{{name.id}}' called from #{self.inspect}")
+          raise EmptyNodeError.new("'{{name.id}}' called from #{self.inspect}")
         end
       end
     {% end %}

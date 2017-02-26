@@ -42,7 +42,7 @@ module Myhtml
         if val = {{ name.id }}
           val
         else
-          raise Error.new("Empty node, expected `{{name.id}}` to present on tree")
+          raise EmptyNodeError.new("expected `{{name.id}}` to present on tree")
         end
       end
     {% end %}
