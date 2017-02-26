@@ -191,10 +191,18 @@ module Myhtml
       CollectionIterator.new(@tree, col)
     end
 
-    def to_html
+    def to_html(deep = true)
       str = Lib::MyhtmlStringRawT.new
+
       Lib.string_raw_clean_all(pointerof(str))
-      if Lib.serialization(@node, pointerof(str))
+
+      res = if deep
+              Lib.serialization(@node, pointerof(str))
+            else
+              Lib.serialization_node(@node, pointerof(str))
+            end
+
+      if res
         res = String.new(str.data, str.length)
         Lib.string_raw_destroy(pointerof(str), false)
         res
@@ -203,18 +211,6 @@ module Myhtml
         raise Error.new("Unknown problem with serialization")
       end
     end
-
-    # def serialize
-    #   str = Lib::MyhtmlStringRawT.new
-    #   Lib.string_raw_clean_all(pointerof(str))
-    #   if Lib.serialization_node(@tree.raw_tree, @node, pointerof(str))
-    #     res = String.new(str.data, str.length)
-    #     Lib.string_raw_destroy(pointerof(str), false)
-    #     res
-    #   else
-    #     raise Error.new("Unknown problem with serialization")
-    #   end
-    # end
 
     def inner_text(join_with : String | Char | Nil = nil, deep = true)
       String.build do |buf|
