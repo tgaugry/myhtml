@@ -12,12 +12,12 @@ module Myhtml
       @raw_tree = Lib.tree_create
       res = Lib.tree_init(@raw_tree, @raw_myhtml)
 
-      Lib.tree_parse_flags_set(@raw_tree, tree_options) if tree_options
-
       if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
         Lib.destroy(@raw_myhtml)
         raise Error.new("tree_init error #{res}")
       end
+
+      Lib.tree_parse_flags_set(@raw_tree, tree_options) if tree_options
       @finalized = false
     end
 
