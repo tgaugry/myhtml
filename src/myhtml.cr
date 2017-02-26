@@ -13,17 +13,12 @@ module Myhtml
     "#{VERSION} (libmyhtml #{lib_version.join('.')})"
   end
 
-  # TODO: rewrite to optimal, this is slow
+  # !this object never freed!
+  HTML_ENTITIES_NODE = Myhtml::Parser.new("1", tree_options: Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_WITHOUT_DOCTYPE_IN_TREE).body!.child!
+
   def self.decode_html_entities(str : String)
-    return str if str.empty?
-    parser = Myhtml::Parser.new(str, tree_options: Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_WITHOUT_DOCTYPE_IN_TREE)
-    if child = parser.body!.child
-      child.tag_text
-    else
-      str
-    end
-  ensure
-    parser.try &.free
+    HTML_ENTITIES_NODE.tag_text_set(str, Lib::MyhtmlEncodingList::MyHTML_ENCODING_DEFAULT)
+    HTML_ENTITIES_NODE.tag_text
   end
 
   # "text/html; charset=Windows-1251" => MyHTML_ENCODING_WINDOWS_1251

@@ -68,6 +68,10 @@ module Myhtml
       String.new(tag_text_slice)
     end
 
+    def tag_text_set(text : String, encoding)
+      Lib.node_text_set_with_charef(@node, text.to_unsafe, text.bytesize, encoding)
+    end
+
     protected def each_raw_attribute(&block)
       attr = Lib.node_attribute_first(@node)
       while !attr.null?
