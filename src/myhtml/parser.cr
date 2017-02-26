@@ -64,7 +64,7 @@ module Myhtml
       Lib.encoding_set(@tree.raw_tree, @encoding)
 
       loop do
-        buffer = Bytes.new(BUFFER_SIZE)
+        buffer = Bytes.new((GC.malloc_atomic(BUFFER_SIZE).as(UInt8*)), BUFFER_SIZE)
         read_size = io.read(buffer)
         break if read_size == 0
 
