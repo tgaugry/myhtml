@@ -85,11 +85,9 @@ module Myhtml
     end
 
     def each_attribute(&block)
-      name_length = LibC::SizeT.new(0)
-      value_length = LibC::SizeT.new(0)
       each_raw_attribute do |attr|
-        name = Lib.attribute_key(attr, pointerof(name_length))
-        value = Lib.attribute_value(attr, pointerof(value_length))
+        name = Lib.attribute_key(attr, out name_length)
+        value = Lib.attribute_value(attr, out value_length)
         name_slice = Slice(UInt8).new(name, name_length)
         value_slice = Slice(UInt8).new(value, value_length)
         yield name_slice, value_slice
