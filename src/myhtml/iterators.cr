@@ -140,6 +140,7 @@ module Myhtml
         @length = LibC::SizeT.new(0)
         @list = Pointer(Lib::MyhtmlTreeNodeT*).new(0)
       end
+      @finalized = false
     end
 
     def next
@@ -157,7 +158,14 @@ module Myhtml
     end
 
     def finalize
-      Lib.collection_destroy(@raw_collection)
+      free
+    end
+
+    def free
+      unless @finalized
+        @finalized = true
+        Lib.collection_destroy(@raw_collection)
+      end
     end
 
     def rewind
