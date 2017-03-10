@@ -53,3 +53,9 @@ myhtml.nodes(:div).each do |node|
   node.left_iterator   # Iterator(Myhtml::Node), iterate from current node to left (to the root! node)
   node.scope.nodes(:a) # Iterator(Myhtml::Node), select :a nodes in scope of `node`
 end
+
+# free myhtml c object,
+# not really needed to call manyally, because called auto from GC finalize, when object not used anymore
+# use it only if need to free memory fast
+# after free any other child object like Myhtml::Node or Iterator(Myhtml::Node) not valid anymore and can lead to segfault
+myhtml.free
