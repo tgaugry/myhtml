@@ -22,37 +22,36 @@ myhtml.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV) # Iterator(Myhtml::Node)
 myhtml.nodes(:div)                                    # Iterator(Myhtml::Node)
 myhtml.nodes("div")                                   # Iterator(Myhtml::Node)
 
-myhtml.nodes(:div).each do |node|
-  # node is Myhtml::Node
-  # methods:
-  pp node.tag_id                # => MyHTML_TAG_DIV
-  pp node.tag_sym               # => :div
-  pp node.tag_name              # => "div"
-  pp node.is_tag_div?           # => true
-  pp node.attribute_by("class") # => "aaa"
-  pp node.attributes            # => {"class" => "aaa"}
+node = myhtml.nodes(:div).first # Myhtml::Node
 
-  pp node.to_html    # => "<div class=\"aaa\">bla</div>"
-  pp node.inner_text # => "bla"
-  pp node            # => Myhtml::Node(tag_name: "div", attributes: {"class" => "aaa"})
+# methods:
+pp node.tag_id                # => MyHTML_TAG_DIV
+pp node.tag_sym               # => :div
+pp node.tag_name              # => "div"
+pp node.is_tag_div?           # => true
+pp node.attribute_by("class") # => "aaa"
+pp node.attributes            # => {"class" => "aaa"}
 
-  # tree navigate methods (methods with !, returns not_nil! node):
-  node.child      # Myhtml::Node?, first child of node
-  node.next       # Myhtml::Node?, next node in the parent scope
-  node.parent     # Myhtml::Node?, parent node
-  node.prev       # Myhtml::Node?, previous node in the parent scope
-  node.left       # Myhtml::Node?, left node, in the html, from current
-  node.right      # Myhtml::Node?, right node, in the html, from current
-  node.flat_right # Myhtml::Node?, right node, in the html, from current, without node.children
+pp node.to_html    # => "<div class=\"aaa\">bla</div>"
+pp node.inner_text # => "bla"
+pp node            # => Myhtml::Node(tag_name: "div", attributes: {"class" => "aaa"})
 
-  # iterators:
-  node.children        # Iterator(Myhtml::Node), iterate over all direct node children
-  node.parents         # Iterator(Myhtml::Node), iterate over all node parents from current to root! node
-  node.scope           # Iterator(Myhtml::Node), iterate over all inner nodes (children and deeper)
-  node.right_iterator  # Iterator(Myhtml::Node), iterate from current node to right (to the end of document)
-  node.left_iterator   # Iterator(Myhtml::Node), iterate from current node to left (to the root! node)
-  node.scope.nodes(:a) # Iterator(Myhtml::Node), select :a nodes in scope of `node`
-end
+# tree navigate methods (methods with !, returns not_nil! node):
+node.child      # Myhtml::Node?, first child of node
+node.next       # Myhtml::Node?, next node in the parent scope
+node.parent     # Myhtml::Node?, parent node
+node.prev       # Myhtml::Node?, previous node in the parent scope
+node.left       # Myhtml::Node?, left node, in the html, from current
+node.right      # Myhtml::Node?, right node, in the html, from current
+node.flat_right # Myhtml::Node?, right node, in the html, from current, without node.children
+
+# iterators:
+node.children        # Iterator(Myhtml::Node), iterate over all direct node children
+node.parents         # Iterator(Myhtml::Node), iterate over all node parents from current to root! node
+node.scope           # Iterator(Myhtml::Node), iterate over all inner nodes (children and deeper)
+node.right_iterator  # Iterator(Myhtml::Node), iterate from current node to right (to the end of document)
+node.left_iterator   # Iterator(Myhtml::Node), iterate from current node to left (to the root! node)
+node.scope.nodes(:a) # Iterator(Myhtml::Node), select :a nodes in scope of `node`
 
 # free myhtml c object,
 # not really needed to call manyally, because called auto from GC finalize, when object not used anymore
