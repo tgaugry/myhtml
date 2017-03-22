@@ -181,7 +181,7 @@ module Myhtml
 
     def nodes_by_attribute(key : String, value : String, case_sensitive = false)
       col = Lib.get_nodes_by_attribute_value(@tree.raw_tree, nil, @node, case_sensitive, key.to_unsafe, key.bytesize, value.to_unsafe, value.bytesize, out status)
-      if status != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+      if status != Lib::MyStatus::MyCORE_STATUS_OK
         Lib.collection_destroy(col)
         raise Error.new("nodes_by_attribute error #{status}, for `#{key}`, `#{value}`")
       end
@@ -206,7 +206,7 @@ module Myhtml
         res
       else
         Lib.string_raw_destroy(pointerof(str), false)
-        raise Error.new("Unknown problem with serialization")
+        raise Error.new("Unknown problem with serialization: #{res}")
       end
     end
 

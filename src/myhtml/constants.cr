@@ -1,6 +1,6 @@
 module Myhtml
   lib Lib
-    # cat api.h | grep '  MyHTML_TAG_' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
+    # cat myhtml/api.h | grep '  MyHTML_TAG_' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
     enum MyhtmlTags : LibC::SizeT
       MyHTML_TAG__UNDEF              = 0x000
       MyHTML_TAG__TEXT               = 0x001
@@ -258,109 +258,94 @@ module Myhtml
       MyHTML_TAG_LAST_ENTRY          = 0x0fc
     end
 
-    # cat api.h | grep '  MyHTML_ENCODING_' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
-    enum MyhtmlEncodingList
-      MyHTML_ENCODING_DEFAULT = 0x00
-      #  MyHTML_ENCODING_AUTO           = 0x01 # future
-      MyHTML_ENCODING_NOT_DETERMINED = 0x02
-      MyHTML_ENCODING_UTF_8          = 0x00 # default encoding
-      MyHTML_ENCODING_UTF_16LE       = 0x04
-      MyHTML_ENCODING_UTF_16BE       = 0x05
-      MyHTML_ENCODING_X_USER_DEFINED = 0x06
-      MyHTML_ENCODING_BIG5           = 0x07
-      MyHTML_ENCODING_EUC_JP         = 0x08
-      MyHTML_ENCODING_EUC_KR         = 0x09
-      MyHTML_ENCODING_GB18030        = 0x0a
-      MyHTML_ENCODING_GBK            = 0x0b
-      MyHTML_ENCODING_IBM866         = 0x0c
-      MyHTML_ENCODING_ISO_2022_JP    = 0x0d
-      MyHTML_ENCODING_ISO_8859_10    = 0x0e
-      MyHTML_ENCODING_ISO_8859_13    = 0x0f
-      MyHTML_ENCODING_ISO_8859_14    = 0x10
-      MyHTML_ENCODING_ISO_8859_15    = 0x11
-      MyHTML_ENCODING_ISO_8859_16    = 0x12
-      MyHTML_ENCODING_ISO_8859_2     = 0x13
-      MyHTML_ENCODING_ISO_8859_3     = 0x14
-      MyHTML_ENCODING_ISO_8859_4     = 0x15
-      MyHTML_ENCODING_ISO_8859_5     = 0x16
-      MyHTML_ENCODING_ISO_8859_6     = 0x17
-      MyHTML_ENCODING_ISO_8859_7     = 0x18
-      MyHTML_ENCODING_ISO_8859_8     = 0x19
-      MyHTML_ENCODING_ISO_8859_8_I   = 0x1a
-      MyHTML_ENCODING_KOI8_R         = 0x1b
-      MyHTML_ENCODING_KOI8_U         = 0x1c
-      MyHTML_ENCODING_MACINTOSH      = 0x1d
-      MyHTML_ENCODING_SHIFT_JIS      = 0x1e
-      MyHTML_ENCODING_WINDOWS_1250   = 0x1f
-      MyHTML_ENCODING_WINDOWS_1251   = 0x20
-      MyHTML_ENCODING_WINDOWS_1252   = 0x21
-      MyHTML_ENCODING_WINDOWS_1253   = 0x22
-      MyHTML_ENCODING_WINDOWS_1254   = 0x23
-      MyHTML_ENCODING_WINDOWS_1255   = 0x24
-      MyHTML_ENCODING_WINDOWS_1256   = 0x25
-      MyHTML_ENCODING_WINDOWS_1257   = 0x26
-      MyHTML_ENCODING_WINDOWS_1258   = 0x27
-      MyHTML_ENCODING_WINDOWS_874    = 0x28
-      MyHTML_ENCODING_X_MAC_CYRILLIC = 0x29
-      MyHTML_ENCODING_LAST_ENTRY     = 0x2a
+    # cat myencoding/myosi.h | grep '  MyENCODING_' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
+    enum MyEncodingList
+      MyENCODING_DEFAULT         =   0x00
+      MyENCODING_NOT_DETERMINED  =   0x02
+      MyENCODING_UTF_8           =   0x00 # default encoding
+      MyENCODING_UTF_16LE        =   0x04
+      MyENCODING_UTF_16BE        =   0x05
+      MyENCODING_X_USER_DEFINED  =   0x06
+      MyENCODING_BIG5            =   0x07
+      MyENCODING_EUC_JP          =   0x08
+      MyENCODING_EUC_KR          =   0x09
+      MyENCODING_GB18030         =   0x0a
+      MyENCODING_GBK             =   0x0b
+      MyENCODING_IBM866          =   0x0c
+      MyENCODING_ISO_2022_JP     =   0x0d
+      MyENCODING_ISO_8859_10     =   0x0e
+      MyENCODING_ISO_8859_13     =   0x0f
+      MyENCODING_ISO_8859_14     =   0x10
+      MyENCODING_ISO_8859_15     =   0x11
+      MyENCODING_ISO_8859_16     =   0x12
+      MyENCODING_ISO_8859_2      =   0x13
+      MyENCODING_ISO_8859_3      =   0x14
+      MyENCODING_ISO_8859_4      =   0x15
+      MyENCODING_ISO_8859_5      =   0x16
+      MyENCODING_ISO_8859_6      =   0x17
+      MyENCODING_ISO_8859_7      =   0x18
+      MyENCODING_ISO_8859_8      =   0x19
+      MyENCODING_ISO_8859_8_I    =   0x1a
+      MyENCODING_KOI8_R          =   0x1b
+      MyENCODING_KOI8_U          =   0x1c
+      MyENCODING_MACINTOSH       =   0x1d
+      MyENCODING_SHIFT_JIS       =   0x1e
+      MyENCODING_WINDOWS_1250    =   0x1f
+      MyENCODING_WINDOWS_1251    =   0x20
+      MyENCODING_WINDOWS_1252    =   0x21
+      MyENCODING_WINDOWS_1253    =   0x22
+      MyENCODING_WINDOWS_1254    =   0x23
+      MyENCODING_WINDOWS_1255    =   0x24
+      MyENCODING_WINDOWS_1256    =   0x25
+      MyENCODING_WINDOWS_1257    =   0x26
+      MyENCODING_WINDOWS_1258    =   0x27
+      MyENCODING_WINDOWS_874     =   0x28
+      MyENCODING_X_MAC_CYRILLIC  =   0x29
+      MyENCODING_LAST_ENTRY      =   0x2a
+      MyENCODING_STATUS_OK       = 0x0000
+      MyENCODING_STATUS_ERROR    = 0x0001
+      MyENCODING_STATUS_CONTINUE = 0x0002
+      MyENCODING_STATUS_DONE     = 0x0004
     end
 
-    # cat api.h | grep '  MyHTML_STATUS_' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
-    enum MyhtmlStatus
-      MyHTML_STATUS_OK                                 = 0x0000
-      MyHTML_STATUS_ERROR                              = 0x0001
-      MyHTML_STATUS_ERROR_MEMORY_ALLOCATION            = 0x0002
-      MyHTML_STATUS_THREAD_ERROR_MEMORY_ALLOCATION     = 0x0009
-      MyHTML_STATUS_THREAD_ERROR_LIST_INIT             = 0x000a
-      MyHTML_STATUS_THREAD_ERROR_ATTR_MALLOC           = 0x000b
-      MyHTML_STATUS_THREAD_ERROR_ATTR_INIT             = 0x000c
-      MyHTML_STATUS_THREAD_ERROR_ATTR_SET              = 0x000d
-      MyHTML_STATUS_THREAD_ERROR_ATTR_DESTROY          = 0x000e
-      MyHTML_STATUS_THREAD_ERROR_NO_SLOTS              = 0x000f
-      MyHTML_STATUS_THREAD_ERROR_BATCH_INIT            = 0x0010
-      MyHTML_STATUS_THREAD_ERROR_WORKER_MALLOC         = 0x0011
-      MyHTML_STATUS_THREAD_ERROR_WORKER_SEM_CREATE     = 0x0012
-      MyHTML_STATUS_THREAD_ERROR_WORKER_THREAD_CREATE  = 0x0013
-      MyHTML_STATUS_THREAD_ERROR_MASTER_THREAD_CREATE  = 0x0014
-      MyHTML_STATUS_THREAD_ERROR_SEM_PREFIX_MALLOC     = 0x0032
-      MyHTML_STATUS_THREAD_ERROR_SEM_CREATE            = 0x0033
-      MyHTML_STATUS_THREAD_ERROR_QUEUE_MALLOC          = 0x003c
-      MyHTML_STATUS_THREAD_ERROR_QUEUE_NODES_MALLOC    = 0x003d
-      MyHTML_STATUS_THREAD_ERROR_QUEUE_NODE_MALLOC     = 0x003e
-      MyHTML_STATUS_THREAD_ERROR_MUTEX_MALLOC          = 0x0046
-      MyHTML_STATUS_THREAD_ERROR_MUTEX_INIT            = 0x0047
-      MyHTML_STATUS_THREAD_ERROR_MUTEX_LOCK            = 0x0048
-      MyHTML_STATUS_THREAD_ERROR_MUTEX_UNLOCK          = 0x0049
-      MyHTML_STATUS_RULES_ERROR_MEMORY_ALLOCATION      = 0x0064
-      MyHTML_STATUS_PERF_ERROR_COMPILED_WITHOUT_PERF   = 0x00c8
-      MyHTML_STATUS_PERF_ERROR_FIND_CPU_CLOCK          = 0x00c9
-      MyHTML_STATUS_TOKENIZER_ERROR_MEMORY_ALLOCATION  = 0x012c
-      MyHTML_STATUS_TOKENIZER_ERROR_FRAGMENT_INIT      = 0x012d
-      MyHTML_STATUS_TAGS_ERROR_MEMORY_ALLOCATION       = 0x0190
-      MyHTML_STATUS_TAGS_ERROR_MCOBJECT_CREATE         = 0x0191
-      MyHTML_STATUS_TAGS_ERROR_MCOBJECT_MALLOC         = 0x0192
-      MyHTML_STATUS_TAGS_ERROR_MCOBJECT_CREATE_NODE    = 0x0193
-      MyHTML_STATUS_TAGS_ERROR_CACHE_MEMORY_ALLOCATION = 0x0194
-      MyHTML_STATUS_TAGS_ERROR_INDEX_MEMORY_ALLOCATION = 0x0195
-      MyHTML_STATUS_TREE_ERROR_MEMORY_ALLOCATION       = 0x01f4
-      MyHTML_STATUS_TREE_ERROR_MCOBJECT_CREATE         = 0x01f5
-      MyHTML_STATUS_TREE_ERROR_MCOBJECT_INIT           = 0x01f6
-      MyHTML_STATUS_TREE_ERROR_MCOBJECT_CREATE_NODE    = 0x01f7
-      MyHTML_STATUS_TREE_ERROR_INCOMING_BUFFER_CREATE  = 0x01f8
-      MyHTML_STATUS_ATTR_ERROR_ALLOCATION              = 0x0258
-      MyHTML_STATUS_ATTR_ERROR_CREATE                  = 0x0259
-      MyHTML_STATUS_STREAM_BUFFER_ERROR_CREATE         = 0x0300
-      MyHTML_STATUS_STREAM_BUFFER_ERROR_INIT           = 0x0301
-      MyHTML_STATUS_STREAM_BUFFER_ENTRY_ERROR_CREATE   = 0x0302
-      MyHTML_STATUS_STREAM_BUFFER_ENTRY_ERROR_INIT     = 0x0303
-      MyHTML_STATUS_STREAM_BUFFER_ERROR_ADD_ENTRY      = 0x0304
-      MyHTML_STATUS_MCOBJECT_ERROR_CACHE_CREATE        = 0x0340
-      MyHTML_STATUS_MCOBJECT_ERROR_CHUNK_CREATE        = 0x0341
-      MyHTML_STATUS_MCOBJECT_ERROR_CHUNK_INIT          = 0x0342
-      MyHTML_STATUS_MCOBJECT_ERROR_CACHE_REALLOC       = 0x0343
+    # cat mycore/myosi.h | grep 'MyCORE_STATUS' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
+    enum MyStatus
+      MyCORE_STATUS_OK                                = 0x0000
+      MyCORE_STATUS_ERROR                             = 0x0001
+      MyCORE_STATUS_ERROR_MEMORY_ALLOCATION           = 0x0002
+      MyCORE_STATUS_THREAD_ERROR_MEMORY_ALLOCATION    = 0x0009
+      MyCORE_STATUS_THREAD_ERROR_LIST_INIT            = 0x000a
+      MyCORE_STATUS_THREAD_ERROR_ATTR_MALLOC          = 0x000b
+      MyCORE_STATUS_THREAD_ERROR_ATTR_INIT            = 0x000c
+      MyCORE_STATUS_THREAD_ERROR_ATTR_SET             = 0x000d
+      MyCORE_STATUS_THREAD_ERROR_ATTR_DESTROY         = 0x000e
+      MyCORE_STATUS_THREAD_ERROR_NO_SLOTS             = 0x000f
+      MyCORE_STATUS_THREAD_ERROR_BATCH_INIT           = 0x0010
+      MyCORE_STATUS_THREAD_ERROR_WORKER_MALLOC        = 0x0011
+      MyCORE_STATUS_THREAD_ERROR_WORKER_SEM_CREATE    = 0x0012
+      MyCORE_STATUS_THREAD_ERROR_WORKER_THREAD_CREATE = 0x0013
+      MyCORE_STATUS_THREAD_ERROR_MASTER_THREAD_CREATE = 0x0014
+      MyCORE_STATUS_THREAD_ERROR_SEM_PREFIX_MALLOC    = 0x0032
+      MyCORE_STATUS_THREAD_ERROR_SEM_CREATE           = 0x0033
+      MyCORE_STATUS_THREAD_ERROR_QUEUE_MALLOC         = 0x003c
+      MyCORE_STATUS_THREAD_ERROR_QUEUE_NODES_MALLOC   = 0x003d
+      MyCORE_STATUS_THREAD_ERROR_QUEUE_NODE_MALLOC    = 0x003e
+      MyCORE_STATUS_THREAD_ERROR_MUTEX_MALLOC         = 0x0046
+      MyCORE_STATUS_THREAD_ERROR_MUTEX_INIT           = 0x0047
+      MyCORE_STATUS_THREAD_ERROR_MUTEX_LOCK           = 0x0048
+      MyCORE_STATUS_THREAD_ERROR_MUTEX_UNLOCK         = 0x0049
+      MyCORE_STATUS_PERF_ERROR_COMPILED_WITHOUT_PERF  = 0x0050
+      MyCORE_STATUS_PERF_ERROR_FIND_CPU_CLOCK         = 0x0051
+      MyCORE_STATUS_MCOBJECT_ERROR_CACHE_CREATE       = 0x0055
+      MyCORE_STATUS_MCOBJECT_ERROR_CHUNK_CREATE       = 0x0056
+      MyCORE_STATUS_MCOBJECT_ERROR_CHUNK_INIT         = 0x0057
+      MyCORE_STATUS_MCOBJECT_ERROR_CACHE_REALLOC      = 0x0058
+      MyCORE_STATUS_ASYNC_ERROR_LOCK                  = 0x0060
+      MyCORE_STATUS_ASYNC_ERROR_UNLOCK                = 0x0061
+      MyCORE_STATUS_ERROR_NO_FREE_SLOT                = 0x0062
     end
 
-    # cat api.h | grep '  MyHTML_NAMESPACE_' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
+    # cat myhtml/api.h | grep '  MyHTML_NAMESPACE_' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
     enum MyhtmlNamespace
       MyHTML_NAMESPACE_UNDEF      = 0x00
       MyHTML_NAMESPACE_HTML       = 0x01
@@ -373,7 +358,7 @@ module Myhtml
       MyHTML_NAMESPACE_LAST_ENTRY = 0x07
     end
 
-    # cat api.h | grep '  MyHTML_OPTIONS_' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
+    # cat myhtml/api.h | grep '  MyHTML_OPTIONS_' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
     enum MyhtmlOptions
       MyHTML_OPTIONS_DEFAULT               = 0x00
       MyHTML_OPTIONS_PARSE_MODE_SINGLE     = 0x01
@@ -386,7 +371,7 @@ module Myhtml
       MyHTML_TREE_PARSE_FLAGS_CLEAN                   = 0x000
       MyHTML_TREE_PARSE_FLAGS_WITHOUT_BUILD_TREE      = 0x001
       MyHTML_TREE_PARSE_FLAGS_WITHOUT_PROCESS_TOKEN   = 0x003
-      MyHTML_TREE_PARSE_FLAGS_SKIP_WHITESPACE_TOKEN   = 0x004 # /* skip ws not for RCDATA RAWTEXT CDATA PLAINTEXT */
+      MyHTML_TREE_PARSE_FLAGS_SKIP_WHITESPACE_TOKEN   = 0x004
       MyHTML_TREE_PARSE_FLAGS_WITHOUT_DOCTYPE_IN_TREE = 0x008
     end
   end

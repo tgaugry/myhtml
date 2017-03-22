@@ -5,14 +5,14 @@ module Myhtml
     def initialize(options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE, threads_count = 1, queue_size = 0, tree_options : Lib::MyhtmlTreeParseFlags? = nil)
       @raw_myhtml = Lib.create
       res = Lib.init(@raw_myhtml, options, threads_count, queue_size)
-      if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+      if res != Lib::MyStatus::MyCORE_STATUS_OK
         raise Error.new("init error #{res}")
       end
 
       @raw_tree = Lib.tree_create
       res = Lib.tree_init(@raw_tree, @raw_myhtml)
 
-      if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+      if res != Lib::MyStatus::MyCORE_STATUS_OK
         Lib.destroy(@raw_myhtml)
         raise Error.new("tree_init error #{res}")
       end
