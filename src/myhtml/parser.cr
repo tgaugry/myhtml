@@ -49,7 +49,7 @@ module Myhtml
       end
 
       res = Lib.parse(@tree.raw_tree, @encoding, pointer, bytesize)
-      if res != Lib::MycoreStatus::MyCORE_STATUS_OK
+      if res != Lib::MyStatus::MyCORE_STATUS_OK
         free
         raise Error.new("parse error #{res}")
       end
@@ -70,14 +70,14 @@ module Myhtml
 
         buffers << buffer
         res = Lib.parse_chunk(@tree.raw_tree, buffer.to_unsafe, read_size)
-        if res != Lib::MycoreStatus::MyCORE_STATUS_OK
+        if res != Lib::MyStatus::MyCORE_STATUS_OK
           free
           raise Error.new("parse_chunk error #{res}")
         end
       end
 
       res = Lib.parse_chunk_end(@tree.raw_tree)
-      if res != Lib::MycoreStatus::MyCORE_STATUS_OK
+      if res != Lib::MyStatus::MyCORE_STATUS_OK
         free
         raise Error.new("parse_chunk_end error #{res}")
       end

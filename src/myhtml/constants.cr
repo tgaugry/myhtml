@@ -309,7 +309,7 @@ module Myhtml
     end
 
     # cat mycore/myosi.h | grep 'MyCORE_STATUS' | ruby -e 'while s = gets; puts s.gsub(",", "").gsub("//", "#"); end;'
-    enum MycoreStatus
+    enum MyStatus
       MyCORE_STATUS_OK                                = 0x0000
       MyCORE_STATUS_ERROR                             = 0x0001
       MyCORE_STATUS_ERROR_MEMORY_ALLOCATION           = 0x0002

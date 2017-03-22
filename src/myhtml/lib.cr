@@ -30,19 +30,19 @@ module Myhtml
     end
 
     fun create = myhtml_create : MyhtmlT*
-    fun init = myhtml_init(myhtml : MyhtmlT*, opt : MyhtmlOptions, thread_count : LibC::SizeT, queue_size : LibC::SizeT) : MycoreStatus
+    fun init = myhtml_init(myhtml : MyhtmlT*, opt : MyhtmlOptions, thread_count : LibC::SizeT, queue_size : LibC::SizeT) : MyStatus
 
     fun tree_create = myhtml_tree_create : MyhtmlTreeT*
-    fun tree_init = myhtml_tree_init(tree : MyhtmlTreeT*, myhtml : MyhtmlT*) : MycoreStatus
+    fun tree_init = myhtml_tree_init(tree : MyhtmlTreeT*, myhtml : MyhtmlT*) : MyStatus
 
     fun tree_destroy = myhtml_tree_destroy(tree : MyhtmlTreeT*) : MyhtmlTreeT*
     fun destroy = myhtml_destroy(myhtml : MyhtmlT*) : MyhtmlT*
 
     fun tree_parse_flags_set = myhtml_tree_parse_flags_set(tree : MyhtmlTreeT*, parse_flags : MyhtmlTreeParseFlags)
 
-    fun parse = myhtml_parse(tree : MyhtmlTreeT*, encoding : MyEncodingList, html : UInt8*, html_size : LibC::SizeT) : MycoreStatus
-    fun parse_chunk = myhtml_parse_chunk(tree : MyhtmlTreeT*, html : UInt8*, html_size : LibC::SizeT) : MycoreStatus
-    fun parse_chunk_end = myhtml_parse_chunk_end(tree : MyhtmlTreeT*) : MycoreStatus
+    fun parse = myhtml_parse(tree : MyhtmlTreeT*, encoding : MyEncodingList, html : UInt8*, html_size : LibC::SizeT) : MyStatus
+    fun parse_chunk = myhtml_parse_chunk(tree : MyhtmlTreeT*, html : UInt8*, html_size : LibC::SizeT) : MyStatus
+    fun parse_chunk_end = myhtml_parse_chunk_end(tree : MyhtmlTreeT*) : MyStatus
     fun encoding_detect_and_cut_bom = myencoding_detect_and_cut_bom(text : UInt8*, length : LibC::SizeT, encoding : MyEncodingList*, new_text : UInt8**, new_size : LibC::SizeT*) : Bool
     fun version = myhtml_version : MyhtmlVersion
 
@@ -71,19 +71,19 @@ module Myhtml
     fun attribute_value = myhtml_attribute_value(attr : MyhtmlTreeAttrT*, length : LibC::SizeT*) : UInt8*
     fun attribute_next = myhtml_attribute_next(attr : MyhtmlTreeAttrT*) : MyhtmlTreeAttrT*
 
-    fun serialization = myhtml_serialization(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
-    fun serialization_node = myhtml_serialization_node(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
+    fun serialization = myhtml_serialization(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : MyStatus
+    fun serialization_node = myhtml_serialization_node(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : MyStatus
 
     fun string_raw_clean_all = mycore_string_raw_clean_all(str_raw : MyhtmlStringRawT*)
     fun string_raw_destroy = mycore_string_raw_destroy(str_raw : MyhtmlStringRawT*, destroy_obj : Bool) : MyhtmlStringRawT*
 
     fun get_nodes_by_attribute_value = myhtml_get_nodes_by_attribute_value(tree : MyhtmlTreeT*,
                                                                            collection : MyhtmlCollectionT*, node : MyhtmlTreeNodeT*, case_insensitive : Bool, key : UInt8*, key_len : LibC::SizeT,
-                                                                           value : UInt8*, value_len : LibC::SizeT, status : MycoreStatus*) : MyhtmlCollectionT*
+                                                                           value : UInt8*, value_len : LibC::SizeT, status : MyStatus*) : MyhtmlCollectionT*
 
     fun get_nodes_by_tag_id = myhtml_get_nodes_by_tag_id(tree : MyhtmlTreeT*,
                                                          collection : MyhtmlCollectionT*, tag_id : MyhtmlTagIdT,
-                                                         status : MycoreStatus*) : MyhtmlCollectionT*
+                                                         status : MyStatus*) : MyhtmlCollectionT*
 
     fun collection_destroy = myhtml_collection_destroy(collection : MyhtmlCollectionT*) : MyhtmlCollectionT*
 
