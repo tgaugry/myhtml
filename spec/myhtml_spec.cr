@@ -10,7 +10,7 @@ describe Myhtml do
     parser.root!.child!.next!.child!.tag_text.should eq "BLA"
   end
 
-  pending "version" do # TODO: uncomment when crystal fixed
+  it "version" do
     v = Myhtml.version_string
     v.size.should be > 0
   end
