@@ -2,23 +2,23 @@ module Myhtml
   struct Parser
     getter tree, encoding
 
-    @encoding : Lib::MyhtmlEncodingList
+    @encoding : Lib::MyEncodingList
 
-    protected def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, @detect_encoding_from_meta : Bool = false, @detect_encoding : Bool = false)
+    protected def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyEncodingList? = nil, @detect_encoding_from_meta : Bool = false, @detect_encoding : Bool = false)
       options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE
       threads_count = 1
       queue_size = 0
-      @encoding = encoding || Lib::MyhtmlEncodingList::MyHTML_ENCODING_DEFAULT
+      @encoding = encoding || Lib::MyEncodingList::MyENCODING_DEFAULT
       @tree = Tree.new(options, threads_count, queue_size, tree_options = nil)
     end
 
     # parse from string
-    def self.new(page : String, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil, detect_encoding_from_meta : Bool = false, detect_encoding : Bool = false)
+    def self.new(page : String, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyEncodingList? = nil, detect_encoding_from_meta : Bool = false, detect_encoding : Bool = false)
       self.new(tree_options: tree_options, encoding: encoding, detect_encoding_from_meta: detect_encoding_from_meta, detect_encoding: detect_encoding).parse(page)
     end
 
     # parse from stream
-    def self.new(io : IO, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyhtmlEncodingList? = nil)
+    def self.new(io : IO, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyEncodingList? = nil)
       self.new(tree_options: tree_options, encoding: encoding).parse_stream(io)
     end
 
@@ -35,7 +35,7 @@ module Myhtml
 
         if @detect_encoding_from_meta
           enc = Lib.encoding_prescan_stream_to_determine_encoding(pointer, bytesize)
-          if enc != Lib::MyhtmlEncodingList::MyHTML_ENCODING_NOT_DETERMINED
+          if enc != Lib::MyEncodingList::MyENCODING_NOT_DETERMINED
             detected = true
             @encoding = enc
           end
@@ -49,7 +49,7 @@ module Myhtml
       end
 
       res = Lib.parse(@tree.raw_tree, @encoding, pointer, bytesize)
-      if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+      if res != Lib::MycoreStatus::MyCORE_STATUS_OK
         free
         raise Error.new("parse error #{res}")
       end
@@ -70,14 +70,14 @@ module Myhtml
 
         buffers << buffer
         res = Lib.parse_chunk(@tree.raw_tree, buffer.to_unsafe, read_size)
-        if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+        if res != Lib::MycoreStatus::MyCORE_STATUS_OK
           free
           raise Error.new("parse_chunk error #{res}")
         end
       end
 
       res = Lib.parse_chunk_end(@tree.raw_tree)
-      if res != Lib::MyhtmlStatus::MyHTML_STATUS_OK
+      if res != Lib::MycoreStatus::MyCORE_STATUS_OK
         free
         raise Error.new("parse_chunk_end error #{res}")
       end

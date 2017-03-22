@@ -30,20 +30,20 @@ module Myhtml
     end
 
     fun create = myhtml_create : MyhtmlT*
-    fun init = myhtml_init(myhtml : MyhtmlT*, opt : MyhtmlOptions, thread_count : LibC::SizeT, queue_size : LibC::SizeT) : MyhtmlStatus
+    fun init = myhtml_init(myhtml : MyhtmlT*, opt : MyhtmlOptions, thread_count : LibC::SizeT, queue_size : LibC::SizeT) : MycoreStatus
 
     fun tree_create = myhtml_tree_create : MyhtmlTreeT*
-    fun tree_init = myhtml_tree_init(tree : MyhtmlTreeT*, myhtml : MyhtmlT*) : MyhtmlStatus
+    fun tree_init = myhtml_tree_init(tree : MyhtmlTreeT*, myhtml : MyhtmlT*) : MycoreStatus
 
     fun tree_destroy = myhtml_tree_destroy(tree : MyhtmlTreeT*) : MyhtmlTreeT*
     fun destroy = myhtml_destroy(myhtml : MyhtmlT*) : MyhtmlT*
 
     fun tree_parse_flags_set = myhtml_tree_parse_flags_set(tree : MyhtmlTreeT*, parse_flags : MyhtmlTreeParseFlags)
 
-    fun parse = myhtml_parse(tree : MyhtmlTreeT*, encoding : MyhtmlEncodingList, html : UInt8*, html_size : LibC::SizeT) : MyhtmlStatus
-    fun parse_chunk = myhtml_parse_chunk(tree : MyhtmlTreeT*, html : UInt8*, html_size : LibC::SizeT) : MyhtmlStatus
-    fun parse_chunk_end = myhtml_parse_chunk_end(tree : MyhtmlTreeT*) : MyhtmlStatus
-    fun encoding_detect_and_cut_bom = myhtml_encoding_detect_and_cut_bom(text : UInt8*, length : LibC::SizeT, encoding : MyhtmlEncodingList*, new_text : UInt8**, new_size : LibC::SizeT*) : Bool
+    fun parse = myhtml_parse(tree : MyhtmlTreeT*, encoding : MyEncodingList, html : UInt8*, html_size : LibC::SizeT) : MycoreStatus
+    fun parse_chunk = myhtml_parse_chunk(tree : MyhtmlTreeT*, html : UInt8*, html_size : LibC::SizeT) : MycoreStatus
+    fun parse_chunk_end = myhtml_parse_chunk_end(tree : MyhtmlTreeT*) : MycoreStatus
+    fun encoding_detect_and_cut_bom = myencoding_detect_and_cut_bom(text : UInt8*, length : LibC::SizeT, encoding : MyEncodingList*, new_text : UInt8**, new_size : LibC::SizeT*) : Bool
     fun version = myhtml_version : MyhtmlVersion
 
     fun tree_get_document = myhtml_tree_get_document(tree : MyhtmlTreeT*) : MyhtmlTreeNodeT*
@@ -64,7 +64,7 @@ module Myhtml
     fun tag_name_by_id = myhtml_tag_name_by_id(tree : MyhtmlTreeT*, tag_id : MyhtmlTagIdT, length : LibC::SizeT*) : UInt8*
     fun node_tag_id = myhtml_node_tag_id(node : MyhtmlTreeNodeT*) : MyhtmlTagIdT
     fun node_text = myhtml_node_text(node : MyhtmlTreeNodeT*, length : LibC::SizeT*) : UInt8*
-    fun node_text_set_with_charef = myhtml_node_text_set_with_charef(node : MyhtmlTreeNodeT*, text : UInt8*, length : LibC::SizeT, encoding : MyhtmlEncodingList)
+    fun node_text_set_with_charef = myhtml_node_text_set_with_charef(node : MyhtmlTreeNodeT*, text : UInt8*, length : LibC::SizeT, encoding : MyEncodingList)
 
     fun node_attribute_first = myhtml_node_attribute_first(node : MyhtmlTreeNodeT*) : MyhtmlTreeAttrT*
     fun attribute_key = myhtml_attribute_key(attr : MyhtmlTreeAttrT*, length : LibC::SizeT*) : UInt8*
@@ -74,24 +74,24 @@ module Myhtml
     fun serialization = myhtml_serialization(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
     fun serialization_node = myhtml_serialization_node(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : Bool
 
-    fun string_raw_clean_all = myhtml_string_raw_clean_all(str_raw : MyhtmlStringRawT*)
-    fun string_raw_destroy = myhtml_string_raw_destroy(str_raw : MyhtmlStringRawT*, destroy_obj : Bool) : MyhtmlStringRawT*
+    fun string_raw_clean_all = mycore_string_raw_clean_all(str_raw : MyhtmlStringRawT*)
+    fun string_raw_destroy = mycore_string_raw_destroy(str_raw : MyhtmlStringRawT*, destroy_obj : Bool) : MyhtmlStringRawT*
 
     fun get_nodes_by_attribute_value = myhtml_get_nodes_by_attribute_value(tree : MyhtmlTreeT*,
                                                                            collection : MyhtmlCollectionT*, node : MyhtmlTreeNodeT*, case_insensitive : Bool, key : UInt8*, key_len : LibC::SizeT,
-                                                                           value : UInt8*, value_len : LibC::SizeT, status : MyhtmlStatus*) : MyhtmlCollectionT*
+                                                                           value : UInt8*, value_len : LibC::SizeT, status : MycoreStatus*) : MyhtmlCollectionT*
 
     fun get_nodes_by_tag_id = myhtml_get_nodes_by_tag_id(tree : MyhtmlTreeT*,
                                                          collection : MyhtmlCollectionT*, tag_id : MyhtmlTagIdT,
-                                                         status : MyhtmlStatus*) : MyhtmlCollectionT*
+                                                         status : MycoreStatus*) : MyhtmlCollectionT*
 
     fun collection_destroy = myhtml_collection_destroy(collection : MyhtmlCollectionT*) : MyhtmlCollectionT*
 
     # encoding
-    fun encoding_set = myhtml_encoding_set(tree : MyhtmlTreeT*, encoding : MyhtmlEncodingList)
-    fun encoding_prescan_stream_to_determine_encoding = myhtml_encoding_prescan_stream_to_determine_encoding(data : UInt8*, data_size : LibC::SizeT) : MyhtmlEncodingList
-    fun encoding_name_by_id = myhtml_encoding_name_by_id(encoding : MyhtmlEncodingList, length : LibC::SizeT*) : UInt8*
-    fun encoding_extracting_character_encoding_from_charset = myhtml_encoding_extracting_character_encoding_from_charset(data : UInt8*, data_size : LibC::SizeT, encoding : MyhtmlEncodingList*) : Bool
-    fun encoding_detect = myhtml_encoding_detect(text : UInt8*, length : LibC::SizeT, encoding : MyhtmlEncodingList*) : Bool
+    fun encoding_set = myhtml_encoding_set(tree : MyhtmlTreeT*, encoding : MyEncodingList)
+    fun encoding_prescan_stream_to_determine_encoding = myencoding_prescan_stream_to_determine_encoding(data : UInt8*, data_size : LibC::SizeT) : MyEncodingList
+    fun encoding_name_by_id = myencoding_name_by_id(encoding : MyEncodingList, length : LibC::SizeT*) : UInt8*
+    fun encoding_extracting_character_encoding_from_charset = myencoding_extracting_character_encoding_from_charset(data : UInt8*, data_size : LibC::SizeT, encoding : MyEncodingList*) : Bool
+    fun encoding_detect = myencoding_detect(text : UInt8*, length : LibC::SizeT, encoding : MyEncodingList*) : Bool
   end
 end
