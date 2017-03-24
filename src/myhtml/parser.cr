@@ -9,7 +9,7 @@ module Myhtml
       threads_count = 1
       queue_size = 0
       @encoding = encoding || Lib::MyEncodingList::MyENCODING_DEFAULT
-      @tree = Tree.new(options, threads_count, queue_size, tree_options = nil)
+      @tree = Tree.new(options, threads_count, queue_size, tree_options)
     end
 
     # parse from string
