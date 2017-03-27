@@ -78,6 +78,7 @@ module Myhtml
         yield attr
         attr = Lib.attribute_next(attr)
       end
+      nil
     end
 
     def any_attribute?
@@ -86,23 +87,31 @@ module Myhtml
 
     def each_attribute(&block)
       each_raw_attribute do |attr|
-        name = Lib.attribute_key(attr, out name_length)
-        value = Lib.attribute_value(attr, out value_length)
-        name_slice = Slice(UInt8).new(name, name_length)
-        value_slice = Slice(UInt8).new(value, value_length)
-        yield name_slice, value_slice
+        yield attribute_name(attr), attribute_value(attr)
       end
     end
 
+    private def attribute_name(attr)
+      name = Lib.attribute_key(attr, out name_length)
+      Slice(UInt8).new(name, name_length)
+    end
+
+    private def attribute_value(attr)
+      value = Lib.attribute_value(attr, out value_length)
+      Slice(UInt8).new(value, value_length)
+    end
+
     def attribute_by(string : String)
-      each_attribute do |k, v|
-        return String.new(v) if k == string.to_slice
+      if slice = attribute_by(string.to_slice)
+        String.new(slice)
       end
     end
 
     def attribute_by(slice : Slice(UInt8))
-      each_attribute do |k, v|
-        return v if k == slice
+      each_raw_attribute do |attr|
+        if attribute_name(attr) == slice
+          return attribute_value(attr)
+        end
       end
     end
 

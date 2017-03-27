@@ -12,6 +12,8 @@ describe Myhtml::Node do
     node.child!.tag_text.should eq "Haha"
     node.attribute_by("class").should eq "AAA"
     node.attribute_by("class".to_slice).should eq "AAA".to_slice
+    node.attribute_by("asfasdf").should eq nil
+    node.attribute_by("asfasdf".to_slice).should eq nil
   end
 
   it "raise error when no node" do
@@ -26,6 +28,7 @@ describe Myhtml::Node do
     node = parser.root!.child!.next!.child!
     node.attributes.should eq({"class" => "AAA", "style" => "color:red"})
     node.attribute_by("class").should eq "AAA"
+    node.attribute_by("class".to_slice).should eq "AAA".to_slice
   end
 
   it "ignore case attributes" do
