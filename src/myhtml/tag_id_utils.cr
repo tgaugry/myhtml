@@ -1,5 +1,6 @@
 module Myhtml
   module TagIdUtils
+    @[AlwaysInline]
     def tag_sym
       Myhtml.symbol_by_tag_id(tag_id)
     end

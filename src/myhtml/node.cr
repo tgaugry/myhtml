@@ -91,11 +91,13 @@ module Myhtml
       end
     end
 
+    @[AlwaysInline]
     private def attribute_name(attr)
       name = Lib.attribute_key(attr, out name_length)
       Slice(UInt8).new(name, name_length)
     end
 
+    @[AlwaysInline]
     private def attribute_value(attr)
       value = Lib.attribute_value(attr, out value_length)
       Slice(UInt8).new(value, value_length)
