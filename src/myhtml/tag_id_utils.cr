@@ -32,6 +32,7 @@ module Myhtml
     end
 
     {% for name in Lib::MyhtmlTags.constants %}
+      @[AlwaysInline]
       def is_tag_{{ name.gsub(/MyHTML_TAG_/, "").downcase.id }}?
         tag_id == Lib::MyhtmlTags::{{ name.id }}
       end
