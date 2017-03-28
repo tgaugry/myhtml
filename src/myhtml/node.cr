@@ -104,8 +104,11 @@ module Myhtml
     end
 
     def attribute_by(string : String)
-      if slice = attribute_by(string.to_slice)
-        String.new(slice)
+      slice = string.to_slice
+      each_raw_attribute do |attr|
+        if attribute_name(attr) == slice
+          return String.new(attribute_value(attr))
+        end
       end
     end
 
