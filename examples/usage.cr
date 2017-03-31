@@ -18,6 +18,7 @@ myhtml.head  # Myhtml::Node?
 myhtml.head! # Myhtml::Node
 
 # iterator over all div nodes from root scope
+# equal with myhtml.root!.scope.nodes(:div)
 myhtml.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV) # Iterator(Myhtml::Node)
 myhtml.nodes(:div)                                    # Iterator(Myhtml::Node)
 myhtml.nodes("div")                                   # Iterator(Myhtml::Node)
