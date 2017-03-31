@@ -99,12 +99,10 @@ module Myhtml
       Iterator.new(@tree, Lib.get_nodes_by_tag_id(@tree.raw_tree, nil, tag_id, out status))
     end
 
-    @[AlwaysInline]
     def nodes(tag_sym : Symbol)
       nodes(Myhtml.tag_id_by_symbol(tag_sym))
     end
 
-    @[AlwaysInline]
     def nodes(tag_str : String)
       nodes(Myhtml.tag_id_by_string(tag_str))
     end

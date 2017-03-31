@@ -42,7 +42,6 @@ module Myhtml
       end
     {% end %}
 
-    @[AlwaysInline]
     def remove!
       Lib.node_remove(@node)
     end
@@ -52,29 +51,24 @@ module Myhtml
       Lib.node_tag_id(@node)
     end
 
-    @[AlwaysInline]
     def tag_name_slice
       res = Lib.tag_name_by_id(@tree.raw_tree, tag_id, out length)
       Slice.new(res, length)
     end
 
-    @[AlwaysInline]
     def tag_name
       String.new(tag_name_slice)
     end
 
-    @[AlwaysInline]
     def tag_text_slice
       res = Lib.node_text(@node, out length)
       Slice.new(res, length)
     end
 
-    @[AlwaysInline]
     def tag_text
       String.new(tag_text_slice)
     end
 
-    @[AlwaysInline]
     def tag_text_set(text : String, encoding)
       Lib.node_text_set_with_charef(@node, text.to_unsafe, text.bytesize, encoding)
     end
@@ -138,12 +132,10 @@ module Myhtml
       end
     end
 
-    @[AlwaysInline]
     def children
       ChildrenIterator.new(self)
     end
 
-    @[AlwaysInline]
     def scope
       ScopeIterator.new(self)
     end
@@ -153,17 +145,14 @@ module Myhtml
       children.each { |child| child.walk_tree(level + 1, &block) }
     end
 
-    @[AlwaysInline]
     def parents
       ParentsIterator.new(self)
     end
 
-    @[AlwaysInline]
     def left_iterator
       LeftIterator.new(self)
     end
 
-    @[AlwaysInline]
     def right_iterator
       RightIterator.new(self)
     end
@@ -198,12 +187,10 @@ module Myhtml
       self.next || next_parent
     end
 
-    @[AlwaysInline]
     def data=(d : Void*)
       Lib.node_set_data(@node, d)
     end
 
-    @[AlwaysInline]
     def data
       Lib.node_get_data(@node)
     end
