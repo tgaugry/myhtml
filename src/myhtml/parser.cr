@@ -96,7 +96,7 @@ module Myhtml
     {% end %}
 
     def nodes(tag_id : Myhtml::Lib::MyhtmlTags)
-      CollectionIterator.new(@tree, Lib.get_nodes_by_tag_id(@tree.raw_tree, nil, tag_id, out status))
+      Iterator.new(@tree, Lib.get_nodes_by_tag_id(@tree.raw_tree, nil, tag_id, out status))
     end
 
     @[AlwaysInline]

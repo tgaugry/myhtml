@@ -108,4 +108,8 @@ describe "iterators" do
     res = div.scope.nodes("_text").map(&.tag_text.strip).reject(&.empty?).to_a
     res.should eq %w(Bla text)
   end
+
+  it "inspect iterator" do
+    parser.nodes(:div).inspect.should contain "elements: 2, current: 0"
+  end
 end

@@ -215,7 +215,7 @@ module Myhtml
         raise Error.new("nodes_by_attribute error #{status}, for `#{key}`, `#{value}`")
       end
 
-      CollectionIterator.new(@tree, col)
+      Iterator.new(@tree, col)
     end
 
     def to_html(deep = true)

@@ -18,7 +18,7 @@ module Myhtml
   end
 
   struct RightIterator
-    include Iterator(Node)
+    include ::Iterator(Node)
     include TagsIterator
 
     def initialize(@start_node : Node)
@@ -36,7 +36,7 @@ module Myhtml
   end
 
   struct LeftIterator
-    include Iterator(Node)
+    include ::Iterator(Node)
     include TagsIterator
 
     def initialize(@start_node : Node)
@@ -59,7 +59,7 @@ module Myhtml
   end
 
   struct ChildrenIterator
-    include Iterator(Node)
+    include ::Iterator(Node)
     include TagsIterator
 
     @current_node : Node?
@@ -83,7 +83,7 @@ module Myhtml
   end
 
   struct ScopeIterator
-    include Iterator(Node)
+    include ::Iterator(Node)
     include TagsIterator
 
     @stop_node : Node?
@@ -105,7 +105,7 @@ module Myhtml
   end
 
   struct ParentsIterator
-    include Iterator(Node)
+    include ::Iterator(Node)
     include TagsIterator
 
     def initialize(@start_node : Node)
@@ -126,8 +126,8 @@ module Myhtml
     end
   end
 
-  class CollectionIterator
-    include Iterator(Node)
+  class Iterator
+    include ::Iterator(Node)
 
     @length : LibC::SizeT
     @list : Lib::MyhtmlTreeNodeT**
@@ -172,6 +172,17 @@ module Myhtml
 
     def rewind
       @id = 0
+    end
+
+    def inspect(io)
+      io << "#<Myhtml::Iterator:0x"
+      object_id.to_s(16, io)
+      io << " elements: "
+      @length.inspect(io)
+      io << ", "
+      io << "current: "
+      @id.inspect(io)
+      io << '>'
     end
   end
 end
