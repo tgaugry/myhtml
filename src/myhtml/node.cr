@@ -267,9 +267,7 @@ module Myhtml
       io << '"'
       if slice.bytesize > max_size
         io.write Bytes.new(slice.to_unsafe, max_size)
-        io << '.'
-        io << '.'
-        io << '.'
+        io << "..."
       else
         io.write slice
       end
