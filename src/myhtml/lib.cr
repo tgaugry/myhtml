@@ -9,7 +9,6 @@ module Myhtml
     type MyhtmlTagIndexT = Void*
     type MyhtmlTagIndexNodeT = Void*
     alias MyhtmlTagIdT = MyhtmlTags
-    type MyhtmlCallbackSerializeF = UInt8*, LibC::SizeT, Void* ->
 
     struct MyhtmlVersion
       major : Int32
