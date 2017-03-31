@@ -260,7 +260,7 @@ module Myhtml
         end
         io << '}'
       end
-      io << ")"
+      io << ')'
     end
 
     private def inspect_string_slice_to_io(slice : Bytes, io : IO, max_size = 30)
