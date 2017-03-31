@@ -235,16 +235,29 @@ describe Myhtml::Node do
   end
 
   context "inspect" do
-    it "work" do
-      parser = Myhtml::Parser.new(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
+    context "work" do
+      parser = Myhtml::Parser.new(%Q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div>
+        <div>#{"bla" * 30}</div></body></html>])
 
-      node = parser.nodes(:div).first
-      node.inspect.should eq "Myhtml::Node(tag_name: \"div\", attributes: {\"class\" => \"AAA\", \"style\" => \"color:red\"})"
+      it do
+        node = parser.nodes(:div).first
+        node.inspect.should eq "Myhtml::Node(tag_name: \"div\", attributes: {\"class\" => \"AAA\", \"style\" => \"color:red\"})"
+      end
 
-      node.child!.inspect.should eq "Myhtml::Node(tag_name: \"-text\", tag_text: \"Haha \")"
+      it do
+        node = parser.nodes(:div).first
+        node.child!.inspect.should eq "Myhtml::Node(tag_name: \"-text\", tag_text: \"Haha \")"
+      end
 
-      node = parser.nodes(:span).first
-      node.inspect.should eq "Myhtml::Node(tag_name: \"span\")"
+      it do
+        node = parser.nodes(:span).first
+        node.inspect.should eq "Myhtml::Node(tag_name: \"span\")"
+      end
+
+      it do
+        node = parser.nodes(:div).to_a[1]
+        node.child!.inspect.should eq "Myhtml::Node(tag_name: \"-text\", tag_text: \"blablablablablablablablablabla...\")"
+      end
     end
   end
 end

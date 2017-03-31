@@ -236,25 +236,44 @@ module Myhtml
     end
 
     def inspect(io : IO)
-      io << "Myhtml::Node("
-      io << "tag_name: "
-      tag_name.inspect(io)
+      io << "Myhtml::Node(tag_name: "
+      inspect_string_slice_to_io(tag_name_slice, io)
+
       case _tag_id = tag_id
       when Lib::MyhtmlTags::MyHTML_TAG__TEXT,
            Lib::MyhtmlTags::MyHTML_TAG__COMMENT,
            Lib::MyhtmlTags::MyHTML_TAG_STYLE,
            Lib::MyhtmlTags::MyHTML_TAG_SCRIPT
-        text = tag_text
-        text = text.size > 30 ? text[0..30] + "..." : text
         io << ", tag_text: "
-        text.inspect(io)
+        inspect_string_slice_to_io(tag_text_slice, io)
       end
 
       if (_tag_id != Lib::MyhtmlTags::MyHTML_TAG__TEXT && _tag_id != Lib::MyhtmlTags::MyHTML_TAG__COMMENT) && any_attribute?
-        io << ", attributes: "
-        attributes.inspect(io)
+        io << ", attributes: {"
+        c = 0
+        each_attribute do |key_slice, value_slice|
+          io << ", " unless c == 0
+          inspect_string_slice_to_io(key_slice, io)
+          io << " => "
+          inspect_string_slice_to_io(value_slice, io)
+          c += 1
+        end
+        io << '}'
       end
       io << ")"
+    end
+
+    private def inspect_string_slice_to_io(slice : Bytes, io : IO, max_size = 30)
+      io << '"'
+      if slice.bytesize > max_size
+        io.write Bytes.new(slice.to_unsafe, max_size)
+        io << '.'
+        io << '.'
+        io << '.'
+      else
+        io.write slice
+      end
+      io << '"'
     end
   end
 end
