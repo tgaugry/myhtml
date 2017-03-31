@@ -263,7 +263,7 @@ module Myhtml
       io << ")"
     end
 
-    private def inspect_string_slice_to_io(slice, io, max_size = 30)
+    private def inspect_string_slice_to_io(slice : Bytes, io : IO, max_size = 30)
       io << '"'
       if slice.bytesize > max_size
         io.write Bytes.new(slice.to_unsafe, max_size)
