@@ -227,13 +227,15 @@ module Myhtml
     end
 
     def inner_text(join_with : String | Char | Nil = nil, deep = true)
-      String.build do |buf|
+      String.build do |io|
         i = 0
         each_inner_text(deep: deep) do |slice|
-          buf << join_with if join_with && i != 0
-          part = String.new(slice)
-          part = part.strip if join_with
-          buf << part
+          io << ' ' if join_with && i != 0
+          if join_with
+            io.write strip_slice(slice)
+          else
+            io.write slice
+          end
           i += 1
         end
       end
@@ -241,6 +243,28 @@ module Myhtml
 
     def each_inner_text(deep = true)
       (deep ? scope : children).nodes(Lib::MyhtmlTags::MyHTML_TAG__TEXT).each { |node| yield node.tag_text_slice }
+    end
+
+    private def strip_slice(slice)
+      left = slice_calc_excess_left(slice)
+      right = slice_calc_excess_right(slice)
+      Bytes.new(slice.to_unsafe + left, slice.bytesize - left - right)
+    end
+
+    private def slice_calc_excess_right(slice)
+      i = slice.bytesize - 1
+      while i >= 0 && slice[i].unsafe_chr.ascii_whitespace?
+        i -= 1
+      end
+      slice.bytesize - 1 - i
+    end
+
+    private def slice_calc_excess_left(slice)
+      excess_left = 0
+      while slice[excess_left].unsafe_chr.ascii_whitespace?
+        excess_left += 1
+      end
+      excess_left
     end
 
     def inspect(io : IO)
