@@ -228,13 +228,19 @@ module Myhtml
 
     def inner_text(join_with : String | Char | Nil = nil, deep = true)
       String.build do |buf|
-        (deep ? scope : children).nodes(:_text).each_with_index do |node, i|
+        i = 0
+        each_inner_text(deep: deep) do |slice|
           buf << join_with if join_with && i != 0
-          part = node.tag_text
+          part = String.new(slice)
           part = part.strip if join_with
           buf << part
+          i += 1
         end
       end
+    end
+
+    def each_inner_text(deep = true)
+      (deep ? scope : children).nodes(:_text).each { |node| yield node.tag_text_slice }
     end
 
     def inspect(io : IO)
