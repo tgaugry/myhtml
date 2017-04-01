@@ -253,12 +253,22 @@ module Myhtml
       if (_tag_id != Lib::MyhtmlTags::MyHTML_TAG__TEXT && _tag_id != Lib::MyhtmlTags::MyHTML_TAG__COMMENT) && any_attribute?
         io << ", attributes: {"
         c = 0
-        each_attribute do |key_slice, value_slice|
-          io << ", " unless c == 0
-          inspect_string_slice_to_io(key_slice, io)
-          io << " => "
-          inspect_string_slice_to_io(value_slice, io)
-          c += 1
+        if attributes = @attributes
+          attributes.each do |key, value|
+            io << ", " unless c == 0
+            inspect_string_slice_to_io(key.to_slice, io)
+            io << " => "
+            inspect_string_slice_to_io(value.to_slice, io)
+            c += 1
+          end
+        else
+          each_attribute do |key_slice, value_slice|
+            io << ", " unless c == 0
+            inspect_string_slice_to_io(key_slice, io)
+            io << " => "
+            inspect_string_slice_to_io(value_slice, io)
+            c += 1
+          end
         end
         io << '}'
       end

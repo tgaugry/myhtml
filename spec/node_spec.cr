@@ -246,6 +246,12 @@ describe Myhtml::Node do
 
       it do
         node = parser.nodes(:div).first
+        node.attributes
+        node.inspect.should eq "Myhtml::Node(tag_name: \"div\", attributes: {\"class\" => \"AAA\", \"style\" => \"color:red\"})"
+      end
+
+      it do
+        node = parser.nodes(:div).first
         node.child!.inspect.should eq "Myhtml::Node(tag_name: \"-text\", tag_text: \"Haha \")"
       end
 
