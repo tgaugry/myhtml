@@ -1,4 +1,4 @@
-# Example: normalize input html 
+# Example: normalize input html
 #   (close not closed tags, replace entities, downcase attributes & tags names)
 
 require "../src/myhtml"
@@ -16,11 +16,10 @@ str = if filename = ARGV[0]?
         HTML
       end
 
-puts Myhtml::Parser.new(str).root!.to_html
+myhtml = Myhtml::Parser.new(str, tree_options: Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_SKIP_WHITESPACE_TOKEN)
+puts myhtml.root!.to_html
 
 # Output:
-#   <html><head></head><body><div>
-#     <span class="bla">⬣ ⬤ ⬥ ⬦</span></div>
-#     &lt;---&gt;&amp;
-#     asdf
-#   </body></html>
+#   <html><head></head><body><div><span class="bla">⬣ ⬤ ⬥ ⬦</span></div>
+#      &lt;---&gt;&amp;
+#          asdf</body></html>
