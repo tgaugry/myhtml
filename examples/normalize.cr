@@ -16,9 +16,19 @@ str = if filename = ARGV[0]?
         HTML
       end
 
-myhtml = Myhtml::Parser.new(str, tree_options: Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_SKIP_WHITESPACE_TOKEN)
+remove_whitespaces = (ARGV[1]? != "0")
+remove_comments = (ARGV[2]? != "0")
 
-myhtml.nodes(:_comment).each &.remove! # remove all comments
+tree_options = Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_WITHOUT_DOCTYPE_IN_TREE
+if remove_whitespaces
+  tree_options ||= Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_SKIP_WHITESPACE_TOKEN
+end
+
+myhtml = Myhtml::Parser.new(str, tree_options: tree_options)
+
+if remove_comments
+  myhtml.nodes(:_comment).each(&.remove!)
+end
 
 puts myhtml.root!.to_html
 
