@@ -221,6 +221,21 @@ describe Myhtml::Node do
     end
 
     it do
+      parser = Myhtml::Parser.new("<html><div>bla<b>11</b>12</div></html>")
+      parser.nodes(:div).first.inner_text(join_with: '-').should eq "bla-11-12"
+    end
+
+    it do
+      parser = Myhtml::Parser.new("<html><div>bla<b>11</b>12</div></html>")
+      parser.nodes(:div).first.inner_text(join_with: "").should eq "bla1112"
+    end
+
+    it do
+      parser = Myhtml::Parser.new("<html><div>bla<b>11</b>12</div></html>")
+      parser.nodes(:div).first.inner_text(join_with: "==").should eq "bla==11==12"
+    end
+
+    it do
       parser = Myhtml::Parser.new("<html><div><b>11</b> </div></html>")
       parser.nodes(:div).first.inner_text(join_with: ' ').should eq "11 "
     end

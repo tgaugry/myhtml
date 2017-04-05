@@ -227,15 +227,17 @@ module Myhtml
     end
 
     def inner_text(join_with : String | Char | Nil = nil, deep = true)
-      String.build do |io|
+      String.build { |io| inner_text(io, join_with: join_with, deep: deep) }
+    end
+
+    def inner_text(io : IO, join_with : String | Char | Nil = nil, deep = true)
+      if (join_with == nil) || (join_with == "")
+        each_inner_text(deep: deep) { |slice| io.write slice }
+      else
         i = 0
         each_inner_text(deep: deep) do |slice|
-          io << ' ' if join_with && i != 0
-          if join_with
-            io.write strip_slice(slice)
-          else
-            io.write slice
-          end
+          io << join_with if i != 0
+          io.write strip_slice(slice)
           i += 1
         end
       end
