@@ -216,6 +216,16 @@ describe Myhtml::Node do
     end
 
     it do
+      parser = Myhtml::Parser.new("<html><div>bla<b>11</b>12</div></html>")
+      parser.nodes(:div).first.inner_text(join_with: ' ').should eq "bla 11 12"
+    end
+
+    it do
+      parser = Myhtml::Parser.new("<html><div><b>11</b> </div></html>")
+      parser.nodes(:div).first.inner_text(join_with: ' ').should eq "11 "
+    end
+
+    it do
       parser = Myhtml::Parser.new("<html><body>1<div class=AAA style='color:red'>Haha<span>11</span>bla</div> 2 </body></html>")
       parser.body!.inner_text(join_with: nil).should eq "1Haha11bla 2 "
       parser.body!.inner_text(join_with: nil, deep: false).should eq "1 2 "

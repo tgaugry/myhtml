@@ -248,7 +248,12 @@ module Myhtml
     private def strip_slice(slice)
       left = slice_calc_excess_left(slice)
       right = slice_calc_excess_right(slice)
-      Bytes.new(slice.to_unsafe + left, slice.bytesize - left - right)
+      newsize = slice.bytesize - right - left
+      if newsize > 0
+        Bytes.new(slice.to_unsafe + left, newsize)
+      else
+        Bytes.empty
+      end
     end
 
     private def slice_calc_excess_right(slice)
@@ -261,7 +266,7 @@ module Myhtml
 
     private def slice_calc_excess_left(slice)
       excess_left = 0
-      while slice[excess_left].unsafe_chr.ascii_whitespace?
+      while (excess_left < slice.bytesize) && slice[excess_left].unsafe_chr.ascii_whitespace?
         excess_left += 1
       end
       excess_left
