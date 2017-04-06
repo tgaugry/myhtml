@@ -19,7 +19,7 @@ str = if filename = ARGV[0]?
 remove_whitespaces = (ARGV[1]? != "0")
 remove_comments = (ARGV[2]? != "0")
 
-tree_options = Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_WITHOUT_DOCTYPE_IN_TREE
+tree_options = Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_CLEAN
 if remove_whitespaces
   tree_options |= Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_SKIP_WHITESPACE_TOKEN
 end
