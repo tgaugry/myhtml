@@ -285,13 +285,13 @@ module Myhtml
         io << ", tag_text: "
         inspect_string_slice_to_io(tag_text_slice, io)
       else
-        attributes = @attributes
+        _attributes = @attributes
 
-        if attributes || any_attribute?
+        if _attributes || any_attribute?
           io << ", attributes: {"
           c = 0
-          if attributes
-            attributes.each do |key, value|
+          if _attributes
+            _attributes.each do |key, value|
               io << ", " unless c == 0
               inspect_string_slice_to_io(key.to_slice, io)
               io << " => "
