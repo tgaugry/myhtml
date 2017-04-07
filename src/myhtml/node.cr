@@ -237,7 +237,7 @@ module Myhtml
         i = 0
         each_inner_text(deep: deep) do |slice|
           io << join_with if i != 0
-          io.write strip_slice(slice)
+          io.write Utils.strip_slice(slice)
           i += 1
         end
       end
@@ -247,43 +247,16 @@ module Myhtml
       (deep ? scope : children).nodes(Lib::MyhtmlTags::MyHTML_TAG__TEXT).each { |node| yield node.tag_text_slice }
     end
 
-    private def strip_slice(slice)
-      left = slice_calc_excess_left(slice)
-      right = slice_calc_excess_right(slice)
-      newsize = slice.bytesize - right - left
-      if newsize > 0
-        Bytes.new(slice.to_unsafe + left, newsize)
-      else
-        Bytes.empty
-      end
-    end
-
-    private def slice_calc_excess_right(slice)
-      i = slice.bytesize - 1
-      while i >= 0 && slice[i].unsafe_chr.ascii_whitespace?
-        i -= 1
-      end
-      slice.bytesize - 1 - i
-    end
-
-    private def slice_calc_excess_left(slice)
-      excess_left = 0
-      while (excess_left < slice.bytesize) && slice[excess_left].unsafe_chr.ascii_whitespace?
-        excess_left += 1
-      end
-      excess_left
-    end
-
     def inspect(io : IO)
       io << "Myhtml::Node(tag_name: "
-      inspect_string_slice_to_io(tag_name_slice, io)
+      Utils.string_slice_to_io_limited(tag_name_slice, io)
 
       case _tag_id = tag_id
       when Lib::MyhtmlTags::MyHTML_TAG__TEXT,
            Lib::MyhtmlTags::MyHTML_TAG__COMMENT,
            Lib::MyhtmlTags::MyHTML_TAG_STYLE
         io << ", tag_text: "
-        inspect_string_slice_to_io(tag_text_slice, io)
+        Utils.string_slice_to_io_limited(tag_text_slice, io)
       else
         _attributes = @attributes
 
@@ -293,17 +266,17 @@ module Myhtml
           if _attributes
             _attributes.each do |key, value|
               io << ", " unless c == 0
-              inspect_string_slice_to_io(key.to_slice, io)
+              Utils.string_slice_to_io_limited(key.to_slice, io)
               io << " => "
-              inspect_string_slice_to_io(value.to_slice, io)
+              Utils.string_slice_to_io_limited(value.to_slice, io)
               c += 1
             end
           else
             each_attribute do |key_slice, value_slice|
               io << ", " unless c == 0
-              inspect_string_slice_to_io(key_slice, io)
+              Utils.string_slice_to_io_limited(key_slice, io)
               io << " => "
-              inspect_string_slice_to_io(value_slice, io)
+              Utils.string_slice_to_io_limited(value_slice, io)
               c += 1
             end
           end
@@ -312,17 +285,6 @@ module Myhtml
       end
 
       io << ')'
-    end
-
-    private def inspect_string_slice_to_io(slice : Bytes, io : IO, max_size = 30)
-      io << '"'
-      if slice.bytesize > max_size
-        io.write Bytes.new(slice.to_unsafe, max_size)
-        io << "..."
-      else
-        io.write slice
-      end
-      io << '"'
     end
   end
 end
