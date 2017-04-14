@@ -226,24 +226,29 @@ module Myhtml
       end
     end
 
+    class IOWrapper
+      def initialize(@io : IO)
+      end
+
+      def write(b : Bytes)
+        @io.write(b)
+      end
+    end
+
     SERIALIZE_CALLBACK = ->(text : UInt8*, length : LibC::SizeT, data : Void*) do
-      cbk = Box(Bytes ->).unbox(data)
-      cbk.call(Bytes.new(text, length))
+      iow = data.as(IOWrapper)
+      iow.write(Bytes.new(text, length))
       Lib::MyStatus::MyCORE_STATUS_OK
     end
 
     def to_html(io : IO, deep = true)
-      cbk = ->(b : Bytes) do
-        io.write(b)
-      end
+      iow = IOWrapper.new(io)
 
       if deep
-        Lib.serialization_tree_callback(@node, SERIALIZE_CALLBACK, Box.box(cbk))
+        Lib.serialization_tree_callback(@node, SERIALIZE_CALLBACK, iow.as(Void*))
       else
-        Lib.serialization_node_callback(@node, SERIALIZE_CALLBACK, Box.box(cbk))
+        Lib.serialization_node_callback(@node, SERIALIZE_CALLBACK, iow.as(Void*))
       end
-
-      cbk
     end
 
     def inner_text(join_with : String | Char | Nil = nil, deep = true)
