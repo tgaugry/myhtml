@@ -269,7 +269,11 @@ module Myhtml
     end
 
     def each_inner_text(deep = true)
-      (deep ? scope : children).nodes(Lib::MyhtmlTags::MyHTML_TAG__TEXT).each { |node| yield node.tag_text_slice }
+      each_inner_text_for_scope(deep ? scope : children) { |slice| yield slice }
+    end
+
+    def each_inner_text_for_scope(scope)
+      scope.nodes(Lib::MyhtmlTags::MyHTML_TAG__TEXT).each { |node| yield node.tag_text_slice }
     end
 
     def inspect(io : IO)
