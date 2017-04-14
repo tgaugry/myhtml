@@ -216,7 +216,7 @@ module Myhtml
               Lib.serialization_node(@node, pointerof(str))
             end
 
-      if res
+      if res == Lib::MyStatus::MyCORE_STATUS_OK
         res = String.new(str.data, str.length)
         Lib.string_raw_destroy(pointerof(str), false)
         res
@@ -224,6 +224,26 @@ module Myhtml
         Lib.string_raw_destroy(pointerof(str), false)
         raise Error.new("Unknown problem with serialization: #{res}")
       end
+    end
+
+    SERIALIZE_CALLBACK = ->(text : UInt8*, length : LibC::SizeT, data : Void*) do
+      cbk = Box(Bytes ->).unbox(data)
+      cbk.call(Bytes.new(text, length))
+      Lib::MyStatus::MyCORE_STATUS_OK
+    end
+
+    def to_html(io : IO, deep = true)
+      cbk = ->(b : Bytes) do
+        io.write(b)
+      end
+
+      if deep
+        Lib.serialization_tree_callback(@node, SERIALIZE_CALLBACK, Box.box(cbk))
+      else
+        Lib.serialization_node_callback(@node, SERIALIZE_CALLBACK, Box.box(cbk))
+      end
+
+      cbk
     end
 
     def inner_text(join_with : String | Char | Nil = nil, deep = true)

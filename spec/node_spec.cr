@@ -182,6 +182,25 @@ describe Myhtml::Node do
       node = parser.nodes(:div).first
       node.to_html(deep: false).should eq %Q[<div class="AAA" style="color:red">]
     end
+
+    it "deep io" do
+      parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
+      node = parser.nodes(:div).first
+      io = IO::Memory.new
+      node.to_html(io)
+      io.rewind
+      io.gets_to_end.should eq %Q[<div class="AAA" style="color:red">Haha <span>11</span></div>]
+    end
+
+    it "flat io" do
+      parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
+      node = parser.nodes(:div).first
+      io = IO::Memory.new
+      node.to_html(io, deep: false)
+
+      io.rewind
+      io.gets_to_end.should eq %Q[<div class="AAA" style="color:red">]
+    end
   end
 
   context "find nodes by attribute" do

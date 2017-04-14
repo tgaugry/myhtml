@@ -9,6 +9,7 @@ module Myhtml
     type MyhtmlTagIndexT = Void*
     type MyhtmlTagIndexNodeT = Void*
     alias MyhtmlTagIdT = MyhtmlTags
+    type MycoreCallbackSerializeT = (UInt8*, LibC::SizeT, Void*) -> MyStatus
 
     struct MyhtmlVersion
       major : Int32
@@ -72,6 +73,9 @@ module Myhtml
 
     fun serialization = myhtml_serialization(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : MyStatus
     fun serialization_node = myhtml_serialization_node(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : MyStatus
+
+    fun serialization_tree_callback = myhtml_serialization_tree_callback(node : MyhtmlTreeNodeT*, callback : MycoreCallbackSerializeT, data : Void*) : MyStatus
+    fun serialization_node_callback = myhtml_serialization_node_callback(node : MyhtmlTreeNodeT*, callback : MycoreCallbackSerializeT, data : Void*) : MyStatus
 
     fun string_raw_clean_all = mycore_string_raw_clean_all(str_raw : MyhtmlStringRawT*)
     fun string_raw_destroy = mycore_string_raw_destroy(str_raw : MyhtmlStringRawT*, destroy_obj : Bool) : MyhtmlStringRawT*
