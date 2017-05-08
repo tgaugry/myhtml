@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/kostya/myhtml.svg?branch=master)](http://travis-ci.org/kostya/myhtml)
 
-Fast HTML5 Parser (Crystal wrapper for https://github.com/lexborisov/myhtml)
+Fast HTML5 Parser (Crystal wrapper for https://github.com/lexborisov/myhtml). Used in production to parse millions of pages per day, very stable and fast.
 
 ## Installation
 
