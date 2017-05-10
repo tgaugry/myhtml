@@ -4,7 +4,10 @@ module Myhtml
 
     @encoding : Lib::MyEncodingList
 
-    protected def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyEncodingList? = nil, @detect_encoding_from_meta : Bool = false, @detect_encoding : Bool = false)
+    protected def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil,
+                             encoding : Lib::MyEncodingList? = nil,
+                             @detect_encoding_from_meta : Bool = false,
+                             @detect_encoding : Bool = false)
       options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE
       threads_count = 1
       queue_size = 0
@@ -13,12 +16,18 @@ module Myhtml
     end
 
     # parse from string
-    def self.new(page : String, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyEncodingList? = nil, detect_encoding_from_meta : Bool = false, detect_encoding : Bool = false)
+    def self.new(page : String,
+                 tree_options : Lib::MyhtmlTreeParseFlags? = nil,
+                 encoding : Lib::MyEncodingList? = nil,
+                 detect_encoding_from_meta : Bool = false,
+                 detect_encoding : Bool = false)
       self.new(tree_options: tree_options, encoding: encoding, detect_encoding_from_meta: detect_encoding_from_meta, detect_encoding: detect_encoding).parse(page)
     end
 
     # parse from stream
-    def self.new(io : IO, tree_options : Lib::MyhtmlTreeParseFlags? = nil, encoding : Lib::MyEncodingList? = nil)
+    def self.new(io : IO,
+                 tree_options : Lib::MyhtmlTreeParseFlags? = nil,
+                 encoding : Lib::MyEncodingList? = nil)
       self.new(tree_options: tree_options, encoding: encoding).parse_stream(io)
     end
 
