@@ -43,16 +43,15 @@ module Myhtml
         detected = false
 
         if @detect_encoding_from_meta
-          enc = Lib.encoding_prescan_stream_to_determine_encoding(pointer, bytesize)
-          if enc != Lib::MyEncodingList::MyENCODING_NOT_DETERMINED
+          if enc = Myhtml.detect_encoding_from_content_by_meta?(pointer, bytesize)
             detected = true
             @encoding = enc
           end
         end
 
         if @detect_encoding && !detected
-          if Lib.encoding_detect(pointer, bytesize, out enc2)
-            @encoding = enc2
+          if enc = Myhtml.detect_encoding?(pointer, bytesize)
+            @encoding = enc
           end
         end
       end

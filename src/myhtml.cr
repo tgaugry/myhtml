@@ -24,10 +24,74 @@ module Myhtml
     HTML_ENTITIES_NODE.tag_text
   end
 
-  # "text/html; charset=Windows-1251" => MyHTML_ENCODING_WINDOWS_1251
-  def self.parse_charset(encoding : String) : Myhtml::Lib::MyEncodingList?
-    if Lib.encoding_extracting_character_encoding_from_charset(encoding.to_unsafe, encoding.bytesize, out e)
+  record EncodingNotFound, encoding : String
+
+  # detect encoding from header, example: Myhtml.detect_encoding_from_header(headers["Content-Type"])
+  #   "text/html; charset=Windows-1251" => MyHTML_ENCODING_WINDOWS_1251
+  #
+
+  def self.detect_encoding_from_header(header : String) : Lib::MyEncodingList | EncodingNotFound
+    res = Lib.encoding_extracting_character_encoding_from_charset_with_found(header.to_unsafe, header.bytesize, out e, out pointer, out bytesize)
+
+    if res
       e
+    else
+      EncodingNotFound.new(String.new(pointer, bytesize))
+    end
+  end
+
+  def self.detect_encoding_from_header?(header) : Lib::MyEncodingList?
+    enc = detect_encoding_from_header(header)
+    if enc.is_a?(Lib::MyEncodingList)
+      enc
+    end
+  end
+
+  # detect encoding from content
+  #   example: <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" /> => MyHTML_ENCODING_WINDOWS_1251
+
+  def self.detect_encoding_from_content_by_meta(content : String)
+    detect_encoding_from_content_by_meta(content.to_unsafe, content.bytesize)
+  end
+
+  def self.detect_encoding_from_content_by_meta(pointer, bytesize)
+    enc = Lib.encoding_prescan_stream_to_determine_encoding_with_found(pointer, bytesize, out pointer2, out bytesize2)
+    if enc != Lib::MyEncodingList::MyENCODING_NOT_DETERMINED
+      enc
+    else
+      EncodingNotFound.new(String.new(pointer2, bytesize2))
+    end
+  end
+
+  def self.detect_encoding_from_content_by_meta?(content : String)
+    detect_encoding_from_content_by_meta?(content.to_unsafe, content.bytesize)
+  end
+
+  def self.detect_encoding_from_content_by_meta?(pointer, bytesize)
+    enc = detect_encoding_from_content_by_meta(pointer, bytesize)
+    if enc.is_a?(Lib::MyEncodingList)
+      enc
+    end
+  end
+
+  # detect encoding by trigrams
+  #
+
+  def self.detect_encoding(content : String)
+    detect_encoding?(content)
+  end
+
+  def self.detect_encoding(pointer, bytesize)
+    detect_encoding?(pointer, bytesize)
+  end
+
+  def self.detect_encoding?(content : String)
+    detect_encoding?(content.to_unsafe, content.bytesize)
+  end
+
+  def self.detect_encoding?(pointer, bytesize)
+    if Lib.encoding_detect(pointer, bytesize, out enc)
+      enc
     end
   end
 end

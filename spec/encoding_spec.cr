@@ -1,9 +1,5 @@
 require "./spec_helper"
 
-PAGE1  = File.read("./spec/fixtures/1.htm")
-PAGE2  = File.read("./spec/fixtures/2.htm")
-PAGE25 = File.read("./spec/fixtures/25.htm")
-
 describe Myhtml::Node do
   it "default" do
     parser = Myhtml::Parser.new(PAGE1)
@@ -43,14 +39,14 @@ describe Myhtml::Node do
     end
 
     it "parse from header" do
-      encoding = Myhtml.parse_charset("Content-Type: text/html; charset=Windows-1251")
+      encoding = Myhtml.detect_encoding_from_header?("Content-Type: text/html; charset=Windows-1251")
       myhtml = Myhtml::Parser.new(PAGE25, encoding: encoding)
       myhtml.encoding.should eq Myhtml::Lib::MyEncodingList::MyENCODING_WINDOWS_1251
       myhtml.nodes(:div).first.inner_text.should eq "Загрузка. Пожалуйста, подождите..."
     end
 
     it "parse from header" do
-      encoding = Myhtml.parse_charset("text/html; charset=Windows-1251")
+      encoding = Myhtml.detect_encoding_from_header?("text/html; charset=Windows-1251")
       myhtml = Myhtml::Parser.new(PAGE25, encoding: encoding)
       myhtml.encoding.should eq Myhtml::Lib::MyEncodingList::MyENCODING_WINDOWS_1251
       myhtml.nodes(:div).first.inner_text.should eq "Загрузка. Пожалуйста, подождите..."

@@ -93,8 +93,10 @@ module Myhtml
     # encoding
     fun encoding_set = myhtml_encoding_set(tree : MyhtmlTreeT*, encoding : MyEncodingList)
     fun encoding_prescan_stream_to_determine_encoding = myencoding_prescan_stream_to_determine_encoding(data : UInt8*, data_size : LibC::SizeT) : MyEncodingList
+    fun encoding_prescan_stream_to_determine_encoding_with_found = myencoding_prescan_stream_to_determine_encoding_with_found(data : UInt8*, data_size : LibC::SizeT, found : UInt8**, found_length : LibC::SizeT*) : MyEncodingList
     fun encoding_name_by_id = myencoding_name_by_id(encoding : MyEncodingList, length : LibC::SizeT*) : UInt8*
     fun encoding_extracting_character_encoding_from_charset = myencoding_extracting_character_encoding_from_charset(data : UInt8*, data_size : LibC::SizeT, encoding : MyEncodingList*) : Bool
+    fun encoding_extracting_character_encoding_from_charset_with_found = myencoding_extracting_character_encoding_from_charset_with_found(data : UInt8*, data_size : LibC::SizeT, encoding : MyEncodingList*, found : UInt8**, found_length : LibC::SizeT*) : Bool
     fun encoding_detect = myencoding_detect(text : UInt8*, length : LibC::SizeT, encoding : MyEncodingList*) : Bool
   end
 end

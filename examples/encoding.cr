@@ -12,7 +12,7 @@ p myhtml.encoding                     # => MyENCODING_WINDOWS_1251
 p myhtml.nodes(:div).first.inner_text # => "Загрузка. Пожалуйста, подождите..."
 
 # set encoding from header
-encoding = Myhtml.parse_charset("Content-Type: text/html; charset=Windows-1251")
+encoding = Myhtml.detect_encoding_from_header?("Content-Type: text/html; charset=Windows-1251")
 myhtml = Myhtml::Parser.new(page, encoding: encoding)
 p myhtml.encoding                     # => MyENCODING_WINDOWS_1251
 p myhtml.nodes(:div).first.inner_text # => "Загрузка. Пожалуйста, подождите..."
