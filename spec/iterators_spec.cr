@@ -110,6 +110,6 @@ describe "iterators" do
   end
 
   it "inspect iterator" do
-    parser.nodes(:div).inspect.should contain "elements: 2, current: 0"
+    parser.nodes(:div).inspect.should contain "elements: 2_u64, current: 0"
   end
 end
