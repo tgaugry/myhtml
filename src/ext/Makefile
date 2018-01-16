@@ -1,4 +1,4 @@
-REV := f50a7d6260b610528dd1aebd7c7e2b914e5a483a
+REV := d0ff0ec42c838a53f32e7fabe11a18a37e9c6e85
 
 .PHONY: package
 package: ./myhtml-c/lib/libmyhtml_static.a

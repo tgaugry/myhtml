@@ -2,6 +2,8 @@
 
 require "../src/myhtml"
 
+puts Myhtml.version_string
+
 page = "<html><div class=aaa>bla</div></html>"
 myhtml = Myhtml::Parser.new(page)
 
