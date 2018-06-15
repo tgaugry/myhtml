@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-record Link, before : String?, href : String?, anchor : String?, after : String?
+record ALink, before : String?, href : String?, anchor : String?, after : String?
 
 def extract_link(node)
   anchor = node.child.try &.tag_text.strip
@@ -18,7 +18,7 @@ def extract_link(node)
   before = node.left_iterator.find(&text_tag).try(&.tag_text.strip)
   after = (node.child || node).right_iterator.find(&text_tag).try(&.tag_text.strip)
 
-  Link.new before, href, anchor, after
+  ALink.new before, href, anchor, after
 end
 
 def find_first_good_text(iterator)
@@ -36,7 +36,7 @@ def extract_links2(parser)
     href = node.attribute_by("href")
     before = find_first_good_text(node.left_iterator)
     after = find_first_good_text((node.child || node).right_iterator)
-    Link.new before, href, anchor, after
+    ALink.new before, href, anchor, after
   end
 end
 
@@ -69,15 +69,15 @@ end
 
 describe "integration" do
   it "parse links" do
-    res = [] of Link
+    res = [] of ALink
     parser_links.nodes(:a).each { |node| res << extract_link(node) }
     res.size.should eq 4
     link1, link2, link3, link4 = res
 
-    link1.should eq Link.new("Before", "/link1", "Link1", "After")
-    link2.should eq Link.new("#", "/link2", "Link2", "--")
-    link3.should eq Link.new("⬠ ⬡ ⬢", "/link3", "Link3", "⬣ ⬤ ⬥ ⬦")
-    link4.should eq Link.new("⬣ ⬤ ⬥ ⬦", "/link4", nil, nil)
+    link1.should eq ALink.new("Before", "/link1", "Link1", "After")
+    link2.should eq ALink.new("#", "/link2", "Link2", "--")
+    link3.should eq ALink.new("⬠ ⬡ ⬢", "/link3", "Link3", "⬣ ⬤ ⬥ ⬦")
+    link4.should eq ALink.new("⬣ ⬤ ⬥ ⬦", "/link4", nil, nil)
   end
 
   it "parse links, chained iterators" do
@@ -85,9 +85,9 @@ describe "integration" do
     res.size.should eq 4
     link1, link2, link3, link4 = res
 
-    link1.should eq Link.new("Before", "/link1", "Link1", "After")
-    link2.should eq Link.new("#", "/link2", "Link2", "--")
-    link3.should eq Link.new("⬠ ⬡ ⬢", "/link3", "Link3", "⬣ ⬤ ⬥ ⬦")
-    link4.should eq Link.new("⬣ ⬤ ⬥ ⬦", "/link4", nil, nil)
+    link1.should eq ALink.new("Before", "/link1", "Link1", "After")
+    link2.should eq ALink.new("#", "/link2", "Link2", "--")
+    link3.should eq ALink.new("⬠ ⬡ ⬢", "/link3", "Link3", "⬣ ⬤ ⬥ ⬦")
+    link4.should eq ALink.new("⬣ ⬤ ⬥ ⬦", "/link4", nil, nil)
   end
 end
