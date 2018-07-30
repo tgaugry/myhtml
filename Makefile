@@ -1,5 +1,5 @@
 CRYSTAL ?= crystal
-CRYSTALFLAGS ?= --release
+CRYSTALFLAGS ?=
 
 .PHONY: all package spec
 all: bin_usage bin_walk_tree bin_links bin_texts bin_encoding bin_normalize
