@@ -69,8 +69,8 @@ module Myhtml
       String.new(tag_text_slice)
     end
 
-    def tag_text_set(text : String, encoding)
-      Lib.node_text_set_with_charef(@node, text.to_unsafe, text.bytesize, encoding)
+    def tag_text_set(text : String, encoding = nil)
+      Lib.node_text_set_with_charef(@node, text.to_unsafe, text.bytesize, encoding || @tree.encoding)
     end
 
     protected def each_raw_attribute(&block)
@@ -123,7 +123,7 @@ module Myhtml
     end
 
     def attribute_add(key : String, value : String)
-      Lib.attribute_add(@node, key, key.bytesize, value, value.bytesize, Lib::MyEncodingList::MyENCODING_DEFAULT)
+      Lib.attribute_add(@node, key, key.bytesize, value, value.bytesize, @tree.encoding)
       if attrs = @attributes
         attrs[key] = value
       end

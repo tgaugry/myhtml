@@ -1,8 +1,8 @@
 module Myhtml
   class Tree
-    getter raw_myhtml, raw_tree
+    getter raw_myhtml, raw_tree, encoding
 
-    def initialize(options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE, threads_count = 1, queue_size = 0, tree_options : Lib::MyhtmlTreeParseFlags? = nil)
+    def initialize(options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE, threads_count = 1, queue_size = 0, tree_options : Lib::MyhtmlTreeParseFlags? = nil, @encoding : Lib::MyEncodingList = Lib::MyEncodingList::MyENCODING_DEFAULT)
       @raw_myhtml = Lib.create
       res = Lib.init(@raw_myhtml, options, threads_count, queue_size)
       if res != Lib::MyStatus::MyCORE_STATUS_OK
