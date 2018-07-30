@@ -122,6 +122,14 @@ module Myhtml
       end
     end
 
+    def attribute_add(key : String, value : String)
+      Lib.attribute_add(@node, key, key.bytesize, value, value.bytesize, Lib::MyEncodingList::MyENCODING_DEFAULT)
+    end
+
+    def attribute_remove(key : String)
+      Lib.attribute_remove_by_key(@node, key, key.bytesize)
+    end
+
     def attributes
       @attributes ||= begin
         res = {} of String => String

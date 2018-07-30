@@ -71,6 +71,14 @@ module Myhtml
     fun attribute_value = myhtml_attribute_value(attr : MyhtmlTreeAttrT*, length : LibC::SizeT*) : UInt8*
     fun attribute_next = myhtml_attribute_next(attr : MyhtmlTreeAttrT*) : MyhtmlTreeAttrT*
 
+    fun attribute_add = myhtml_attribute_add(node : MyhtmlTreeNodeT*, key : LibC::Char*, key_len : LibC::SizeT, value : LibC::Char*, value_len : LibC::SizeT, encoding : MyEncodingList) : MyhtmlTreeAttrT*
+
+    fun attribute_remove = myhtml_attribute_remove(node : MyhtmlTreeNodeT*, attr : MyhtmlTreeAttrT*) : MyhtmlTreeAttrT*
+
+    fun attribute_remove_by_key = myhtml_attribute_remove_by_key(node : MyhtmlTreeNodeT*, key : LibC::Char*, key_len : LibC::SizeT) : MyhtmlTreeAttrT*
+
+    fun attribute_delete = myhtml_attribute_delete(tree : MyhtmlTreeT*, node : MyhtmlTreeNodeT*, attr : MyhtmlTreeAttrT*) : Void
+
     fun serialization = myhtml_serialization(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : MyStatus
     fun serialization_node = myhtml_serialization_node(node : MyhtmlTreeNodeT*, str : MyhtmlStringRawT*) : MyStatus
 

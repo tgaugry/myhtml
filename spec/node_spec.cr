@@ -31,6 +31,22 @@ describe Myhtml::Node do
     node.attribute_by("class".to_slice).should eq "AAA".to_slice
   end
 
+  it "add attribute" do
+    parser = Myhtml::Parser.new("<html><body><div class=\"foo\">Haha</div></body></html>")
+
+    node = parser.nodes(:div).first
+    node.attribute_add("id", "bar")
+    node.attributes.should eq({"class" => "foo", "id" => "bar"})
+  end
+
+  it "remove attribute" do
+    parser = Myhtml::Parser.new("<html><body><div class=\"foo\" id=\"bar\">Haha</div></body></html>")
+
+    node = parser.nodes(:div).first
+    node.attribute_remove("id")
+    node.attributes.should eq({"class" => "foo"})
+  end
+
   it "ignore case attributes" do
     parser = Myhtml::Parser.new("<html><body><div Class=AAA STYLE='color:red'>Haha</div></body></html>")
 
