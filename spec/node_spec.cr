@@ -39,11 +39,36 @@ describe Myhtml::Node do
     node.attributes.should eq({"class" => "foo", "id" => "bar"})
   end
 
+  it "add attribute if attributes was cached" do
+    parser = Myhtml::Parser.new("<html><body><div class=\"foo\">Haha</div></body></html>")
+
+    node = parser.nodes(:div).first
+    node.attributes.should eq({"class" => "foo"})
+    node.attribute_add("id", "bar")
+    node.attributes.should eq({"class" => "foo", "id" => "bar"})
+  end
+
   it "remove attribute" do
     parser = Myhtml::Parser.new("<html><body><div class=\"foo\" id=\"bar\">Haha</div></body></html>")
 
     node = parser.nodes(:div).first
     node.attribute_remove("id")
+    node.attributes.should eq({"class" => "foo"})
+
+    node.attribute_remove("unkown")
+    node.attributes.should eq({"class" => "foo"})
+  end
+
+  it "remove attribute if attributes was cached" do
+    parser = Myhtml::Parser.new("<html><body><div class=\"foo\" id=\"bar\">Haha</div></body></html>")
+
+    node = parser.nodes(:div).first
+    node.attributes.should eq({"class" => "foo", "id" => "bar"})
+
+    node.attribute_remove("id")
+    node.attributes.should eq({"class" => "foo"})
+
+    node.attribute_remove("unkown")
     node.attributes.should eq({"class" => "foo"})
   end
 

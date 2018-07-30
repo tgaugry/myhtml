@@ -124,10 +124,18 @@ module Myhtml
 
     def attribute_add(key : String, value : String)
       Lib.attribute_add(@node, key, key.bytesize, value, value.bytesize, Lib::MyEncodingList::MyENCODING_DEFAULT)
+      if attrs = @attributes
+        attrs[key] = value
+      end
+      value
     end
 
     def attribute_remove(key : String)
       Lib.attribute_remove_by_key(@node, key, key.bytesize)
+      if attrs = @attributes
+        attrs.delete(key)
+      end
+      key
     end
 
     def attributes
