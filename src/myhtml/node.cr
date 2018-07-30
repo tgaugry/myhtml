@@ -8,7 +8,7 @@ module Myhtml
 
     include TagIdUtils
 
-    def self.from_raw(tree : Tree, raw_node : Lib::MyhtmlTreeNodeT*) : Node?
+    def self.from_raw(tree, raw_node) : Node?
       unless raw_node.null?
         Node.new(tree, raw_node)
       end
