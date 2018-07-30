@@ -2,6 +2,7 @@ require "./tag_id_utils"
 
 module Myhtml
   struct Node
+    @tree : Tree
     @node : Lib::MyhtmlTreeNodeT*
     @attributes : Hash(String, String)?
 
@@ -13,7 +14,7 @@ module Myhtml
       end
     end
 
-    def initialize(@tree : Tree, @node : Lib::MyhtmlTreeNodeT*)
+    def initialize(@tree, @node)
     end
 
     def raw_node
