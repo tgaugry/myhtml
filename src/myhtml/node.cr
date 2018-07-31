@@ -71,6 +71,7 @@ module Myhtml
     end
 
     def tag_text_set(text : String, encoding = nil)
+      raise Error.new("#{self.inspect} not allowed to set text") unless text_node?
       Lib.node_text_set_with_charef(@node, text.to_unsafe, text.bytesize, encoding || @tree.encoding)
     end
 
@@ -123,8 +124,8 @@ module Myhtml
       end
     end
 
-    def attribute_add(key : String, value : String)
-      Lib.attribute_add(@node, key, key.bytesize, value, value.bytesize, @tree.encoding)
+    def attribute_add(key : String, value : String, encoding = nil)
+      Lib.attribute_add(@node, key, key.bytesize, value, value.bytesize, encoding || @tree.encoding)
       if attrs = @attributes
         attrs[key] = value
       end
@@ -297,10 +298,7 @@ module Myhtml
       io << "Myhtml::Node(tag_name: "
       Utils.string_slice_to_io_limited(tag_name_slice, io)
 
-      case _tag_id = tag_id
-      when Lib::MyhtmlTags::MyHTML_TAG__TEXT,
-           Lib::MyhtmlTags::MyHTML_TAG__COMMENT,
-           Lib::MyhtmlTags::MyHTML_TAG_STYLE
+      if text_node?
         io << ", tag_text: "
         Utils.string_slice_to_io_limited(tag_text_slice, io)
       else

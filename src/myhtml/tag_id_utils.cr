@@ -5,6 +5,17 @@ module Myhtml
       Myhtml.symbol_by_tag_id(tag_id)
     end
 
+    def text_node?
+      case tag_id
+      when Lib::MyhtmlTags::MyHTML_TAG__TEXT,
+           Lib::MyhtmlTags::MyHTML_TAG__COMMENT,
+           Lib::MyhtmlTags::MyHTML_TAG_STYLE
+        true
+      else
+        false
+      end
+    end
+
     def visible?
       case tag_id
       when Lib::MyhtmlTags::MyHTML_TAG_STYLE,
