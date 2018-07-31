@@ -2,8 +2,8 @@ require "./tag_id_utils"
 
 module Myhtml
   struct Node
-    @tree : Tree
-    @node : Lib::MyhtmlTreeNodeT*
+    getter tree : Tree
+    getter node : Lib::MyhtmlTreeNodeT*
     @attributes : Hash(String, String)?
 
     include TagIdUtils
@@ -15,16 +15,6 @@ module Myhtml
     end
 
     def initialize(@tree, @node)
-    end
-
-    def raw_node
-      @node
-    end
-
-    getter tree
-
-    def raw_tree
-      @tree.raw_tree
     end
 
     {% for name in %w(child next parent prev last_child) %}
