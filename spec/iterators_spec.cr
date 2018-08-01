@@ -59,6 +59,11 @@ describe "iterators" do
     res.should eq ""
   end
 
+  it "right_iterator with nodes filter" do
+    res = parser.root!.right_iterator.nodes(:_text).map(&INSPECT_NODE).join
+    res.should eq "(Bla)|(text)|(Text)|"
+  end
+
   it "left_iterator" do
     node = parser.nodes(:_text).to_a.last # text
     res = node.left_iterator.map(&INSPECT_NODE).join
@@ -81,6 +86,12 @@ describe "iterators" do
   it "left_iterator from root" do
     res = parser.root!.left_iterator.map(&INSPECT_NODE).join
     res.should eq ""
+  end
+
+  it "left_iterator with nodes filter" do
+    node = parser.nodes(:_text).to_a.last # text
+    res = node.left_iterator.nodes(:_text).map(&INSPECT_NODE).join
+    res.should eq "(Text)|(text)|(Bla)|"
   end
 
   it "walk_tree" do
@@ -109,7 +120,44 @@ describe "iterators" do
     res.should eq %w(Bla text)
   end
 
-  it "inspect iterator" do
+  it "collection iterator" do
+    res = parser.nodes(:div).map(&INSPECT_NODE).join
+    res.should eq "div|div|"
+  end
+
+  it "collection iterator empty" do
+    res = parser.nodes(:area).map(&INSPECT_NODE).join
+    res.should eq ""
+  end
+
+  it "collection iterator with nodes filter (usefull for css subfiltering)" do
+    res = parser.nodes(:div).nodes(:div).map(&INSPECT_NODE).join
+    res.should eq "div|div|"
+  end
+
+  it "collection iterator inspect" do
     parser.nodes(:div).inspect.should contain "elements: 2_u64, current: 0"
+  end
+
+  it "children iterator" do
+    res = parser.body!.children.map(&INSPECT_NODE).join
+    res.should eq "div|br|span|"
+  end
+
+  it "children iterator with nodes filter" do
+    res = parser.body!.children.nodes(:div).map(&INSPECT_NODE).join
+    res.should eq "div|"
+  end
+
+  it "parents iterator" do
+    node = parser.nodes(:_text).find { |n| n.tag_text == "Bla" }.not_nil!
+    res = node.parents.map(&INSPECT_NODE).join
+    res.should eq "td|tr|tbody|table|div|body|html|"
+  end
+
+  it "parents iterator with nodes filter" do
+    node = parser.nodes(:_text).find { |n| n.tag_text == "Bla" }.not_nil!
+    res = node.parents.nodes(:div).map(&INSPECT_NODE).join
+    res.should eq "div|"
   end
 end

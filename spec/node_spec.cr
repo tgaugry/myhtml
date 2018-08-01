@@ -244,30 +244,6 @@ describe Myhtml::Node do
     end
   end
 
-  context "find nodes by attribute" do
-    it "find nodes by attribute" do
-      parser = Myhtml::Parser.new(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
-      nodes = parser.root!.nodes_by_attribute("class", "AAA").to_a
-      nodes.map(&.tag_sym).should eq [:div, :a]
-      nodes.last.attribute_by("href").should eq "#"
-    end
-
-    it "find nodes by attribute from scope node" do
-      parser = Myhtml::Parser.new(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
-      node = parser.nodes(:span).first
-
-      nodes = node.nodes_by_attribute("class", "AAA").to_a
-      nodes.map(&.tag_sym).should eq [:a]
-      nodes.last.attribute_by("href").should eq "#"
-    end
-
-    it "nodes for empty collection, should not segfault" do
-      parser = Myhtml::Parser.new(%q[<html><body><div class=AAA style='color:red'>Haha <span>11<a href="#" class="AAA">jopa</a></span></div></body></html>])
-      nodes = parser.root!.nodes_by_attribute("class", "safsadfsd").to_a
-      nodes.map(&.tag_sym).to_a.empty?.should eq true
-    end
-  end
-
   context "inner_text" do
     it do
       parser = Myhtml::Parser.new("<html><body>1<div class=AAA style='color:red'>Haha<span>11</span>bla</div> 2 </body></html>")

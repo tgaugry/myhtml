@@ -1,7 +1,5 @@
-require "./constants"
-
-module Myhtml
-  def self.tag_id_by_symbol(sym : Symbol)
+module Myhtml::Utils::TagConverter
+  def self.sym_to_id(sym : Symbol)
     {% begin %}
     case sym
     {% for name in Lib::MyhtmlTags.constants %}
@@ -14,7 +12,7 @@ module Myhtml
     {% end %}
   end
 
-  def self.symbol_by_tag_id(tag_id : Lib::MyhtmlTags)
+  def self.id_to_sym(tag_id : Lib::MyhtmlTags)
     {% begin %}
     case tag_id
     {% for name in Lib::MyhtmlTags.constants %}
@@ -27,7 +25,7 @@ module Myhtml
     {% end %}
   end
 
-  TAGS_STRING_SYM_MAP = begin
+  STRING_TO_SYM_MAP = begin
     h = Hash(String, Symbol).new
     {% for name in Lib::MyhtmlTags.constants.map(&.gsub(/MyHTML_TAG_/, "").downcase) %}
       h["{{ name.id }}"] = :{{ name.id }}
@@ -35,7 +33,7 @@ module Myhtml
     h
   end
 
-  TAGS_STRING_ID_MAP = begin
+  STRING_TO_ID_MAP = begin
     h = Hash(String, Lib::MyhtmlTags).new
     {% for name in Lib::MyhtmlTags.constants %}
       h["{{ name.gsub(/MyHTML_TAG_/, "").downcase.id }}"] = Lib::MyhtmlTags::{{ name.id }}
@@ -43,11 +41,11 @@ module Myhtml
     h
   end
 
-  def self.tag_symbol_by_string(str : String)
-    TAGS_STRING_SYM_MAP.fetch(str) { raise Error.new("Unknown tag #{str.inspect}") }
+  def self.string_to_sym(str : String)
+    STRING_TO_SYM_MAP.fetch(str) { raise Error.new("Unknown tag #{str.inspect}") }
   end
 
-  def self.tag_id_by_string(str : String)
-    TAGS_STRING_ID_MAP.fetch(str) { raise Error.new("Unknown tag #{str.inspect}") }
+  def self.string_to_id(str : String)
+    STRING_TO_ID_MAP.fetch(str) { raise Error.new("Unknown tag #{str.inspect}") }
   end
 end

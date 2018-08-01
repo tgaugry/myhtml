@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/kostya/myhtml.svg?branch=master)](http://travis-ci.org/kostya/myhtml)
 
-Fast HTML5 Parser (Crystal wrapper for https://github.com/lexborisov/myhtml). Used in production to parse millions of pages per day, very stable and fast.
+Fast HTML5 Parser (Crystal binding for awesome lexborisov's [myhtml](https://github.com/lexborisov/myhtml) and [Modest](https://github.com/lexborisov/Modest)). This shard used in production to parse millions of pages per day, very stable and fast.
 
 ## Installation
 
@@ -15,7 +15,77 @@ dependencies:
     github: kostya/myhtml
 ```
 
-And run `crystal deps`
+And run `shards install`
+
+# Usage example
+
+```crystal
+require "myhtml"
+
+html = <<-HTML
+  <html>
+    <body>
+      <div id="t1" class="red">
+        <a href="/#">O_o</a>
+      </div>
+      <div id="t2"></div>
+    </body>
+  </html>
+HTML
+
+myhtml = Myhtml::Parser.new(html)
+
+myhtml.nodes(:div).each do |node|
+  id = node.attribute_by("id")
+
+  if first_link = node.scope.nodes(:a).first?
+    href = first_link.attribute_by("href")
+    link_text = first_link.inner_text
+
+    puts "div with id #{id} have link [#{link_text}](#{href})"
+  else
+    puts "div with id #{id} have no links"
+  end
+end
+
+# Output:
+#   div with id t1 have link [O_o](/#)
+#   div with id t2 have no links
+```
+
+## Css selectors example
+
+```crystal
+require "myhtml"
+
+html = <<-HTML
+  <html>
+    <body>
+      <table id="t1">
+        <tr><td>Hello</td></tr>
+      </table>
+      <table id="t2">
+        <tr><td>123</td><td>other</td></tr>
+        <tr><td>foo</td><td>columns</td></tr>
+        <tr><td>bar</td><td>are</td></tr>
+        <tr><td>xyz</td><td>ignored</td></tr>
+      </table>
+    </body>
+  </html>
+HTML
+
+myhtml = Myhtml::Parser.new(html)
+
+p myhtml.css("#t2 tr td:first-child").map(&.inner_text).to_a
+# => ["123", "foo", "bar", "xyz"]
+
+p myhtml.css("#t2 tr td:first-child").map(&.to_html).to_a
+# => ["<td>123</td>", "<td>foo</td>", "<td>bar</td>", "<td>xyz</td>"]
+```
+
+## More Examples
+
+[examples](https://github.com/kostya/myhtml/tree/master/examples)
 
 ## Development Setup:
 
@@ -26,57 +96,13 @@ And run `crystal deps`
   crystal spec
 ```
 
-## Usage
-
-```crystal
-require "myhtml"
-page = "<html>...</html>"
-myhtml = Myhtml::Parser.new(page)
-```
-
-[Basic Usage Example](https://github.com/kostya/myhtml/tree/master/examples/usage.cr)
-
-## More Examples
-
-[examples](https://github.com/kostya/myhtml/tree/master/examples)
-
-[specs](https://github.com/kostya/myhtml/tree/master/spec)
-
-## CSS Selectors with shard modest
-
-[modest](https://github.com/kostya/modest)
-
 ## Benchmark
 
-Comparing with nokorigi(libxml), and crystagiri(libxml). Parse 1000 times google page, code: https://github.com/kostya/modest/tree/master/bench
+Parse 1000 times google page, and 1000 times css select. [myhtml-program](https://github.com/kostya/myhtml/tree/master/bench/test-myhtml.cr), [crystalgiri-program](https://github.com/kostya/myhtml/tree/master/bench/test-libxml.cr), [nokogiri-program](https://github.com/kostya/myhtml/tree/master/bench/test-libxml.rb)
 
-```crystal
-require "modest"
-page = File.read("./google.html")
-s = 0
-links = [] of String
-1000.times do
-  myhtml = Myhtml::Parser.new(page)
-  links = myhtml.css("div.g h3.r a").map(&.attribute_by("href")).to_a
-  s += links.size
-  myhtml.free
-end
-p links.last
-p s
-```
+| Lang     | Shard      | Lib             | Parse time, s | Css time, s | Memory, MiB |
+| -------- | ---------- | --------------- | ------------- | ----------- | ----------- |
+| Crystal  | myhtml     | myhtml(+modest) | 3.04          | 0.32        | 12.9        |
+| Crystal  | Crystagiri | libxml2         | 9.63          | 20.3        | 29.3        |
+| Ruby 2.2 | Nokogiri   | libxml2         | 28.14         | 55.69       | 124.5       |
 
-Parse + Selectors
-
-| Lang     |  Package           | Time, s | Memory, MiB |
-| -------- | ------------------ | ------- | ----------- |
-| Crystal  | modest(myhtml)     | 2.52    | 7.7         |
-| Crystal  | Crystagiri(LibXML) | 19.89   | 14.3        |
-| Ruby 2.2 | Nokogiri(LibXML)   | 45.05   | 136.2       |
-
-Selectors Only (files with suffix 2)
-
-| Lang     |  Package           | Time, s | Memory, MiB |
-| -------- | ------------------ | ------- | ----------- |
-| Crystal  | modest(myhtml)     | 0.18    | 4.6         |
-| Crystal  | Crystagiri(LibXML) | 12.30   | 6.6         |
-| Ruby 2.2 | Nokogiri(LibXML)   | 28.06   | 68.8        |

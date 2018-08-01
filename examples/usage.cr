@@ -2,7 +2,7 @@
 
 require "../src/myhtml"
 
-puts Myhtml.version_string
+puts Myhtml.version
 
 page = "<html><div class=aaa>bla</div></html>"
 myhtml = Myhtml::Parser.new(page)
@@ -21,9 +21,9 @@ myhtml.head! # Myhtml::Node
 
 # iterator over all div nodes from root scope
 # equal with myhtml.root!.scope.nodes(:div)
-myhtml.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV) # Iterator(Myhtml::Node)
-myhtml.nodes(:div)                                    # Iterator(Myhtml::Node)
-myhtml.nodes("div")                                   # Iterator(Myhtml::Node)
+myhtml.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV) # Iterator::Collection(Myhtml::Node)
+myhtml.nodes(:div)                                    # Iterator::Collection(Myhtml::Node)
+myhtml.nodes("div")                                   # Iterator::Collection(Myhtml::Node)
 
 node = myhtml.nodes(:div).first # Myhtml::Node
 
@@ -49,15 +49,15 @@ node.right      # Myhtml::Node?, right node, in the html, from current
 node.flat_right # Myhtml::Node?, right node, in the html, from current, without node.children
 
 # iterators:
-node.children        # Iterator(Myhtml::Node), iterate over all direct node children
-node.parents         # Iterator(Myhtml::Node), iterate over all node parents from current to root! node
-node.scope           # Iterator(Myhtml::Node), iterate over all inner nodes (children and deeper)
-node.right_iterator  # Iterator(Myhtml::Node), iterate from current node to right (to the end of document)
-node.left_iterator   # Iterator(Myhtml::Node), iterate from current node to left (to the root! node)
-node.scope.nodes(:a) # Iterator(Myhtml::Node), select :a nodes in scope of `node`
+node.children        # Iterator::Collection(Myhtml::Node), iterate over all direct node children
+node.parents         # Iterator::Collection(Myhtml::Node), iterate over all node parents from current to root! node
+node.scope           # Iterator::Collection(Myhtml::Node), iterate over all inner nodes (children and deeper)
+node.right_iterator  # Iterator::Collection(Myhtml::Node), iterate from current node to right (to the end of document)
+node.left_iterator   # Iterator::Collection(Myhtml::Node), iterate from current node to left (to the root! node)
+node.scope.nodes(:a) # Iterator::Collection(Myhtml::Node), select :a nodes in scope of `node`
 
 # free myhtml c object,
 # not really needed to call manyally, because called auto from GC finalize, when object not used anymore
 # use it only if need to free memory fast
-# after free any other child object like Myhtml::Node or Iterator(Myhtml::Node) not valid anymore and can lead to segfault
+# after free any other child object like Myhtml::Node or Iterator::Collection(Myhtml::Node) not valid anymore and can lead to segfault
 myhtml.free

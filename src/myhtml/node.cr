@@ -1,324 +1,237 @@
-require "./tag_id_utils"
+struct Myhtml::Node
+  # :nodoc:
+  getter parser : Parser
 
-module Myhtml
-  struct Node
-    getter tree : Tree
-    getter node : Lib::MyhtmlTreeNodeT*
-    @attributes : Hash(String, String)?
+  # :nodoc:
+  getter raw_node : Lib::MyhtmlTreeNodeT*
 
-    include TagIdUtils
+  # :nodoc:
+  @attributes : Hash(String, String)?
 
-    def self.from_raw(tree, raw_node) : Node?
-      unless raw_node.null?
-        Node.new(tree, raw_node)
-      end
-    end
+  def self.from_raw(parser, raw_node)
+    Node.new(parser, raw_node) unless raw_node.null?
+  end
 
-    def initialize(@tree, @node)
-    end
+  def initialize(@parser, @raw_node)
+  end
 
-    {% for name in %w(child next parent prev last_child) %}
-      def {{name.id}}
-        Node.from_raw(@tree, Lib.node_{{name.id}}(@node))
-      end
-    {% end %}
+  #
+  # Tag ID
+  #   node.tag_id => Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV
+  #
+  @[AlwaysInline]
+  def tag_id : Lib::MyhtmlTags
+    Lib.node_tag_id(@raw_node)
+  end
 
-    {% for name in %w(child next parent prev last_child lastest_child left right next_parent flat_right) %}
-      def {{name.id}}!
-        if val = self.{{ name.id }}
-          val
-        else
-          raise EmptyNodeError.new("'{{name.id}}' called from #{self.inspect}")
-        end
-      end
-    {% end %}
+  #
+  # Tag Symbol
+  #   node.tag_sym => :div
+  #
+  @[AlwaysInline]
+  def tag_sym : Symbol
+    Utils::TagConverter.id_to_sym(tag_id)
+  end
 
-    def remove!
-      Lib.node_remove(@node)
-    end
+  #
+  # Tag Name
+  #   node.tag_sym => "div"
+  #
+  def tag_name : String
+    String.new(tag_name_slice)
+  end
 
-    @[AlwaysInline]
-    def tag_id
-      Lib.node_tag_id(@node)
-    end
+  @[AlwaysInline]
+  def tag_name_slice
+    buffer = Lib.tag_name_by_id(@parser.@raw_tree, self.tag_id, out length)
+    Slice.new(buffer, length)
+  end
 
-    def tag_name_slice
-      res = Lib.tag_name_by_id(@tree.raw_tree, tag_id, out length)
-      Slice.new(res, length)
-    end
+  #
+  # Tag Text
+  #   Direct text content of node
+  #   present only on MyHTML_TAG__TEXT, MyHTML_TAG_STYLE, MyHTML_TAG__COMMENT nodes (node.textable?)
+  #   for other nodes, you should call `inner_text` method
+  #
+  def tag_text
+    String.new(tag_text_slice)
+  end
 
-    def tag_name
-      String.new(tag_name_slice)
-    end
+  @[AlwaysInline]
+  def tag_text_slice
+    buffer = Lib.node_text(@raw_node, out length)
+    Slice.new(buffer, length)
+  end
 
-    def tag_text_slice
-      res = Lib.node_text(@node, out length)
-      Slice.new(res, length)
-    end
+  def tag_text_set(text : String, encoding = nil)
+    raise Error.new("#{self.inspect} not allowed to set text") unless textable?
+    Lib.node_text_set_with_charef(@raw_node, text.to_unsafe, text.bytesize, encoding || @parser.encoding)
+  end
 
-    def tag_text
-      String.new(tag_text_slice)
-    end
+  #
+  # Node Storage
+  #   set Void* data related to this node
+  #
+  def data=(d : Void*)
+    Lib.node_set_data(@raw_node, d)
+  end
 
-    def tag_text_set(text : String, encoding = nil)
-      raise Error.new("#{self.inspect} not allowed to set text") unless text_node?
-      Lib.node_text_set_with_charef(@node, text.to_unsafe, text.bytesize, encoding || @tree.encoding)
-    end
+  #
+  # Node Storage
+  #   get stored Void* data
+  #
+  def data
+    Lib.node_get_data(@raw_node)
+  end
 
-    protected def each_raw_attribute(&block)
-      attr = Lib.node_attribute_first(@node)
-      while !attr.null?
-        yield attr
-        attr = Lib.attribute_next(attr)
-      end
-      nil
-    end
+  #
+  # Remove node from tree
+  #
+  def remove!
+    Lib.node_remove(@raw_node)
+  end
 
-    @[AlwaysInline]
-    def any_attribute?
-      !Lib.node_attribute_first(@node).null?
-    end
+  #
+  # Convert node to html string
+  #   **deep** - option, means visit children nodes or not (by default true).
+  #
+  # Example:
+  # ```
+  # parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
+  # node = parser.nodes(:div).first
+  # node.to_html              # => `<div class="AAA" style="color:red">Haha <span>11</span></div>`
+  # node.to_html(deep: false) # => `<div class="AAA" style="color:red">`
+  # ```
+  #
+  def to_html(deep = true)
+    str = Lib::MyhtmlStringRawT.new
 
-    def each_attribute(&block)
-      each_raw_attribute do |attr|
-        yield attribute_name(attr), attribute_value(attr)
-      end
-    end
+    Lib.string_raw_clean_all(pointerof(str))
 
-    @[AlwaysInline]
-    private def attribute_name(attr)
-      name = Lib.attribute_key(attr, out name_length)
-      Slice(UInt8).new(name, name_length)
-    end
-
-    @[AlwaysInline]
-    private def attribute_value(attr)
-      value = Lib.attribute_value(attr, out value_length)
-      Slice(UInt8).new(value, value_length)
-    end
-
-    def attribute_by(string : String)
-      slice = string.to_slice
-      each_raw_attribute do |attr|
-        if attribute_name(attr) == slice
-          return String.new(attribute_value(attr))
-        end
-      end
-    end
-
-    def attribute_by(slice : Slice(UInt8))
-      each_raw_attribute do |attr|
-        if attribute_name(attr) == slice
-          return attribute_value(attr)
-        end
-      end
-    end
-
-    def attribute_add(key : String, value : String, encoding = nil)
-      Lib.attribute_add(@node, key, key.bytesize, value, value.bytesize, encoding || @tree.encoding)
-      if attrs = @attributes
-        attrs[key] = value
-      end
-      value
-    end
-
-    def attribute_remove(key : String)
-      Lib.attribute_remove_by_key(@node, key, key.bytesize)
-      if attrs = @attributes
-        attrs.delete(key)
-      end
-      key
-    end
-
-    def attributes
-      @attributes ||= begin
-        res = {} of String => String
-        each_attribute do |k, v|
-          res[String.new(k)] = String.new(v)
-        end
-        res
-      end
-    end
-
-    def children
-      ChildrenIterator.new(self)
-    end
-
-    def scope
-      ScopeIterator.new(self)
-    end
-
-    def walk_tree(level = 0, &block : Node, Int32 ->)
-      yield self, level
-      children.each { |child| child.walk_tree(level + 1, &block) }
-    end
-
-    def parents
-      ParentsIterator.new(self)
-    end
-
-    def left_iterator
-      LeftIterator.new(self)
-    end
-
-    def right_iterator
-      RightIterator.new(self)
-    end
-
-    def lastest_child
-      result_node = self
-      while current_node = result_node.last_child
-        result_node = current_node
-      end
-      result_node
-    end
-
-    # left node to current
-    def left
-      prev.try(&.lastest_child) || parent
-    end
-
-    protected def next_parent
-      current_node = self
-      while current_node = current_node.parent
-        nxt = current_node.next
-        return nxt if nxt
-      end
-    end
-
-    # right node to current
-    def right
-      child || self.next || next_parent
-    end
-
-    def flat_right
-      self.next || next_parent
-    end
-
-    def data=(d : Void*)
-      Lib.node_set_data(@node, d)
-    end
-
-    def data
-      Lib.node_get_data(@node)
-    end
-
-    def nodes_by_attribute(key : String, value : String, case_sensitive = false)
-      col = Lib.get_nodes_by_attribute_value(@tree.raw_tree, nil, @node, case_sensitive, key.to_unsafe, key.bytesize, value.to_unsafe, value.bytesize, out status)
-      if status != Lib::MyStatus::MyCORE_STATUS_OK
-        Lib.collection_destroy(col)
-        raise Error.new("nodes_by_attribute error #{status}, for `#{key}`, `#{value}`")
-      end
-
-      Iterator.new(@tree, col)
-    end
-
-    def to_html(deep = true)
-      str = Lib::MyhtmlStringRawT.new
-
-      Lib.string_raw_clean_all(pointerof(str))
-
-      res = if deep
-              Lib.serialization(@node, pointerof(str))
-            else
-              Lib.serialization_node(@node, pointerof(str))
-            end
-
-      if res == Lib::MyStatus::MyCORE_STATUS_OK
-        res = String.new(str.data, str.length)
-        Lib.string_raw_destroy(pointerof(str), false)
-        res
-      else
-        Lib.string_raw_destroy(pointerof(str), false)
-        raise Error.new("Unknown problem with serialization: #{res}")
-      end
-    end
-
-    class IOWrapper
-      def initialize(@io : IO)
-      end
-
-      def write(b : Bytes)
-        @io.write(b)
-      end
-    end
-
-    SERIALIZE_CALLBACK = ->(text : UInt8*, length : LibC::SizeT, data : Void*) do
-      iow = data.as(IOWrapper)
-      iow.write(Bytes.new(text, length))
-      Lib::MyStatus::MyCORE_STATUS_OK
-    end
-
-    def to_html(io : IO, deep = true)
-      iow = IOWrapper.new(io)
-
-      if deep
-        Lib.serialization_tree_callback(@node, SERIALIZE_CALLBACK, iow.as(Void*))
-      else
-        Lib.serialization_node_callback(@node, SERIALIZE_CALLBACK, iow.as(Void*))
-      end
-    end
-
-    def inner_text(join_with : String | Char | Nil = nil, deep = true)
-      String.build { |io| inner_text(io, join_with: join_with, deep: deep) }
-    end
-
-    def inner_text(io : IO, join_with : String | Char | Nil = nil, deep = true)
-      if (join_with == nil) || (join_with == "")
-        each_inner_text(deep: deep) { |slice| io.write slice }
-      else
-        i = 0
-        each_inner_text(deep: deep) do |slice|
-          io << join_with if i != 0
-          io.write Utils.strip_slice(slice)
-          i += 1
-        end
-      end
-    end
-
-    def each_inner_text(deep = true)
-      each_inner_text_for_scope(deep ? scope : children) { |slice| yield slice }
-    end
-
-    def each_inner_text_for_scope(scope)
-      scope.nodes(Lib::MyhtmlTags::MyHTML_TAG__TEXT).each { |node| yield node.tag_text_slice }
-    end
-
-    def inspect(io : IO)
-      io << "Myhtml::Node(tag_name: "
-      Utils.string_slice_to_io_limited(tag_name_slice, io)
-
-      if text_node?
-        io << ", tag_text: "
-        Utils.string_slice_to_io_limited(tag_text_slice, io)
-      else
-        _attributes = @attributes
-
-        if _attributes || any_attribute?
-          io << ", attributes: {"
-          c = 0
-          if _attributes
-            _attributes.each do |key, value|
-              io << ", " unless c == 0
-              Utils.string_slice_to_io_limited(key.to_slice, io)
-              io << " => "
-              Utils.string_slice_to_io_limited(value.to_slice, io)
-              c += 1
-            end
+    res = if deep
+            Lib.serialization(@raw_node, pointerof(str))
           else
-            each_attribute do |key_slice, value_slice|
-              io << ", " unless c == 0
-              Utils.string_slice_to_io_limited(key_slice, io)
-              io << " => "
-              Utils.string_slice_to_io_limited(value_slice, io)
-              c += 1
-            end
+            Lib.serialization_node(@raw_node, pointerof(str))
           end
-          io << '}'
-        end
-      end
 
-      io << ')'
+    if res == Lib::MyStatus::MyCORE_STATUS_OK
+      res = String.new(str.data, str.length)
+      Lib.string_raw_destroy(pointerof(str), false)
+      res
+    else
+      Lib.string_raw_destroy(pointerof(str), false)
+      raise Error.new("Unknown problem with serialization: #{res}")
     end
   end
+
+  #
+  # Convert node to html to IO
+  #   **deep** - option, means visit children nodes or not (by default true).
+  #
+  def to_html(io : IO, deep = true)
+    iow = IOWrapper.new(io)
+
+    if deep
+      Lib.serialization_tree_callback(@raw_node, SERIALIZE_CALLBACK, iow.as(Void*))
+    else
+      Lib.serialization_node_callback(@raw_node, SERIALIZE_CALLBACK, iow.as(Void*))
+    end
+  end
+
+  private class IOWrapper
+    def initialize(@io : IO)
+    end
+
+    def write(b : Bytes)
+      @io.write(b)
+    end
+  end
+
+  SERIALIZE_CALLBACK = ->(text : UInt8*, length : LibC::SizeT, data : Void*) do
+    data.as(IOWrapper).write(Bytes.new(text, length))
+    Lib::MyStatus::MyCORE_STATUS_OK
+  end
+
+  #
+  # Node Inner Text
+  #   Joined text of children nodes
+  #     **deep** - option, means visit children nodes or not (by default true).
+  #     **join_with** - Char or String which inserted between text parts
+  #
+  # Example:
+  # ```
+  # parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
+  # node = parser.nodes(:div).first
+  # node.inner_text                 # => `Haha 11`
+  # node.inner_text(deep: false)    # => `Haha `
+  # node.inner_text(join_with: "/") # => `Haha /11`
+  # ```
+
+  def inner_text(join_with : String | Char | Nil = nil, deep = true)
+    String.build { |io| inner_text(io, join_with: join_with, deep: deep) }
+  end
+
+  def inner_text(io : IO, join_with : String | Char | Nil = nil, deep = true)
+    if (join_with == nil) || (join_with == "")
+      each_inner_text(deep: deep) { |slice| io.write slice }
+    else
+      i = 0
+      each_inner_text(deep: deep) do |slice|
+        io << join_with if i != 0
+        io.write Utils::Strip.strip_slice(slice)
+        i += 1
+      end
+    end
+  end
+
+  protected def each_inner_text(deep = true)
+    each_inner_text_for_scope(deep ? scope : children) { |slice| yield slice }
+  end
+
+  protected def each_inner_text_for_scope(scope)
+    scope.nodes(Lib::MyhtmlTags::MyHTML_TAG__TEXT).each { |node| yield node.tag_text_slice }
+  end
+
+  #
+  # Node Inspect
+  #   puts node.inspect # => Myhtml::Node(tag_name: "div", attributes: {"class" => "aaa"})
+  #
+  def inspect(io : IO)
+    io << "Myhtml::Node(tag_name: "
+    Utils::Strip.string_slice_to_io_limited(tag_name_slice, io)
+
+    if textable?
+      io << ", tag_text: "
+      Utils::Strip.string_slice_to_io_limited(tag_text_slice, io)
+    else
+      _attributes = @attributes
+
+      if _attributes || any_attribute?
+        io << ", attributes: {"
+        c = 0
+        if _attributes
+          _attributes.each do |key, value|
+            io << ", " unless c == 0
+            Utils::Strip.string_slice_to_io_limited(key.to_slice, io)
+            io << " => "
+            Utils::Strip.string_slice_to_io_limited(value.to_slice, io)
+            c += 1
+          end
+        else
+          each_attribute do |key_slice, value_slice|
+            io << ", " unless c == 0
+            Utils::Strip.string_slice_to_io_limited(key_slice, io)
+            io << " => "
+            Utils::Strip.string_slice_to_io_limited(value_slice, io)
+            c += 1
+          end
+        end
+        io << '}'
+      end
+    end
+
+    io << ')'
+  end
 end
+
+require "./node/*"

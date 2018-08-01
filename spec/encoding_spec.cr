@@ -39,14 +39,14 @@ describe Myhtml::Node do
     end
 
     it "parse from header" do
-      encoding = Myhtml.detect_encoding_from_header?("Content-Type: text/html; charset=Windows-1251")
+      encoding = Myhtml::Utils::DetectEncoding.from_header?("Content-Type: text/html; charset=Windows-1251")
       myhtml = Myhtml::Parser.new(PAGE25, encoding: encoding)
       myhtml.encoding.should eq Myhtml::Lib::MyEncodingList::MyENCODING_WINDOWS_1251
       myhtml.nodes(:div).first.inner_text.should eq "Загрузка. Пожалуйста, подождите..."
     end
 
     it "parse from header" do
-      encoding = Myhtml.detect_encoding_from_header?("text/html; charset=Windows-1251")
+      encoding = Myhtml::Utils::DetectEncoding.from_header?("text/html; charset=Windows-1251")
       myhtml = Myhtml::Parser.new(PAGE25, encoding: encoding)
       myhtml.encoding.should eq Myhtml::Lib::MyEncodingList::MyENCODING_WINDOWS_1251
       myhtml.nodes(:div).first.inner_text.should eq "Загрузка. Пожалуйста, подождите..."
