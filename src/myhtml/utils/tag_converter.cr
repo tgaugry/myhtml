@@ -7,7 +7,7 @@ module Myhtml::Utils::TagConverter
         Lib::MyhtmlTags::{{ name.id }}
     {% end %}
     else
-      raise Error.new("Unknown tag #{sym.inspect}")
+      raise ArgumentError.new("Unknown tag #{sym.inspect}")
     end
     {% end %}
   end
@@ -42,10 +42,10 @@ module Myhtml::Utils::TagConverter
   end
 
   def self.string_to_sym(str : String)
-    STRING_TO_SYM_MAP.fetch(str) { raise Error.new("Unknown tag #{str.inspect}") }
+    STRING_TO_SYM_MAP.fetch(str) { raise ArgumentError.new("Unknown tag #{str.inspect}") }
   end
 
   def self.string_to_id(str : String)
-    STRING_TO_ID_MAP.fetch(str) { raise Error.new("Unknown tag #{str.inspect}") }
+    STRING_TO_ID_MAP.fetch(str) { raise ArgumentError.new("Unknown tag #{str.inspect}") }
   end
 end

@@ -64,7 +64,7 @@ struct Myhtml::Node
   end
 
   def tag_text_set(text : String, encoding = nil)
-    raise Error.new("#{self.inspect} not allowed to set text") unless textable?
+    raise ArgumentError.new("#{self.inspect} not allowed to set text") unless textable?
     Lib.node_text_set_with_charef(@raw_node, text.to_unsafe, text.bytesize, encoding || @parser.encoding)
   end
 

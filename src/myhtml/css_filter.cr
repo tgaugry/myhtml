@@ -1,6 +1,6 @@
 class Myhtml::CssFilter
   #
-  # Css finder
+  # Css filter
   #   Myhtml::CssFilter.new("div.red").search_from(myhtml.root!) # => Myhtml::Iterator::Collection
   #
   def initialize(@rule : String)
