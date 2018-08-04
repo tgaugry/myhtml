@@ -17,7 +17,7 @@ dependencies:
 
 And run `shards install`
 
-# Usage example
+## Usage example
 
 ```crystal
 require "myhtml"
