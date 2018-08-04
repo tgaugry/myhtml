@@ -7,7 +7,6 @@ authors:
 dependencies:
   myhtml:
     github: kostya/myhtml
-    branch: release1
   crystagiri:
     github: madeindjs/crystagiri
 
