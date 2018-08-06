@@ -7,22 +7,22 @@ struct Myhtml::Node
   #   node.css("div.red").each { |node| p node } # iterate over all divs with class `red` in the scope of node
   #
   def css(rule : String)
-    finder = CssFilter.new(rule)
-    css(finder)
+    filter = CssFilter.new(rule)
+    css(filter)
   ensure
-    finder.try &.free
+    filter.try &.free
   end
 
   #
-  # Css selector with finder in scope on the current_node
+  # Css selector with filter in scope on the current_node
   #   return Myhtml::Iterator::Collection
   #
   # Example:
-  #   finder = Myhtml::CssFilter.new("div.red")
-  #   node.css(finder).each { |node| p node } # iterator over all divs with class `red` in the scope of node
+  #   filter = Myhtml::CssFilter.new("div.red")
+  #   node.css(filter).each { |node| p node } # iterator over all divs with class `red` in the scope of node
   #
-  def css(finder : CssFilter)
-    finder.search_from(self)
+  def css(filter : CssFilter)
+    filter.search_from(self)
   end
 
   #
