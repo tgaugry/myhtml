@@ -35,7 +35,7 @@ struct Myhtml::Node
 
   #
   # Tag Name
-  #   node.tag_sym => "div"
+  #   node.tag_name => "div"
   #
   def tag_name : String
     String.new(tag_name_slice)
