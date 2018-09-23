@@ -7,6 +7,7 @@ str = if filename = ARGV[0]?
         File.read(filename, "UTF-8", invalid: :skip)
       else
         <<-HTML
+          <!doctype html>
           <html>
             <div>
             <span CLASS=bla>⬣ ⬤ ⬥ ⬦</div></span>
@@ -30,9 +31,9 @@ if remove_comments
   myhtml.nodes(:_comment).each(&.remove!)
 end
 
-puts myhtml.root!.to_html
+puts myhtml.to_html
 
 # Output:
-#   <html><head></head><body><div><span class="bla">⬣ ⬤ ⬥ ⬦</span></div>
+#   <!DOCTYPE html><html><head></head><body><div><span class="bla">⬣ ⬤ ⬥ ⬦</span></div>
 #      &lt;---&gt;&amp;
 #          asdf</body></html>
