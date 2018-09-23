@@ -107,4 +107,18 @@ describe Myhtml::Node do
     end
     c.should eq 2000
   end
+
+  it "to_html" do
+    origin = <<-HTML
+      <!doctype html>
+      <html lang=en>
+        <head>
+         <title></title>
+        </head>
+        <body> </body>
+      </html>
+    HTML
+    parser = Myhtml::Parser.new(origin)
+    parser.to_html.should eq "<!DOCTYPE html><html lang=\"en\"><head>\n     <title></title>\n    </head>\n    <body> \n  </body></html>"
+  end
 end

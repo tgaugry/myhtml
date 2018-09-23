@@ -44,6 +44,7 @@ class Myhtml::Parser
   #   **myhtml.body!** - body node
   #   **myhtml.head!** - head node
   #   **myhtml.root!** - html node
+  #   **myhtml.document!** - document node
   #
   {% for name in %w(head body html root) %}
     def {{ name.id }}
@@ -58,6 +59,14 @@ class Myhtml::Parser
       end
     end
   {% end %}
+
+  def document!
+    if node = Node.from_raw(self, Lib.tree_get_document(@raw_tree))
+      node
+    else
+      raise EmptyNodeError.new("expected document to present on myhtml tree")
+    end
+  end
 
   #
   # Top level node filter (select all nodes in tree with tag_id)
@@ -96,6 +105,11 @@ class Myhtml::Parser
   # Css selectors, see Node#css
   #
   delegate :css, to: root!
+
+  #
+  # Convert html tree to html string
+  #
+  delegate :to_html, to: document!
 
   #
   # Initialize
