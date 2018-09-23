@@ -107,7 +107,7 @@ class Myhtml::Parser
   delegate :css, to: root!
 
   #
-  # Convert html tree to html string
+  # Convert html tree to html string, see Node#css
   #
   delegate :to_html, to: document!
 
