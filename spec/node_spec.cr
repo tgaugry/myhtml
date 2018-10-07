@@ -211,15 +211,15 @@ describe Myhtml::Node do
     parser.root!.data.null?.should eq true
   end
 
-  describe "#append" do
+  describe "#append_child" do
     it "adds a node at the end" do
       tree = Myhtml::Tree.new
       parent = tree.create_node(:div)
       child = tree.create_node(:a)
       grandchild = tree.create_node(:span)
 
-      parent.append(child)
-      child.append(grandchild)
+      parent.append_child(child)
+      child.append_child(grandchild)
 
       parent.to_html.should eq("<div><a><span></span></a></div>")
       parent.children.first.tag_sym.should eq(:a)
@@ -227,21 +227,21 @@ describe Myhtml::Node do
     end
   end
 
-  describe "#before" do
+  describe "#insert_before" do
     it "adds a node just prior to this node" do
       document = Myhtml::Parser.new("<html><body><main></main></body></html>")
       main = document.css("main").first
       tree = Myhtml::Tree.new
       header = tree.create_node(:header)
 
-      main.before(header)
+      main.insert_before(header)
 
       body_html = "<body><header></header><main></main></body>"
       document.body!.to_html.should eq body_html
     end
   end
 
-  describe "#after" do
+  describe "#insert_after" do
     it "adds a node just following this node" do
       html_string = "<html><body><header></header></body></html>"
       document = Myhtml::Parser.new(html_string)
@@ -249,7 +249,7 @@ describe Myhtml::Node do
       tree = Myhtml::Tree.new
       main = tree.create_node(:main)
 
-      header.after(main)
+      header.insert_after(main)
 
       body_html = "<body><header></header><main></main></body>"
       document.body!.to_html.should eq body_html
