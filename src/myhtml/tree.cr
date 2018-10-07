@@ -5,6 +5,7 @@ class Myhtml::Tree
   # :nodoc:
   getter raw_tree : Lib::MyhtmlTreeT*
 
+  # :nodoc:
   def initialize(@encoding = Lib::MyEncodingList::MyENCODING_DEFAULT)
     options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE
     threads_count = 1
@@ -25,6 +26,73 @@ class Myhtml::Tree
     end
 
     @finalized = false
+  end
+
+  # :nodoc:
+  def set_flags(flags : Lib::MyhtmlTreeParseFlags)
+    Lib.tree_parse_flags_set(@raw_tree, flags)
+  end
+
+  #
+  # Root nodes for tree
+  #   **myhtml.body!** - body node
+  #   **myhtml.head!** - head node
+  #   **myhtml.root!** - html node
+  #   **myhtml.document!** - document node
+  #
+  {% for name in %w(head body html root) %}
+    def {{ name.id }}
+      Node.from_raw(self, Lib.tree_get_node_{{(name == "root" ? "html" : name).id}}(@raw_tree))
+    end
+
+    def {{ name.id }}!
+      if val = {{ name.id }}
+        val
+      else
+        raise EmptyNodeError.new("expected `{{name.id}}` to present on myhtml tree")
+      end
+    end
+  {% end %}
+
+  def document!
+    if node = Node.from_raw(self, Lib.tree_get_document(@raw_tree))
+      node
+    else
+      raise EmptyNodeError.new("expected document to present on myhtml tree")
+    end
+  end
+
+  #
+  # Top level node filter (select all nodes in tree with tag_id)
+  #   returns Myhtml::Iterator::Collection
+  #   equal with myhtml.root!.scope.nodes(...)
+  #
+  #   myhtml.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).each { |node| ... }
+  #
+  def nodes(tag_id : Myhtml::Lib::MyhtmlTags)
+    Iterator::Collection.new(self, Lib.get_nodes_by_tag_id(@raw_tree, nil, tag_id, out status))
+  end
+
+  #
+  # Top level node filter (select all nodes in tree with tag_sym)
+  #   returns Myhtml::Iterator::Collection
+  #   equal with myhtml.root!.scope.nodes(...)
+  #
+  #   myhtml.nodes(:div).each { |node| ... }
+  #
+  def nodes(tag_sym : Symbol)
+    nodes(Utils::TagConverter.sym_to_id(tag_sym))
+  end
+
+  #
+  # Top level node filter (select all nodes in tree with tag_sym)
+  #   returns Myhtml::Iterator::Collection
+  #   equal with myhtml.root!.scope.nodes(...)
+  #
+  #   myhtml.nodes("div").each { |node| ... }
+  #
+  def nodes(tag_str : String)
+    nodes(Utils::TagConverter.string_to_id(tag_str))
   end
 
   #
@@ -57,11 +125,9 @@ class Myhtml::Tree
     end
   end
 
-  def set_flags(flags : Lib::MyhtmlTreeParseFlags)
-    Lib.tree_parse_flags_set(@raw_tree, flags)
-  end
-
-  # Dangerous, manually free object (free also safely called from GC finalize)
+  #
+  # Manually free object, dangerous (also called by GC finalize)
+  #
   def free
     unless @finalized
       @finalized = true
@@ -70,6 +136,7 @@ class Myhtml::Tree
     end
   end
 
+  # :nodoc:
   def finalize
     free
   end

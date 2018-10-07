@@ -46,38 +46,7 @@ struct Myhtml::Parser
   #   **myhtml.root!** - html node
   #   **myhtml.document!** - document node
   #
-  {% for name in %w(head body html root) %}
-    def {{ name.id }}
-      Node.from_raw(@tree, Lib.tree_get_node_{{(name == "root" ? "html" : name).id}}(@tree.raw_tree))
-    end
-
-    def {{ name.id }}!
-      if val = {{ name.id }}
-        val
-      else
-        raise EmptyNodeError.new("expected `{{name.id}}` to present on myhtml tree")
-      end
-    end
-  {% end %}
-
-  def document!
-    if node = Node.from_raw(@tree, Lib.tree_get_document(@tree.raw_tree))
-      node
-    else
-      raise EmptyNodeError.new("expected document to present on myhtml tree")
-    end
-  end
-
-  #
-  # Top level node filter (select all nodes in tree with tag_id)
-  #   returns Myhtml::Iterator::Collection
-  #   equal with myhtml.root!.scope.nodes(...)
-  #
-  #   myhtml.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).each { |node| ... }
-  #
-  def nodes(tag_id : Myhtml::Lib::MyhtmlTags)
-    Iterator::Collection.new(@tree, Lib.get_nodes_by_tag_id(@tree.raw_tree, nil, tag_id, out status))
-  end
+  delegate :body, :body!, :head, :head!, :root, :root!, :html, :html!, :document!, to: tree
 
   #
   # Top level node filter (select all nodes in tree with tag_sym)
@@ -86,20 +55,7 @@ struct Myhtml::Parser
   #
   #   myhtml.nodes(:div).each { |node| ... }
   #
-  def nodes(tag_sym : Symbol)
-    nodes(Utils::TagConverter.sym_to_id(tag_sym))
-  end
-
-  #
-  # Top level node filter (select all nodes in tree with tag_sym)
-  #   returns Myhtml::Iterator::Collection
-  #   equal with myhtml.root!.scope.nodes(...)
-  #
-  #   myhtml.nodes("div").each { |node| ... }
-  #
-  def nodes(tag_str : String)
-    nodes(Utils::TagConverter.string_to_id(tag_str))
-  end
+  delegate :nodes, to: tree
 
   #
   # Css selectors, see Node#css
@@ -112,8 +68,16 @@ struct Myhtml::Parser
   delegate :to_html, to: document!
 
   #
-  # Initialize
+  # Manually free object, dangerous (also called by GC finalize)
   #
+  delegate :free, to: tree
+
+  #
+  # Current encoding
+  #
+  delegate :encoding, to: tree
+
+  # :nodoc:
   protected def initialize(tree_options : Lib::MyhtmlTreeParseFlags? = nil,
                            encoding : Lib::MyEncodingList? = nil,
                            @detect_encoding_from_meta : Bool = false,
@@ -122,11 +86,7 @@ struct Myhtml::Parser
     @tree.set_flags(tree_options) if tree_options
   end
 
-  # Dangerous, manually free object (free also safely called from GC finalize)
-  def free
-    @tree.free
-  end
-
+  # :nodoc:
   protected def parse(string)
     pointer = string.to_unsafe
     bytesize = string.bytesize
@@ -161,8 +121,10 @@ struct Myhtml::Parser
     self
   end
 
+  # :nodoc:
   BUFFER_SIZE = 8192
 
+  # :nodoc:
   protected def parse_stream(io : IO)
     buffers = Array(Bytes).new
     Lib.encoding_set(@tree.raw_tree, @tree.encoding)
@@ -187,9 +149,5 @@ struct Myhtml::Parser
     end
 
     self
-  end
-
-  def encoding
-    @tree.encoding
   end
 end
