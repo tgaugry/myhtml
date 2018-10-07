@@ -222,6 +222,7 @@ describe Myhtml::Node do
       child.append_child(grandchild)
 
       parent.to_html.should eq("<div><a><span></span></a></div>")
+      child.to_html.should eq "<a><span></span></a>"
       parent.children.first.tag_sym.should eq(:a)
       child.children.first.tag_sym.should eq(:span)
     end
@@ -251,6 +252,15 @@ describe Myhtml::Node do
 
       body_html = "<body><header></header><main></main></body>"
       document.body!.to_html.should eq body_html
+    end
+  end
+
+  describe "#inner_text=" do
+    it "add inner_text" do
+      document = Myhtml::Parser.new("<html><body><div></div></body></html>")
+      div = document.css("div").first
+      div.inner_text = "bla"
+      document.to_html.should eq "<html><head></head><body><div>bla</div></body></html>"
     end
   end
 

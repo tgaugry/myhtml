@@ -55,4 +55,22 @@ struct Myhtml::Node
   def remove!
     Lib.node_remove(@raw_node)
   end
+
+  #
+  # Helper method to add inner text to node
+  #
+  # ```crystal
+  # document = Myhtml::Parser.new("<html><body><div></div></body></html>")
+  # div = document.css("div").first
+  # div.inner_text = "bla"
+  #
+  # document.to_html # <html><head></head><body><div>bla</div></body></html>
+  # ```
+  #
+  def inner_text=(text : String)
+    _text = @tree.create_node(:_text)
+    _text.tag_text_set(text)
+    self.append_child(_text)
+    text
+  end
 end
