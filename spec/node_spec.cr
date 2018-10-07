@@ -211,6 +211,49 @@ describe Myhtml::Node do
     parser.root!.data.null?.should eq true
   end
 
+  describe "#append_child" do
+    it "adds a node at the end" do
+      tree = Myhtml::Tree.new
+      parent = tree.create_node(:div)
+      child = tree.create_node(:a)
+      grandchild = tree.create_node(:span)
+
+      parent.append_child(child)
+      child.append_child(grandchild)
+
+      parent.to_html.should eq("<div><a><span></span></a></div>")
+      parent.children.first.tag_sym.should eq(:a)
+      child.children.first.tag_sym.should eq(:span)
+    end
+  end
+
+  describe "#insert_before" do
+    it "adds a node just prior to this node" do
+      document = Myhtml::Parser.new("<html><body><main></main></body></html>")
+      main = document.css("main").first
+      header = document.tree.create_node(:header)
+
+      main.insert_before(header)
+
+      body_html = "<body><header></header><main></main></body>"
+      document.body!.to_html.should eq body_html
+    end
+  end
+
+  describe "#insert_after" do
+    it "adds a node just following this node" do
+      html_string = "<html><body><header></header></body></html>"
+      document = Myhtml::Parser.new(html_string)
+      header = document.css("header").first
+      main = document.tree.create_node(:main)
+
+      header.insert_after(main)
+
+      body_html = "<body><header></header><main></main></body>"
+      document.body!.to_html.should eq body_html
+    end
+  end
+
   context "to_html" do
     it "deep" do
       parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")

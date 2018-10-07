@@ -27,6 +27,31 @@ class Myhtml::Tree
     @finalized = false
   end
 
+  #
+  # Create a new node
+  #
+  # **Note**: this does not add the node to any document or tree. It only
+  # creates the object that can then be appended or inserted. See
+  # `Node#append_child`, `Node#insert_after`, and `Node#insert_before`
+  #
+  # ```crystal
+  # tree = Myhtml::Tree.new
+  # div = tree.create_node(:div)
+  # a = tree.create_node(:a)
+  #
+  # div.to_html # <div></div>
+  # a.to_html   # <a></a>
+  # ```
+  #
+  def create_node(tag_sym : Symbol)
+    raw_node = Lib.node_create(
+      raw_tree,
+      Utils::TagConverter.sym_to_id(tag_sym),
+      Myhtml::Lib::MyhtmlNamespace::MyHTML_NAMESPACE_HTML
+    )
+    Node.new(self, raw_node)
+  end
+
   def set_flags(flags : Lib::MyhtmlTreeParseFlags)
     Lib.tree_parse_flags_set(@raw_tree, flags)
   end
