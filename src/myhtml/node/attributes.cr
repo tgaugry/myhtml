@@ -3,7 +3,7 @@ struct Myhtml::Node
   # Add attribute to node
   #
   def attribute_add(key : String, value : String, encoding = nil)
-    Lib.attribute_add(@raw_node, key, key.bytesize, value, value.bytesize, encoding || @parser.encoding)
+    Lib.attribute_add(@raw_node, key, key.bytesize, value, value.bytesize, encoding || @tree.encoding)
     if attrs = @attributes
       attrs[key] = value
     end

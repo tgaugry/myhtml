@@ -3,12 +3,12 @@ class Myhtml::Iterator::Collection
   include Iterator::Filter
 
   @id : LibC::SizeT
-  @parser : Parser
+  @tree : Tree
   @length : LibC::SizeT
   @list : Lib::MyhtmlTreeNodeT**
   @raw_collection : Lib::MyhtmlCollectionT*
 
-  def initialize(@parser, @raw_collection)
+  def initialize(@tree, @raw_collection)
     @id = LibC::SizeT.new(0)
     unless @raw_collection.null?
       @length = @raw_collection.value.length
@@ -24,7 +24,7 @@ class Myhtml::Iterator::Collection
     if @id < @length
       node = @list[@id]
       @id += 1
-      Node.new(@parser, node)
+      Node.new(@tree, node)
     else
       stop
     end

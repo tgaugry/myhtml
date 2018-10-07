@@ -34,7 +34,7 @@ class Myhtml::CssFilter
   def search_from(scope_node : Myhtml::Node)
     collection = Pointer(Myhtml::Lib::MyhtmlCollectionT).new(0)
     LibModest.finder_by_selectors_list(@finder, scope_node.@raw_node, @list, pointerof(collection))
-    Iterator::Collection.new(scope_node.parser, collection)
+    Iterator::Collection.new(scope_node.tree, collection)
   end
 
   def free

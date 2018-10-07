@@ -1,6 +1,9 @@
-class Myhtml::Parser
+struct Myhtml::Parser
   # :nodoc:
   getter encoding : Lib::MyEncodingList
+
+  # :nodoc:
+  getter tree : Tree
 
   #
   # Parse html from string
@@ -48,7 +51,7 @@ class Myhtml::Parser
   #
   {% for name in %w(head body html root) %}
     def {{ name.id }}
-      Node.from_raw(self, Lib.tree_get_node_{{(name == "root" ? "html" : name).id}}(@raw_tree))
+      Node.from_raw(@tree, Lib.tree_get_node_{{(name == "root" ? "html" : name).id}}(@tree.raw_tree))
     end
 
     def {{ name.id }}!
@@ -61,7 +64,7 @@ class Myhtml::Parser
   {% end %}
 
   def document!
-    if node = Node.from_raw(self, Lib.tree_get_document(@raw_tree))
+    if node = Node.from_raw(@tree, Lib.tree_get_document(@tree.raw_tree))
       node
     else
       raise EmptyNodeError.new("expected document to present on myhtml tree")
@@ -76,7 +79,7 @@ class Myhtml::Parser
   #   myhtml.nodes(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV).each { |node| ... }
   #
   def nodes(tag_id : Myhtml::Lib::MyhtmlTags)
-    Iterator::Collection.new(self, Lib.get_nodes_by_tag_id(@raw_tree, nil, tag_id, out status))
+    Iterator::Collection.new(@tree, Lib.get_nodes_by_tag_id(@tree.raw_tree, nil, tag_id, out status))
   end
 
   #
@@ -118,40 +121,14 @@ class Myhtml::Parser
                            encoding : Lib::MyEncodingList? = nil,
                            @detect_encoding_from_meta : Bool = false,
                            @detect_encoding : Bool = false)
-    options = Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE
-    threads_count = 1
-    queue_size = 0
     @encoding = encoding || Lib::MyEncodingList::MyENCODING_DEFAULT
-
-    @raw_myhtml = Lib.create
-    res = Lib.init(@raw_myhtml, options, threads_count, queue_size)
-    if res != Lib::MyStatus::MyCORE_STATUS_OK
-      raise Error.new("init error #{res}")
-    end
-
-    @raw_tree = Lib.tree_create
-    res = Lib.tree_init(@raw_tree, @raw_myhtml)
-
-    if res != Lib::MyStatus::MyCORE_STATUS_OK
-      Lib.destroy(@raw_myhtml)
-      raise Error.new("tree_init error #{res}")
-    end
-
-    Lib.tree_parse_flags_set(@raw_tree, tree_options) if tree_options
-    @finalized = false
+    @tree = Tree.new(@encoding)
+    @tree.set_flags(tree_options) if tree_options
   end
 
   # Dangerous, manually free object (free also safely called from GC finalize)
   def free
-    unless @finalized
-      @finalized = true
-      Lib.tree_destroy(@raw_tree)
-      Lib.destroy(@raw_myhtml)
-    end
-  end
-
-  def finalize
-    free
+    @tree.free
   end
 
   protected def parse(string)
@@ -179,7 +156,7 @@ class Myhtml::Parser
       end
     end
 
-    res = Lib.parse(@raw_tree, @encoding, pointer, bytesize)
+    res = Lib.parse(@tree.raw_tree, @encoding, pointer, bytesize)
     if res != Lib::MyStatus::MyCORE_STATUS_OK
       free
       raise Error.new("parse error #{res}")
@@ -192,7 +169,7 @@ class Myhtml::Parser
 
   protected def parse_stream(io : IO)
     buffers = Array(Bytes).new
-    Lib.encoding_set(@raw_tree, @encoding)
+    Lib.encoding_set(@tree.raw_tree, @encoding)
 
     loop do
       buffer = Bytes.new(BUFFER_SIZE)
@@ -200,14 +177,14 @@ class Myhtml::Parser
       break if read_size == 0
 
       buffers << buffer
-      res = Lib.parse_chunk(@raw_tree, buffer.to_unsafe, read_size)
+      res = Lib.parse_chunk(@tree.raw_tree, buffer.to_unsafe, read_size)
       if res != Lib::MyStatus::MyCORE_STATUS_OK
         free
         raise Error.new("parse_chunk error #{res}")
       end
     end
 
-    res = Lib.parse_chunk_end(@raw_tree)
+    res = Lib.parse_chunk_end(@tree.raw_tree)
     if res != Lib::MyStatus::MyCORE_STATUS_OK
       free
       raise Error.new("parse_chunk_end error #{res}")

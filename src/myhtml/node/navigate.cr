@@ -2,7 +2,7 @@ struct Myhtml::Node
   {% for name in %w(child next parent prev last_child) %}
     @[AlwaysInline]
     def {{name.id}}
-      Node.from_raw(@parser, Lib.node_{{name.id}}(@raw_node))
+      Node.from_raw(@tree, Lib.node_{{name.id}}(@raw_node))
     end
   {% end %}
 

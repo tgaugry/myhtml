@@ -1,6 +1,6 @@
 struct Myhtml::Node
   # :nodoc:
-  getter parser : Parser
+  getter tree : Tree
 
   # :nodoc:
   getter raw_node : Lib::MyhtmlTreeNodeT*
@@ -8,11 +8,11 @@ struct Myhtml::Node
   # :nodoc:
   @attributes : Hash(String, String)?
 
-  def self.from_raw(parser, raw_node)
-    Node.new(parser, raw_node) unless raw_node.null?
+  def self.from_raw(tree, raw_node)
+    Node.new(tree, raw_node) unless raw_node.null?
   end
 
-  def initialize(@parser, @raw_node)
+  def initialize(@tree, @raw_node)
   end
 
   #
@@ -43,7 +43,7 @@ struct Myhtml::Node
 
   @[AlwaysInline]
   def tag_name_slice
-    buffer = Lib.tag_name_by_id(@parser.@raw_tree, self.tag_id, out length)
+    buffer = Lib.tag_name_by_id(@tree.@raw_tree, self.tag_id, out length)
     Slice.new(buffer, length)
   end
 
@@ -65,7 +65,7 @@ struct Myhtml::Node
 
   def tag_text_set(text : String, encoding = nil)
     raise ArgumentError.new("#{self.inspect} not allowed to set text") unless textable?
-    Lib.node_text_set_with_charef(@raw_node, text.to_unsafe, text.bytesize, encoding || @parser.encoding)
+    Lib.node_text_set_with_charef(@raw_node, text.to_unsafe, text.bytesize, encoding || @tree.encoding)
   end
 
   #
