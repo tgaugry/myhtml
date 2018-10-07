@@ -118,5 +118,13 @@ module Myhtml
       root : MyhtmlTreeNodeT*,
       node : MyhtmlTreeNodeT*
     )
+    fun tree_node_insert_before = myhtml_tree_node_insert_before(
+      root : MyhtmlTreeNodeT*,
+      node : MyhtmlTreeNodeT*
+    )
+    fun tree_node_insert_after = myhtml_tree_node_insert_after(
+      root : MyhtmlTreeNodeT*,
+      node : MyhtmlTreeNodeT*
+    )
   end
 end

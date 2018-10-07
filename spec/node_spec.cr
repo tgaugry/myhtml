@@ -235,6 +235,33 @@ describe Myhtml::Node do
     end
   end
 
+  describe "#before" do
+    it "adds a node just prior to this node" do
+      document = Myhtml::Parser.new("<html><body><main></main></body></html>")
+      main = document.css("main").first
+      header = Myhtml::Node.create(:header)
+
+      main.before(header)
+
+      body_html = "<body><header></header><main></main></body>"
+      document.body!.to_html.should eq body_html
+    end
+  end
+
+  describe "#after" do
+    it "adds a node just following this node" do
+      html_string = "<html><body><header></header></body></html>"
+      document = Myhtml::Parser.new(html_string)
+      header = document.css("header").first
+      main = Myhtml::Node.create(:main)
+
+      header.after(main)
+
+      body_html = "<body><header></header><main></main></body>"
+      document.body!.to_html.should eq body_html
+    end
+  end
+
   context "to_html" do
     it "deep" do
       parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")

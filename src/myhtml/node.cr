@@ -156,6 +156,14 @@ struct Myhtml::Node
     Lib.tree_node_add_child(raw_node, child.raw_node)
   end
 
+  def before(node preceding : Node)
+    Lib.tree_node_insert_before(raw_node, preceding.raw_node)
+  end
+
+  def after(node following : Node)
+    Lib.tree_node_insert_after(raw_node, following.raw_node)
+  end
+
   private class IOWrapper
     def initialize(@io : IO)
     end
