@@ -49,7 +49,12 @@ class Myhtml::Tree
       Utils::TagConverter.sym_to_id(tag_sym),
       Myhtml::Lib::MyhtmlNamespace::MyHTML_NAMESPACE_HTML
     )
-    Node.new(self, raw_node)
+
+    if node = Node.from_raw(self, raw_node)
+      node
+    else
+      raise EmptyNodeError.new("unable to create node")
+    end
   end
 
   def set_flags(flags : Lib::MyhtmlTreeParseFlags)
