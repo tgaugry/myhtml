@@ -96,6 +96,16 @@ class Myhtml::Tree
   end
 
   #
+  # Css selectors, see Node#css
+  #
+  delegate :css, to: root!
+
+  #
+  # Convert html tree to html string, see Node#to_html
+  #
+  delegate :to_html, to: document!
+
+  #
   # Create a new node
   #
   # **Note**: this does not add the node to any document or tree. It only
