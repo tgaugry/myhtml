@@ -1,6 +1,6 @@
 class Myhtml::Tree
   # :nodoc:
-  getter encoding : Lib::MyEncodingList
+  property encoding : Lib::MyEncodingList
 
   # :nodoc:
   getter raw_tree : Lib::MyhtmlTreeT*

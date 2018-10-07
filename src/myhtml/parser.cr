@@ -1,8 +1,5 @@
 struct Myhtml::Parser
   # :nodoc:
-  getter encoding : Lib::MyEncodingList
-
-  # :nodoc:
   getter tree : Tree
 
   #
@@ -121,8 +118,7 @@ struct Myhtml::Parser
                            encoding : Lib::MyEncodingList? = nil,
                            @detect_encoding_from_meta : Bool = false,
                            @detect_encoding : Bool = false)
-    @encoding = encoding || Lib::MyEncodingList::MyENCODING_DEFAULT
-    @tree = Tree.new(@encoding)
+    @tree = Tree.new(encoding || Lib::MyEncodingList::MyENCODING_DEFAULT)
     @tree.set_flags(tree_options) if tree_options
   end
 
@@ -138,25 +134,25 @@ struct Myhtml::Parser
     if Lib.encoding_detect_and_cut_bom(pointer, bytesize, out encoding2, out pointer2, out bytesize2)
       pointer = pointer2
       bytesize = bytesize2
-      @encoding = encoding2
+      @tree.encoding = encoding2
     else
       detected = false
 
       if @detect_encoding_from_meta
         if enc = Utils::DetectEncoding.from_meta?(pointer, bytesize)
           detected = true
-          @encoding = enc
+          @tree.encoding = enc
         end
       end
 
       if @detect_encoding && !detected
         if enc = Utils::DetectEncoding.detect?(pointer, bytesize)
-          @encoding = enc
+          @tree.encoding = enc
         end
       end
     end
 
-    res = Lib.parse(@tree.raw_tree, @encoding, pointer, bytesize)
+    res = Lib.parse(@tree.raw_tree, @tree.encoding, pointer, bytesize)
     if res != Lib::MyStatus::MyCORE_STATUS_OK
       free
       raise Error.new("parse error #{res}")
@@ -169,7 +165,7 @@ struct Myhtml::Parser
 
   protected def parse_stream(io : IO)
     buffers = Array(Bytes).new
-    Lib.encoding_set(@tree.raw_tree, @encoding)
+    Lib.encoding_set(@tree.raw_tree, @tree.encoding)
 
     loop do
       buffer = Bytes.new(BUFFER_SIZE)
@@ -191,5 +187,9 @@ struct Myhtml::Parser
     end
 
     self
+  end
+
+  def encoding
+    @tree.encoding
   end
 end
