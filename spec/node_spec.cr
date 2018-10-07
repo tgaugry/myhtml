@@ -211,20 +211,12 @@ describe Myhtml::Node do
     parser.root!.data.null?.should eq true
   end
 
-  describe ".create" do
-    it "returns a new node" do
-      node = Myhtml::Node.create(:a)
-
-      node.should be_a(Myhtml::Node)
-      node.tag_id.should eq(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A)
-    end
-  end
-
   describe "#append" do
     it "adds a node at the end" do
-      parent = Myhtml::Node.create(:div)
-      child = Myhtml::Node.create(:a)
-      grandchild = Myhtml::Node.create(:span)
+      tree = Myhtml::Tree.new
+      parent = tree.create_node(:div)
+      child = tree.create_node(:a)
+      grandchild = tree.create_node(:span)
 
       parent.append(child)
       child.append(grandchild)
@@ -239,7 +231,8 @@ describe Myhtml::Node do
     it "adds a node just prior to this node" do
       document = Myhtml::Parser.new("<html><body><main></main></body></html>")
       main = document.css("main").first
-      header = Myhtml::Node.create(:header)
+      tree = Myhtml::Tree.new
+      header = tree.create_node(:header)
 
       main.before(header)
 
@@ -253,7 +246,8 @@ describe Myhtml::Node do
       html_string = "<html><body><header></header></body></html>"
       document = Myhtml::Parser.new(html_string)
       header = document.css("header").first
-      main = Myhtml::Node.create(:main)
+      tree = Myhtml::Tree.new
+      main = tree.create_node(:main)
 
       header.after(main)
 

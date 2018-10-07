@@ -27,6 +27,15 @@ class Myhtml::Tree
     @finalized = false
   end
 
+  def create_node(tag_sym : Symbol)
+    raw_node = Lib.node_create(
+      raw_tree,
+      Utils::TagConverter.sym_to_id(tag_sym),
+      Myhtml::Lib::MyhtmlNamespace::MyHTML_NAMESPACE_HTML
+    )
+    Node.new(self, raw_node)
+  end
+
   def set_flags(flags : Lib::MyhtmlTreeParseFlags)
     Lib.tree_parse_flags_set(@raw_tree, flags)
   end

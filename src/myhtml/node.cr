@@ -15,20 +15,6 @@ struct Myhtml::Node
   def initialize(@tree, @raw_node)
   end
 
-  def self.create(tag_sym : Symbol)
-    parser = Parser.new
-    raw_myhtml = Lib.create
-    Lib.init(raw_myhtml, Myhtml::Lib::MyhtmlOptions::MyHTML_OPTIONS_PARSE_MODE_SINGLE, 1, 0)
-    raw_tree = Lib.tree_create
-    Lib.tree_init(raw_tree, raw_myhtml)
-    raw_node = Lib.node_create(
-      raw_tree,
-      Utils::TagConverter.sym_to_id(tag_sym),
-      Myhtml::Lib::MyhtmlNamespace::MyHTML_NAMESPACE_HTML
-    )
-    new(parser, raw_node)
-  end
-
   #
   # Tag ID
   #   node.tag_id => Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV
