@@ -231,8 +231,7 @@ describe Myhtml::Node do
     it "adds a node just prior to this node" do
       document = Myhtml::Parser.new("<html><body><main></main></body></html>")
       main = document.css("main").first
-      tree = Myhtml::Tree.new
-      header = tree.create_node(:header)
+      header = document.tree.create_node(:header)
 
       main.insert_before(header)
 
@@ -246,8 +245,7 @@ describe Myhtml::Node do
       html_string = "<html><body><header></header></body></html>"
       document = Myhtml::Parser.new(html_string)
       header = document.css("header").first
-      tree = Myhtml::Tree.new
-      main = tree.create_node(:main)
+      main = document.tree.create_node(:main)
 
       header.insert_after(main)
 
