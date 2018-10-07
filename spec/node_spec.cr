@@ -211,6 +211,15 @@ describe Myhtml::Node do
     parser.root!.data.null?.should eq true
   end
 
+  describe ".create" do
+    it "returns a new node" do
+      node = Myhtml::Node.create(:a)
+
+      node.should be_a(Myhtml::Node)
+      node.tag_id.should eq(Myhtml::Lib::MyhtmlTags::MyHTML_TAG_A)
+    end
+  end
+
   context "to_html" do
     it "deep" do
       parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")

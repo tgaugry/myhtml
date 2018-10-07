@@ -42,6 +42,11 @@ module Myhtml
     fun tree_create = myhtml_tree_create : MyhtmlTreeT*
     fun tree_init = myhtml_tree_init(tree : MyhtmlTreeT*, myhtml : MyhtmlT*) : MyStatus
     fun tree_destroy = myhtml_tree_destroy(tree : MyhtmlTreeT*) : MyhtmlTreeT*
+    fun node_create = myhtml_node_create(
+      tree : MyhtmlTreeT*,
+      tag_id : MyhtmlTagIdT,
+      ns : MyhtmlNamespace
+    ) : MyhtmlTreeNodeT*
     fun destroy = myhtml_destroy(myhtml : MyhtmlT*) : MyhtmlT*
 
     # Parse methods
