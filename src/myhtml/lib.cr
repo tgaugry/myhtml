@@ -112,5 +112,11 @@ module Myhtml
     # Filter methods
     fun get_nodes_by_tag_id = myhtml_get_nodes_by_tag_id(tree : MyhtmlTreeT*, collection : MyhtmlCollectionT*, tag_id : MyhtmlTagIdT, status : MyStatus*) : MyhtmlCollectionT*
     fun collection_destroy = myhtml_collection_destroy(collection : MyhtmlCollectionT*) : MyhtmlCollectionT*
+
+    # Tree mutation
+    fun tree_node_add_child = myhtml_tree_node_add_child(
+      root : MyhtmlTreeNodeT*,
+      node : MyhtmlTreeNodeT*
+    )
   end
 end

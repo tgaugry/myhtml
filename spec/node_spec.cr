@@ -220,6 +220,21 @@ describe Myhtml::Node do
     end
   end
 
+  describe "#append" do
+    it "adds a node at the end" do
+      parent = Myhtml::Node.create(:div)
+      child = Myhtml::Node.create(:a)
+      grandchild = Myhtml::Node.create(:span)
+
+      parent.append(child)
+      child.append(grandchild)
+
+      parent.to_html.should eq("<div><a><span></span></a></div>")
+      parent.children.first.tag_sym.should eq(:a)
+      child.children.first.tag_sym.should eq(:span)
+    end
+  end
+
   context "to_html" do
     it "deep" do
       parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")

@@ -152,6 +152,10 @@ struct Myhtml::Node
     end
   end
 
+  def append(child : Node)
+    Lib.tree_node_add_child(raw_node, child.raw_node)
+  end
+
   private class IOWrapper
     def initialize(@io : IO)
     end
