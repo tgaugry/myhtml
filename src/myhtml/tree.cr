@@ -121,18 +121,21 @@ class Myhtml::Tree
   # a.to_html   # <a></a>
   # ```
   #
-  def create_node(tag_sym : Symbol)
-    raw_node = Lib.node_create(
-      raw_tree,
-      Utils::TagConverter.sym_to_id(tag_sym),
-      Myhtml::Lib::MyhtmlNamespace::MyHTML_NAMESPACE_HTML
-    )
-
+  def create_node(tag_id : Myhtml::Lib::MyhtmlTags)
+    raw_node = Lib.node_create(raw_tree, tag_id, Myhtml::Lib::MyhtmlNamespace::MyHTML_NAMESPACE_HTML)
     if node = Node.from_raw(self, raw_node)
       node
     else
       raise EmptyNodeError.new("unable to create node")
     end
+  end
+
+  def create_node(tag_sym : Symbol)
+    create_node(Utils::TagConverter.sym_to_id(tag_sym))
+  end
+
+  def create_node(tag_name : String)
+    create_node(Utils::TagConverter.string_to_id(tag_name))
   end
 
   #

@@ -68,7 +68,7 @@ struct Myhtml::Node
   # ```
   #
   def inner_text=(text : String)
-    _text = @tree.create_node(:_text)
+    _text = @tree.create_node(Lib::MyhtmlTags::MyHTML_TAG__TEXT)
     _text.tag_text_set(text)
     self.append_child(_text)
     text
