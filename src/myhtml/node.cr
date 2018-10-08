@@ -113,7 +113,7 @@ struct Myhtml::Node
       res
     else
       Lib.string_raw_destroy(pointerof(str), false)
-      raise Error.new("Unknown problem with serialization: #{res}")
+      raise LibError.new("Unknown problem with serialization: #{res}")
     end
   end
 

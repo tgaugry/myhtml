@@ -11,7 +11,7 @@ class Myhtml::CssFilter
     status = LibMyCss.init(@raw_mycss)
     if status != LibMyCss::MycssStatusT::MyCSS_STATUS_OK
       LibMyCss.destroy(@raw_mycss, true)
-      raise Myhtml::Error.new("mycss init error #{status}")
+      raise Myhtml::LibError.new("mycss init error #{status}")
     end
 
     @raw_entry = LibMyCss.entry_create
@@ -19,7 +19,7 @@ class Myhtml::CssFilter
     if status != LibMyCss::MycssStatusT::MyCSS_STATUS_OK
       LibMyCss.entry_destroy(@raw_entry, true)
       LibMyCss.destroy(@raw_mycss, true)
-      raise Myhtml::Error.new("mycss entry_init error #{status}")
+      raise Myhtml::LibError.new("mycss entry_init error #{status}")
     end
 
     @finder = LibModest.finder_create_simple
@@ -27,7 +27,7 @@ class Myhtml::CssFilter
     @list = LibMyCss.selectors_parse(@selectors, encoding || Myhtml::Lib::MyEncodingList::MyENCODING_UTF_8, rule.to_unsafe, rule.bytesize, out status2)
     if status2 != LibMyCss::MycssStatusT::MyCSS_STATUS_OK
       free
-      raise Myhtml::Error.new("finder selectors_parse #{status2}")
+      raise Myhtml::LibError.new("finder selectors_parse #{status2}")
     end
   end
 

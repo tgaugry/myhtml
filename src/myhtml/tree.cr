@@ -14,7 +14,7 @@ class Myhtml::Tree
     @raw_myhtml = Lib.create
     res = Lib.init(@raw_myhtml, options, threads_count, queue_size)
     if res != Lib::MyStatus::MyCORE_STATUS_OK
-      raise Error.new("init error #{res}")
+      raise LibError.new("init error #{res}")
     end
 
     @raw_tree = Lib.tree_create
@@ -22,7 +22,7 @@ class Myhtml::Tree
 
     if res != Lib::MyStatus::MyCORE_STATUS_OK
       Lib.destroy(@raw_myhtml)
-      raise Error.new("tree_init error #{res}")
+      raise LibError.new("tree_init error #{res}")
     end
 
     @finalized = false

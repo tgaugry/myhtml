@@ -115,7 +115,7 @@ struct Myhtml::Parser
     res = Lib.parse(@tree.raw_tree, @tree.encoding, pointer, bytesize)
     if res != Lib::MyStatus::MyCORE_STATUS_OK
       free
-      raise Error.new("parse error #{res}")
+      raise LibError.new("parse error #{res}")
     end
 
     self
@@ -138,14 +138,14 @@ struct Myhtml::Parser
       res = Lib.parse_chunk(@tree.raw_tree, buffer.to_unsafe, read_size)
       if res != Lib::MyStatus::MyCORE_STATUS_OK
         free
-        raise Error.new("parse_chunk error #{res}")
+        raise LibError.new("parse_chunk error #{res}")
       end
     end
 
     res = Lib.parse_chunk_end(@tree.raw_tree)
     if res != Lib::MyStatus::MyCORE_STATUS_OK
       free
-      raise Error.new("parse_chunk_end error #{res}")
+      raise LibError.new("parse_chunk_end error #{res}")
     end
 
     self
