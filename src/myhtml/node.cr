@@ -153,7 +153,7 @@ struct Myhtml::Node
   #
   # Example:
   # ```
-  # parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
+  # parser = Myhtml::Parser.new("<html><body><div>Haha <!-->WHAT?-->11</div></body></html>")
   # node = parser.nodes(:div).first
   # node.inner_text                 # => `Haha 11`
   # node.inner_text(deep: false)    # => `Haha `
