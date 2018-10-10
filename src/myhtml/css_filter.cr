@@ -1,7 +1,7 @@
 class Myhtml::CssFilter
   #
   # Css filter
-  #   Myhtml::CssFilter.new("div.red").search_from(myhtml.root!) # => Myhtml::Iterator::Collection
+  #   Myhtml::CssFilter.new("div.red").search_from(myhtml.html!) # => Myhtml::Iterator::Collection
   #
   def initialize(@rule : String, encoding = nil)
     @finalized = false
@@ -24,7 +24,7 @@ class Myhtml::CssFilter
 
     @finder = LibModest.finder_create_simple
     @selectors = LibMyCss.entry_selectors(@raw_entry)
-    @list = LibMyCss.selectors_parse(@selectors, encoding || Myhtml::Lib::MyEncodingList::MyENCODING_UTF_8, rule.to_unsafe, rule.bytesize, out status2)
+    @list = LibMyCss.selectors_parse(@selectors, encoding || Myhtml::Lib::MyEncodingList::MyENCODING_DEFAULT, rule, rule.bytesize, out status2)
     if status2 != LibMyCss::MycssStatusT::MyCSS_STATUS_OK
       free
       raise Myhtml::LibError.new("finder selectors_parse #{status2}")
