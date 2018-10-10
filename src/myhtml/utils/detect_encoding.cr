@@ -8,7 +8,7 @@ module Myhtml::Utils::DetectEncoding
   #     Myhtml::Utils::DetectEncoding.from_header("text/html; charset=Windows-1251") # => MyHTML_ENCODING_WINDOWS_1251
   #
   def self.from_header(header : String) : Lib::MyEncodingList | EncodingNotFound
-    res = Lib.encoding_extracting_character_encoding_from_charset_with_found(header.to_unsafe, header.bytesize, out e, out pointer, out bytesize)
+    res = Lib.encoding_extracting_character_encoding_from_charset_with_found(header, header.bytesize, out e, out pointer, out bytesize)
     if res
       e
     else

@@ -135,7 +135,7 @@ struct Myhtml::Parser
       break if read_size == 0
 
       buffers << buffer
-      res = Lib.parse_chunk(@tree.raw_tree, buffer.to_unsafe, read_size)
+      res = Lib.parse_chunk(@tree.raw_tree, buffer, read_size)
       if res != Lib::MyStatus::MyCORE_STATUS_OK
         free
         raise LibError.new("parse_chunk error #{res}")
