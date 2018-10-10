@@ -98,7 +98,7 @@ class Myhtml::Tree
   #
   # Css selectors, see Node#css
   #
-  delegate :css, to: root!
+  delegate :css, to: document!
 
   #
   # Convert html tree to html string, see Node#to_html
