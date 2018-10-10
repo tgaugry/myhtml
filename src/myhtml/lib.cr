@@ -84,9 +84,6 @@ module Myhtml
     fun node_prev = myhtml_node_prev(node : MyhtmlTreeNodeT*) : MyhtmlTreeNodeT*
     fun node_last_child = myhtml_node_last_child(node : MyhtmlTreeNodeT*) : MyhtmlTreeNodeT*
 
-    # Remove node
-    fun node_remove = myhtml_node_remove(node : MyhtmlTreeNodeT*)
-
     # Data methods
     fun node_set_data = myhtml_node_set_data(node : MyhtmlTreeNodeT*, data : Void*)
     fun node_get_data = myhtml_node_get_data(node : MyhtmlTreeNodeT*) : Void*
@@ -126,5 +123,6 @@ module Myhtml
       root : MyhtmlTreeNodeT*,
       node : MyhtmlTreeNodeT*
     )
+    fun node_remove = myhtml_node_remove(node : MyhtmlTreeNodeT*)
   end
 end

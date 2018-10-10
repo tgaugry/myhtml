@@ -1,4 +1,6 @@
 require "../src/myhtml"
+
+# This page encoded in windows-1251
 page = File.read("./spec/fixtures/25.htm")
 
 # by default page parsed as UTF-8

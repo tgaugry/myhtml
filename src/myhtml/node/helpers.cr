@@ -13,7 +13,7 @@ struct Myhtml::Node
   def visible?
     case tag_id
     when Lib::MyhtmlTags::MyHTML_TAG_STYLE,
-         Lib::MyhtmlTags::MyHTML_TAG_COMMENT,
+         Lib::MyhtmlTags::MyHTML_TAG__COMMENT,
          Lib::MyhtmlTags::MyHTML_TAG_SCRIPT,
          Lib::MyhtmlTags::MyHTML_TAG_HEAD
       false
