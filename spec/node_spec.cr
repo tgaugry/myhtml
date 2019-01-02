@@ -190,7 +190,7 @@ describe Myhtml::Node do
     id_array = %w(first second third)
     (0..2).each do |i|
       parser = Myhtml::Parser.new html_string
-      parser.root!.child!.next!.children.to_a.at(i).remove!
+      parser.root!.child!.next!.children.to_a[i].remove!
       parser.root!.child!.next!.children.to_a.map(&.attribute_by("id")).should(
         eq id_array.dup.tap(&.delete_at(i))
       )
