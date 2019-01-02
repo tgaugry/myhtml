@@ -4,7 +4,7 @@ page = File.read("./google.html")
 
 t = Time.now
 1000.times do
-  doc = Crystagiri::HTML.new page
+  Crystagiri::HTML.new page
 end
 p Time.now - t
 

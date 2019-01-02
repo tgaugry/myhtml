@@ -7,7 +7,7 @@ html = <<-HTML
     <body>
       <div id="t1" class="red">
         <a href="/#">O_o</a>
-      </div> 
+      </div>
       <div id="t2"></div>
     </body>
   </html>

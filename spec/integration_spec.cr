@@ -7,11 +7,11 @@ def extract_link(node)
   href = node.attribute_by("href")
 
   # closure check node for non empty text
-  text_tag = ->(node : Myhtml::Node) do
-    if node.is_text?
-      slice = node.tag_text_slice
+  text_tag = ->(n : Myhtml::Node) do
+    if n.is_text?
+      slice = n.tag_text_slice
       return if slice.size == 0
-      !String.new(slice).each_char.all?(&.whitespace?) && node.parents.all?(&.visible?)
+      !String.new(slice).each_char.all?(&.whitespace?) && n.parents.all?(&.visible?)
     end
   end
 
@@ -64,7 +64,7 @@ def parser_links
     </html>
   HTML
 
-  parser = Myhtml::Parser.new(str)
+  Myhtml::Parser.new(str)
 end
 
 describe "integration" do

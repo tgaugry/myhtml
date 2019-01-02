@@ -10,12 +10,12 @@ class Myhtml::Iterator::Collection
 
   def initialize(@tree, @raw_collection)
     @id = LibC::SizeT.new(0)
-    unless @raw_collection.null?
-      @length = @raw_collection.value.length
-      @list = @raw_collection.value.list
-    else
+    if @raw_collection.null?
       @length = LibC::SizeT.new(0)
       @list = Pointer(Lib::MyhtmlTreeNodeT*).new(0)
+    else
+      @length = @raw_collection.value.length
+      @list = @raw_collection.value.list
     end
     @finalized = false
   end
