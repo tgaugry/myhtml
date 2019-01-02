@@ -1,3 +1,9 @@
+## 1.3.0 (2019-01-02)
+* all lib errors now raise LibError
+* parser.css by default search from document node, not from root
+* create_node works with more tag_id types
+* decode_html_entities optimize, not to create temp parser
+
 ## 1.2.0 (2018-10-07)
 * Internal refactor: Split Parser and Tree
 * Add Tree#create_node, Node#append_child, Node#insert_before, Node#insert_after, thanks: @edwardloveall
