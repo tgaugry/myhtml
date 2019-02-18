@@ -1,6 +1,12 @@
 struct Myhtml::Node
+  # :nodoc:
   def self_closed?
     Lib.node_is_close_self(@raw_node)
+  end
+
+  # :nodoc:
+  def void_element?
+    Lib.node_is_void_element(@raw_node)
   end
 
   def textable?

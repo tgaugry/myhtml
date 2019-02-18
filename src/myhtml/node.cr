@@ -41,6 +41,7 @@ struct Myhtml::Node
     String.new(tag_name_slice)
   end
 
+  # :nodoc:
   @[AlwaysInline]
   def tag_name_slice
     buffer = Lib.tag_name_by_id(@tree.@raw_tree, self.tag_id, out length)
@@ -57,12 +58,14 @@ struct Myhtml::Node
     String.new(tag_text_slice)
   end
 
+  # :nodoc:
   @[AlwaysInline]
   def tag_text_slice
     buffer = Lib.node_text(@raw_node, out length)
     Slice.new(buffer, length)
   end
 
+  # :nodoc:
   def tag_text_set(text : String, encoding = nil)
     raise ArgumentError.new("#{self.inspect} not allowed to set text") unless textable?
     Lib.node_text_set_with_charef(@raw_node, text, text.bytesize, encoding || @tree.encoding)
@@ -85,67 +88,6 @@ struct Myhtml::Node
   end
 
   #
-  # Convert node to html string
-  #   **deep** - option, means visit children nodes or not (by default true).
-  #
-  # Example:
-  # ```
-  # parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
-  # node = parser.nodes(:div).first
-  # node.to_html              # => `<div class="AAA" style="color:red">Haha <span>11</span></div>`
-  # node.to_html(deep: false) # => `<div class="AAA" style="color:red">`
-  # ```
-  #
-  def to_html(deep = true)
-    str = Lib::MyhtmlStringRawT.new
-
-    Lib.string_raw_clean_all(pointerof(str))
-
-    res = if deep
-            Lib.serialization(@raw_node, pointerof(str))
-          else
-            Lib.serialization_node(@raw_node, pointerof(str))
-          end
-
-    if res == Lib::MyStatus::MyCORE_STATUS_OK
-      res = String.new(str.data, str.length)
-      Lib.string_raw_destroy(pointerof(str), false)
-      res
-    else
-      Lib.string_raw_destroy(pointerof(str), false)
-      raise LibError.new("Unknown problem with serialization: #{res}")
-    end
-  end
-
-  #
-  # Convert node to html to IO
-  #   **deep** - option, means visit children nodes or not (by default true).
-  #
-  def to_html(io : IO, deep = true)
-    iow = IOWrapper.new(io)
-
-    if deep
-      Lib.serialization_tree_callback(@raw_node, SERIALIZE_CALLBACK, iow.as(Void*))
-    else
-      Lib.serialization_node_callback(@raw_node, SERIALIZE_CALLBACK, iow.as(Void*))
-    end
-  end
-
-  private class IOWrapper
-    def initialize(@io : IO)
-    end
-
-    def write(b : Bytes)
-      @io.write(b)
-    end
-  end
-
-  SERIALIZE_CALLBACK = ->(text : UInt8*, length : LibC::SizeT, data : Void*) do
-    data.as(IOWrapper).write(Bytes.new(text, length))
-    Lib::MyStatus::MyCORE_STATUS_OK
-  end
-
-  #
   # Node Inner Text
   #   Joined text of children nodes
   #     **deep** - option, means visit children nodes or not (by default true).
@@ -164,6 +106,7 @@ struct Myhtml::Node
     String.build { |io| inner_text(io, join_with: join_with, deep: deep) }
   end
 
+  # :nodoc:
   def inner_text(io : IO, join_with : String | Char | Nil = nil, deep = true)
     if (join_with == nil) || (join_with == "")
       each_inner_text(deep: deep) { |slice| io.write slice }
@@ -177,10 +120,12 @@ struct Myhtml::Node
     end
   end
 
+  # :nodoc:
   protected def each_inner_text(deep = true)
     each_inner_text_for_scope(deep ? scope : children) { |slice| yield slice }
   end
 
+  # :nodoc:
   protected def each_inner_text_for_scope(scope)
     scope.nodes(Lib::MyhtmlTags::MyHTML_TAG__TEXT).each { |node| yield node.tag_text_slice }
   end

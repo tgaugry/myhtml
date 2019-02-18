@@ -1,5 +1,9 @@
-# Example: normalize input html
-#   (close not closed tags, replace entities, downcase attributes & tags names, remove comments)
+# Example: PRINT HTML
+#   * close not closed tags
+#   * replace entities
+#   * downcase attributes & tags names
+#   * remove comments and whitespaces
+#   * formatting if needed
 
 require "../src/myhtml"
 
@@ -17,8 +21,10 @@ str = if filename = ARGV[0]?
         HTML
       end
 
-remove_whitespaces = (ARGV[1]? != "0")
-remove_comments = (ARGV[2]? != "0")
+formatting = (ARGV[1]? == "1")
+remove_whitespaces = (ARGV[2]? != "0")
+remove_comments = (ARGV[3]? != "0")
+sanitize = (ARGV[4]? == "1")
 
 tree_options = Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_CLEAN
 if remove_whitespaces
@@ -31,7 +37,11 @@ if remove_comments
   myhtml.nodes(:_comment).each(&.remove!)
 end
 
-puts myhtml.to_html
+if formatting
+  puts myhtml.to_pretty_html
+else
+  puts myhtml.to_html
+end
 
 # Output:
 #   <!DOCTYPE html><html><head></head><body><div><span class="bla">⬣ ⬤ ⬥ ⬦</span></div>

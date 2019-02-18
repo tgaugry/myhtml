@@ -66,6 +66,7 @@ struct Myhtml::Parser
   # Convert html tree to html string, see Node#to_html
   #
   delegate :to_html, to: document!
+  delegate :to_pretty_html, to: html!
 
   #
   # Manually free object, dangerous (also called by GC finalize)

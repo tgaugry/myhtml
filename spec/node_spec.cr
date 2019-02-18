@@ -297,6 +297,91 @@ describe Myhtml::Node do
     end
   end
 
+  context "to_pretty_html" do
+    it "work" do
+      parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha <span>11</span></div></body></html>")
+      node = parser.nodes(:div).first
+      t = <<-TEXT
+      <div class="AAA" style="color:red">
+        Haha
+        <span>
+          11
+        </span>
+      </div>
+      TEXT
+      node.to_pretty_html.should eq t
+    end
+
+    it "work" do
+      parser = Myhtml::Parser.new(%Q{<html><body><style>color:red;</style><script>\nsome();\n</script><div class=AAA style='color:red'>Haha \nbla<span>11<hr/>   12<img src="bla.png"></span><!--hah--></div></body></html>})
+      node = parser.nodes(:body).first
+      t = <<-TEXT
+      <body>
+        <style>
+          color:red;
+        </style>
+        <script>
+          some();
+        </script>
+        <div class="AAA" style="color:red">
+          Haha
+          bla
+          <span>
+            11
+            <hr>
+            12
+            <img src="bla.png">
+          </span>
+          <!--hah-->
+        </div>
+      </body>
+      TEXT
+      node.to_pretty_html.should eq t
+    end
+
+    it "work" do
+      text = <<-BLA
+      <html>
+      <head>    </head>
+      <body>      <a href="bla"  >    </a>  <a href="bla2"  >   j </a> </body>
+
+      </html>
+      BLA
+
+      parser = Myhtml::Parser.new(text)
+      node = parser.html!
+      t = <<-TEXT
+      <html>
+        <head></head>
+        <body>
+          <a href="bla"></a>
+          <a href="bla2">
+            j
+          </a>
+        </body>
+      </html>
+      TEXT
+      node.to_pretty_html.should eq t
+    end
+
+    it "not damaging html" do
+      myhtml1 = Myhtml::Parser.new(PAGE25, encoding: Myhtml::Lib::MyEncodingList::MyENCODING_WINDOWS_1251)
+      s1 = myhtml1.to_pretty_html
+
+      myhtml2 = Myhtml::Parser.new(s1)
+      s2 = myhtml2.to_pretty_html
+
+      File.open("./saved_s1.html", "w") { |f| f.puts s1 }
+      File.open("./saved_s2.html", "w") { |f| f.puts s2 }
+
+      unless s1 == s2
+        raise "Failed to compare htmls, run `vimdiff ./saved_s1.html ./saved_s2.html`"
+      else
+        1.should eq 1
+      end
+    end
+  end
+
   context "inner_text" do
     it do
       parser = Myhtml::Parser.new("<html><body>1<div class=AAA style='color:red'>Haha<span>11</span>bla</div> 2 </body></html>")
