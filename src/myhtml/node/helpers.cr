@@ -1,4 +1,8 @@
 struct Myhtml::Node
+  def self_closed?
+    Lib.node_is_close_self(@raw_node)
+  end
+
   def textable?
     case tag_id
     when Lib::MyhtmlTags::MyHTML_TAG__TEXT,

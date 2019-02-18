@@ -380,4 +380,9 @@ describe Myhtml::Node do
       end
     end
   end
+
+  context "self_closed?" do
+    it { Myhtml::Parser.new(%Q[<html><body><hr/></body></html>]).nodes(:hr).first.self_closed?.should eq true }
+    it { Myhtml::Parser.new(%Q[<html><body><div></div></body></html>]).nodes(:div).first.self_closed?.should eq false }
+  end
 end

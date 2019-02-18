@@ -76,6 +76,7 @@ module Myhtml
     fun tag_name_by_id = myhtml_tag_name_by_id(tree : MyhtmlTreeT*, tag_id : MyhtmlTagIdT, length : LibC::SizeT*) : UInt8*
     fun node_text = myhtml_node_text(node : MyhtmlTreeNodeT*, length : LibC::SizeT*) : UInt8*
     fun node_text_set_with_charef = myhtml_node_text_set_with_charef(node : MyhtmlTreeNodeT*, text : UInt8*, length : LibC::SizeT, encoding : MyEncodingList)
+    fun node_is_close_self = myhtml_node_is_close_self(node : MyhtmlTreeNodeT*) : Bool
 
     # Navigation methods
     fun node_child = myhtml_node_child(node : MyhtmlTreeNodeT*) : MyhtmlTreeNodeT*
