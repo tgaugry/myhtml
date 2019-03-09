@@ -3,7 +3,7 @@
 #   * replace entities
 #   * downcase attributes & tags names
 #   * remove comments and whitespaces
-#   * formatting if needed
+#   * formatting
 
 require "../src/myhtml"
 
