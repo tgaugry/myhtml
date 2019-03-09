@@ -1,3 +1,7 @@
+## 1.4.0 (2019-03-10)
+* update modest lib
+* add Node#to_pretty_html
+
 ## 1.3.0 (2019-01-02)
 * all lib errors now raise LibError
 * parser.css by default search from document node, not from root
