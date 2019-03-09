@@ -21,7 +21,7 @@ str = if filename = ARGV[0]?
         HTML
       end
 
-formatting = (ARGV[1]? == "1")
+formatting = (ARGV[1]? != "0")
 remove_whitespaces = (ARGV[2]? != "0")
 remove_comments = (ARGV[3]? != "0")
 sanitize = (ARGV[4]? == "1")
