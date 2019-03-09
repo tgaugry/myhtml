@@ -44,6 +44,15 @@ else
 end
 
 # Output:
-#   <!DOCTYPE html><html><head></head><body><div><span class="bla">⬣ ⬤ ⬥ ⬦</span></div>
-#      &lt;---&gt;&amp;
-#          asdf</body></html>
+# <html>
+#   <head></head>
+#   <body>
+#     <div>
+#       <span class="bla">
+#         ⬣ ⬤ ⬥ ⬦
+#       </span>
+#     </div>
+#     <--->&
+#     asdf
+#   </body>
+# </html>
