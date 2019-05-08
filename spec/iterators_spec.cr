@@ -136,7 +136,7 @@ describe "iterators" do
   end
 
   it "collection iterator inspect" do
-    parser.nodes(:div).inspect.should contain "elements: 2_u64, current: 0"
+    parser.nodes(:div).inspect.should contain "elements: 2, current: 0"
   end
 
   it "children iterator" do
