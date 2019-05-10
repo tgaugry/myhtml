@@ -62,6 +62,11 @@ class Myhtml::Tree
     end
   end
 
+  # :nodoc:
+  def undefined_root!
+    root!.parent!
+  end
+
   #
   # Top level node filter (select all nodes in tree with tag_id)
   #   returns Myhtml::Iterator::Collection
