@@ -16,7 +16,7 @@ str = if filename = ARGV[0]?
             <div>
             <span CLASS=bla>⬣ ⬤ ⬥ ⬦</div></span>
             <--->&<!--bla-->
-            &#61 &amp
+            &#61; &amp;
             asdf</BODY>
           </html>
         HTML
