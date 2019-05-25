@@ -1,3 +1,6 @@
+## 1.4.1 (2019-05-05)
+* fix doctype printing in to_pretty_html
+
 ## 1.4.0 (2019-03-10)
 * update modest lib
 * add Node#to_pretty_html
