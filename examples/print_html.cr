@@ -16,6 +16,7 @@ str = if filename = ARGV[0]?
             <div>
             <span CLASS=bla>⬣ ⬤ ⬥ ⬦</div></span>
             <--->&<!--bla-->
+            &#61 &amp
             asdf</BODY>
           </html>
         HTML
@@ -24,7 +25,6 @@ str = if filename = ARGV[0]?
 formatting = (ARGV[1]? != "0")
 remove_whitespaces = (ARGV[2]? != "0")
 remove_comments = (ARGV[3]? != "0")
-sanitize = (ARGV[4]? == "1")
 
 tree_options = Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_CLEAN
 if remove_whitespaces
@@ -44,6 +44,7 @@ else
 end
 
 # Output:
+# <!DOCTYPE html>
 # <html>
 #   <head></head>
 #   <body>
@@ -53,6 +54,7 @@ end
 #       </span>
 #     </div>
 #     <--->&
+#     = &
 #     asdf
 #   </body>
 # </html>

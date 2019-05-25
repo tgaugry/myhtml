@@ -71,11 +71,20 @@ struct Myhtml::Node
       _format_text(io, level + 1, false)
       io << "-->"
       true
+    when Lib::MyhtmlTags::MyHTML_TAG__UNDEF
+      ch = child
+      c = 0
+      while ch
+        ch._to_html_nodes(io, level, c == 0)
+        ch = ch.next
+        c += 1
+      end
+      true
     else
       _format_add_spaces(io, level, !rooted)
       to_html(io, false)
 
-      return true if void_element?
+      return true if void_element? || _tag_id == Lib::MyhtmlTags::MyHTML_TAG__DOCTYPE
 
       ch = child
       written_something = false

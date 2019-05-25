@@ -23,5 +23,16 @@ a.attribute_add("href", "/#")
 
 div.append_child(a)
 
-puts tree.to_html
-# => <html><head></head><body><div class="red"><a href="/#">O_o</a></div></body></html>
+puts tree.to_pretty_html
+
+# Output:
+# <html>
+#   <head></head>
+#   <body>
+#     <div class="red">
+#       <a href="/#">
+#         O_o
+#       </a>
+#     </div>
+#   </body>
+# </html>

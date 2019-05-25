@@ -349,7 +349,6 @@ describe Myhtml::Node do
       BLA
 
       parser = Myhtml::Parser.new(text)
-      node = parser.html!
       t = <<-TEXT
       <html>
         <head></head>
@@ -361,7 +360,7 @@ describe Myhtml::Node do
         </body>
       </html>
       TEXT
-      node.to_pretty_html.should eq t
+      parser.to_pretty_html.should eq t
     end
 
     it "not damaging html" do
@@ -379,6 +378,19 @@ describe Myhtml::Node do
       else
         1.should eq 1
       end
+    end
+
+    it "with doctype" do
+      text = <<-BLA
+      <!doctype html>
+      <html>
+      bla
+      </html>
+      BLA
+
+      parser = Myhtml::Parser.new(text)
+      t = "<!DOCTYPE html>\n<html>\n  <head></head>\n  <body>\n    bla\n  </body>\n</html>"
+      parser.to_pretty_html.should eq t
     end
   end
 
