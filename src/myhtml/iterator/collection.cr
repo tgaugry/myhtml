@@ -52,11 +52,19 @@ class Myhtml::Iterator::Collection
   def inspect(io)
     io << "#<Myhtml::Iterator::Collection:0x"
     object_id.to_s(16, io)
-    io << " elements: "
-    @length.inspect(io)
-    io << ", "
-    io << "current: "
-    @id.inspect(io)
+    io << ": elements: "
+
+    io << '['
+
+    count = {2, @length}.min
+    count.times do |i|
+      Node.new(@tree, @list[i]).inspect(io)
+      io << ", " unless i == count - 1
+    end
+
+    io << ", ...(#{@length - 2} more)" if @length > 2
+    io << ']'
+
     io << '>'
   end
 end

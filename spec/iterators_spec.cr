@@ -136,7 +136,12 @@ describe "iterators" do
   end
 
   it "collection iterator inspect" do
-    parser.nodes(:div).inspect.should contain "elements: 2, current: 0"
+    parser.nodes(:div).inspect.should contain "elements: [Myhtml::Node(:div), Myhtml::Node(:div)]>"
+  end
+
+  it "collection iterator inspect" do
+    parser(tree_options: Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_SKIP_WHITESPACE_TOKEN | Myhtml::Lib::MyhtmlTreeParseFlags::MyHTML_TREE_PARSE_FLAGS_WITHOUT_DOCTYPE_IN_TREE)
+      .nodes(:_text).inspect.should contain "elements: [Myhtml::Node(:_text, \"Bla\"), Myhtml::Node(:_text, \"text\"), ...(1 more)]>"
   end
 
   it "children iterator" do
