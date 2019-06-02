@@ -37,7 +37,7 @@ pp node.attributes            # => {"class" => "aaa"}
 
 pp node.to_html    # => "<div class=\"aaa\">bla</div>"
 pp node.inner_text # => "bla"
-pp node            # => Myhtml::Node(tag_name: "div", attributes: {"class" => "aaa"})
+pp node            # => Myhtml::Node(:div, {"class" => "aaa"})
 
 # tree navigate methods (methods with !, returns not_nil! node):
 node.child      # Myhtml::Node?, first child of node

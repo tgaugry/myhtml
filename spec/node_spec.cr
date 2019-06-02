@@ -452,28 +452,28 @@ describe Myhtml::Node do
 
       it do
         node = parser.nodes(:div).first
-        node.inspect.should eq "Myhtml::Node(tag_name: \"div\", attributes: {\"class\" => \"AAA\", \"style\" => \"color:red\"})"
+        node.inspect.should eq "Myhtml::Node(:div, {\"class\" => \"AAA\", \"style\" => \"color:red\"})"
       end
 
       it do
         node = parser.nodes(:div).first
         node.attributes
-        node.inspect.should eq "Myhtml::Node(tag_name: \"div\", attributes: {\"class\" => \"AAA\", \"style\" => \"color:red\"})"
+        node.inspect.should eq "Myhtml::Node(:div, {\"class\" => \"AAA\", \"style\" => \"color:red\"})"
       end
 
       it do
         node = parser.nodes(:div).first
-        node.child!.inspect.should eq "Myhtml::Node(tag_name: \"-text\", tag_text: \"Haha \")"
+        node.child!.inspect.should eq "Myhtml::Node(:_text, \"Haha \")"
       end
 
       it do
         node = parser.nodes(:span).first
-        node.inspect.should eq "Myhtml::Node(tag_name: \"span\")"
+        node.inspect.should eq "Myhtml::Node(:span)"
       end
 
       it do
         node = parser.nodes(:div).to_a[1]
-        node.child!.inspect.should eq "Myhtml::Node(tag_name: \"-text\", tag_text: \"blablablablablablablablablabla...\")"
+        node.child!.inspect.should eq "Myhtml::Node(:_text, \"blablablablablablablablablabla...\")"
       end
     end
   end

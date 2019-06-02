@@ -1,4 +1,4 @@
-# Example: print all html tree
+# Example: print html tree
 
 require "../src/myhtml"
 
@@ -17,9 +17,9 @@ parser = Myhtml::Parser.new(str, tree_options: Myhtml::Lib::MyhtmlTreeParseFlags
 walk(parser.root!)
 
 # Output:
-# Myhtml::Node(tag_name: "html")
-#   Myhtml::Node(tag_name: "head")
-#   Myhtml::Node(tag_name: "body")
-#     Myhtml::Node(tag_name: "div")
-#       Myhtml::Node(tag_name: "span", attributes: {"class" => "test"})
-#         Myhtml::Node(tag_name: "-text", tag_text: "HTML")
+# Myhtml::Node(:html)
+#   Myhtml::Node(:head)
+#   Myhtml::Node(:body)
+#     Myhtml::Node(:div)
+#       Myhtml::Node(:span, {"class" => "test"})
+#         Myhtml::Node(:_text, "HTML")

@@ -132,20 +132,20 @@ struct Myhtml::Node
 
   #
   # Node Inspect
-  #   puts node.inspect # => Myhtml::Node(tag_name: "div", attributes: {"class" => "aaa"})
+  #   puts node.inspect # => Myhtml::Node(:div, {"class" => "aaa"})
   #
   def inspect(io : IO)
-    io << "Myhtml::Node(tag_name: "
-    Utils::Strip.string_slice_to_io_limited(tag_name_slice, io)
+    io << "Myhtml::Node(:"
+    io << tag_sym
 
     if textable?
-      io << ", tag_text: "
+      io << ", "
       Utils::Strip.string_slice_to_io_limited(tag_text_slice, io)
     else
       _attributes = @attributes
 
       if _attributes || any_attribute?
-        io << ", attributes: {"
+        io << ", {"
         c = 0
         if _attributes
           _attributes.each do |key, value|
