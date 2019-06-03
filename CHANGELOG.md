@@ -1,3 +1,8 @@
+## 1.4.2 (2019-06-04)
+* better Node#inspect
+* better Collection#inspect
+* minor improvements
+
 ## 1.4.1 (2019-05-05)
 * fix doctype printing in to_pretty_html
 
