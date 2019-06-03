@@ -27,10 +27,14 @@ struct Myhtml::Node
   #   if you need to use it multiple times, better to use cached method `attributes[key]?`
   #
   def attribute_by(key : String) : String?
-    slice = key.to_slice
-    each_raw_attribute do |attr|
-      if attribute_name(attr) == slice
-        return String.new(attribute_value(attr))
+    if attrs = @attributes
+      attrs[key]?
+    else
+      slice = key.to_slice
+      each_raw_attribute do |attr|
+        if attribute_name(attr) == slice
+          return String.new(attribute_value(attr))
+        end
       end
     end
   end
