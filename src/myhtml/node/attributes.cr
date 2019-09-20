@@ -22,6 +22,19 @@ struct Myhtml::Node
   end
 
   #
+  # Alias for add, remove attribute
+  #   node["class"] = "red"
+  #   node["style"] = nil
+  #
+  def []=(key : String, value : String?)
+    if value
+      attribute_add(key, value)
+    else
+      attribute_remove(key)
+    end
+  end
+
+  #
   # Find attribute by key
   #   iterate over all attributes to find it
   #   if you need to use it multiple times, better to use cached method `attributes[key]?`
@@ -36,6 +49,7 @@ struct Myhtml::Node
           return String.new(attribute_value(attr))
         end
       end
+      nil
     end
   end
 

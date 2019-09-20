@@ -36,7 +36,9 @@ describe Myhtml::Node do
 
     node = parser.nodes(:div).first
     node.attribute_add("id", "bar")
-    node.attributes.should eq({"class" => "foo", "id" => "bar"})
+    node["bla"] = ""
+    node["bla2"] = "2"
+    node.attributes.should eq({"class" => "foo", "id" => "bar", "bla" => "", "bla2" => "2"})
   end
 
   it "add attribute if attributes was cached" do
@@ -56,6 +58,17 @@ describe Myhtml::Node do
     node.attributes.should eq({"class" => "foo"})
 
     node.attribute_remove("unkown")
+    node.attributes.should eq({"class" => "foo"})
+  end
+
+  it "remove attribute by alias" do
+    parser = Myhtml::Parser.new("<html><body><div class=\"foo\" id=\"bar\">Haha</div></body></html>")
+
+    node = parser.nodes(:div).first
+    node.attribute_remove("id")
+    node.attributes.should eq({"class" => "foo"})
+
+    node["unkown"] = nil
     node.attributes.should eq({"class" => "foo"})
   end
 

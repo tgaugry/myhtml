@@ -14,12 +14,12 @@ body = tree.create_node(:body)
 html.append_child(body)
 
 div = tree.create_node(:div)
-div.attribute_add("class", "red")
+div["class"] = "red"
 body.append_child(div)
 
 a = tree.create_node(:a)
 a.inner_text = "O_o"
-a.attribute_add("href", "/#")
+a["href"] = "/#"
 
 div.append_child(a)
 
