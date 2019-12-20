@@ -1,3 +1,6 @@
+## 1.5.0 (2019-12-26)
+* added Myhtml::SAX parser, see examples/sax_links*.cr
+
 ## 1.4.2 (2019-06-04)
 * better Node#inspect
 * better Collection#inspect
