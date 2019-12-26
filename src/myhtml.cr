@@ -1,5 +1,5 @@
 module Myhtml
-  VERSION = "1.5.0"
+  VERSION = "1.5.1"
 
   def self.lib_version
     v = Lib.version
