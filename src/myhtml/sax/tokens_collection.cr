@@ -43,7 +43,7 @@ class Myhtml::SAX::TokensCollection < Myhtml::SAX::Tokenizer
 
   def root
     raise Myhtml::EmptyNodeError.new("empty collection") if size == 0
-    TokenPos.new(self, unsafe_token(-1), -1)
+    TokenPos.new(self, unsafe_token(@last_id), -1)
   end
 
   def first
