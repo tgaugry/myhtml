@@ -1,8 +1,7 @@
 CRYSTAL ?= crystal
 CRYSTALFLAGS ?=
 
-.PHONY: all package spec
-all: bin_usage bin_print_tree bin_links bin_texts bin_encoding bin_print_html bin_css_selectors1 bin_css_selectors2
+.PHONY: package spec
 package: src/ext/myhtml-c/lib/libmodest_static.a
 
 src/ext/myhtml-c/lib/libmodest_static.a:
