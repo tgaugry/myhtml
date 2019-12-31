@@ -61,7 +61,7 @@ when 2
   puts "tokens collection"
   t = Time.now
   s = 0
-  N.times do
+  N.times do |n|
     doc = Myhtml::SAX::TokensCollection.new
     parser = Myhtml::SAX.new(doc)
     parser.parse(str)
@@ -75,6 +75,7 @@ when 2
             else
               0
             end
+    p doc.tokens.size if n == 0
     s += count
     parser.free
   end
@@ -84,7 +85,7 @@ when 3
   puts "tokens collection, new iterator"
   t = Time.now
   s = 0
-  N.times do
+  N.times do |n|
     doc = Myhtml::SAX::TokensCollection.new
     parser = Myhtml::SAX.new(doc)
     parser.parse(str)
@@ -93,6 +94,7 @@ when 3
             else
               0
             end
+    p doc.tokens.size if n == 0
     s += count
     parser.free
   end
