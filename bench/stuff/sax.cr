@@ -90,7 +90,7 @@ when 3
     parser = Myhtml::SAX.new(doc)
     parser.parse(str)
     count = if COUNT
-              doc.root.right.nodes(:a).count { }
+              doc.root.right.nodes(:a).count { true }
             else
               0
             end
