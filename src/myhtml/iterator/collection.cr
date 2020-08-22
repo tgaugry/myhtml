@@ -51,7 +51,7 @@ class Myhtml::Iterator::Collection
 
   def inspect(io)
     io << "#<Myhtml::Iterator::Collection:0x"
-    object_id.to_s(16, io)
+    object_id.to_s(io, 16)
     io << ": elements: "
 
     io << '['

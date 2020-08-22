@@ -14,8 +14,8 @@ s = 0
 links = [] of String
 myhtml = Lexbor::Parser.new(page)
 1000.times do
-  #links = myhtml.css("div.g h3.r a").map(&.attribute_by("href")).to_a
-  #s += links.size
+  # links = myhtml.css("div.g h3.r a").map(&.attribute_by("href")).to_a
+  # s += links.size
 end
 p links.last?
 p s
