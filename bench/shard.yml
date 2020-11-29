@@ -16,5 +16,7 @@ dependencies:
     # sudo pacman -S community/gumbo-parser
   crystagiri:
     github: madeindjs/crystagiri
+  html5:
+    github: naqvis/crystal-html5
 
 license: MIT
