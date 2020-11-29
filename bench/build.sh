@@ -5,3 +5,4 @@ crystal build test-libxml.cr --release -o bin_test_libxml --no-debug
 crystal build test-myhtml.cr --release -o bin_test_myhtml --no-debug
 crystal build test-lexbor.cr --release -o bin_test_lexbor --no-debug
 crystal build test-gumbo.cr --release -o bin_test_gumbo --no-debug
+crystal build test-html5.cr --release -o bin_test_html5 --no-debug

@@ -7,6 +7,8 @@ echo "Gumbo"
 ./xtime.rb ./bin_test_gumbo
 echo "Lexbor"
 ./xtime.rb ./bin_test_lexbor
+echo "Html5"
+./xtime.rb ./bin_test_html5
 echo "Nokogiri(LibXML)"
 ./xtime.rb ruby test-libxml.rb
 
