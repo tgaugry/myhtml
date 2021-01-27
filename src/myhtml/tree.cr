@@ -118,7 +118,7 @@ class Myhtml::Tree
   # creates the object that can then be appended or inserted. See
   # `Node#append_child`, `Node#insert_after`, and `Node#insert_before`
   #
-  # ```crystal
+  # ```
   # tree = Myhtml::Tree.new
   # div = tree.create_node(:div)
   # a = tree.create_node(:a)

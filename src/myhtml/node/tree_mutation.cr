@@ -4,7 +4,7 @@ struct Myhtml::Node
   #
   # This inserts the child node at the end of parent node's children
   #
-  # ```crystal
+  # ```
   # document = Myhtml::Parser.new("<html><body><p>Hi!</p></body></html>")
   # body = document.body!
   # span = document.tree.create_node(:span)
@@ -20,7 +20,7 @@ struct Myhtml::Node
   #
   # Add a sibling node before this node
   #
-  # ```crystal
+  # ```
   # document = Myhtml::Parser.new("<html><body><main></main></body></html>")
   # main = document.css("main").first
   # header = document.tree.create_node(:header)
@@ -36,7 +36,7 @@ struct Myhtml::Node
   #
   # Add a sibling node after this node
   #
-  # ```crystal
+  # ```
   # document = Myhtml::Parser.new("<html><body><div></div></body></html>")
   # div = document.css("div").first
   # img = document.tree.create_node(:img)
@@ -59,7 +59,7 @@ struct Myhtml::Node
   #
   # Helper method to add inner text to node
   #
-  # ```crystal
+  # ```
   # document = Myhtml::Parser.new("<html><body><div></div></body></html>")
   # div = document.css("div").first
   # div.inner_text = "bla"

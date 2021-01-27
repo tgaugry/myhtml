@@ -13,8 +13,8 @@ s = 0
 links = [] of String
 doc = HTML5.parse(page)
 1000.times do
-  #links = myhtml.css("div.g div.r a").map(&.attribute_by("href")).to_a
-  #s += links.size
+  # links = myhtml.css("div.g div.r a").map(&.attribute_by("href")).to_a
+  # s += links.size
 end
 p links.last?
 p s
