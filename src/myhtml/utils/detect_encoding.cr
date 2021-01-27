@@ -12,7 +12,7 @@ module Myhtml::Utils::DetectEncoding
     if res
       e
     else
-      EncodingNotFound.new(String.new(pointer, bytesize))
+      EncodingNotFound.new(pointer.null? ? "" : String.new(pointer, bytesize))
     end
   end
 
@@ -38,7 +38,7 @@ module Myhtml::Utils::DetectEncoding
     if enc != Lib::MyEncodingList::MyENCODING_NOT_DETERMINED
       enc
     else
-      EncodingNotFound.new(String.new(pointer2, bytesize2))
+      EncodingNotFound.new(pointer2.null? ? "" : String.new(pointer2, bytesize2))
     end
   end
 

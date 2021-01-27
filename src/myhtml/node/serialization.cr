@@ -103,6 +103,7 @@ struct Myhtml::Node
   # :nodoc:
   protected def _format_text(io, level = 0, start_with_newline = true)
     buf = tag_text_slice
+    return false unless buf
 
     i = 0
     j = 0

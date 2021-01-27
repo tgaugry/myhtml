@@ -2,11 +2,11 @@ require "./spec_helper"
 
 describe Myhtml::Node do
   it "node from root" do
-    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red'>Haha</div></body></html>")
+    parser = Myhtml::Parser.new("<html><body><div class=AAA style='color:red' chk>Haha</div></body></html>")
 
     node = parser.root!.child!.next!.child!
     node.tag_name.should eq "div"
-    node.attributes.should eq({"class" => "AAA", "style" => "color:red"})
+    node.attributes.should eq({"class" => "AAA", "style" => "color:red", "chk" => ""})
     node.tag_id.should eq Myhtml::Lib::MyhtmlTags::MyHTML_TAG_DIV
     node.tag_sym.should eq :div
     node.child!.tag_text.should eq "Haha"

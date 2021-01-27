@@ -10,7 +10,7 @@ def extract_link(node)
   text_tag = ->(n : Myhtml::Node) do
     if n.is_text?
       slice = n.tag_text_slice
-      return if slice.size == 0
+      return unless slice
       !String.new(slice).each_char.all?(&.whitespace?) && n.parents.all?(&.visible?)
     end
   end

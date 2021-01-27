@@ -55,14 +55,15 @@ struct Myhtml::Node
   #   for other nodes, you should call `inner_text` method
   #
   def tag_text
-    String.new(tag_text_slice)
+    s = tag_text_slice
+    s ? String.new(s) : ""
   end
 
   # :nodoc:
   @[AlwaysInline]
   def tag_text_slice
     buffer = Lib.node_text(@raw_node, out length)
-    Slice.new(buffer, length)
+    buffer.null? ? nil : Slice.new(buffer, length)
   end
 
   # :nodoc:
@@ -127,7 +128,7 @@ struct Myhtml::Node
 
   # :nodoc:
   protected def each_inner_text_for_scope(scope)
-    scope.nodes(Lib::MyhtmlTags::MyHTML_TAG__TEXT).each { |node| yield node.tag_text_slice }
+    scope.nodes(Lib::MyhtmlTags::MyHTML_TAG__TEXT).each { |node| s = node.tag_text_slice; yield s if s }
   end
 
   #
@@ -140,7 +141,9 @@ struct Myhtml::Node
 
     if textable?
       io << ", "
-      Utils::Strip.string_slice_to_io_limited(tag_text_slice, io)
+      if s = tag_text_slice
+        Utils::Strip.string_slice_to_io_limited(s, io)
+      end
     else
       _attributes = @attributes
 
@@ -160,7 +163,7 @@ struct Myhtml::Node
             io << ", " unless c == 0
             Utils::Strip.string_slice_to_io_limited(key_slice, io)
             io << " => "
-            Utils::Strip.string_slice_to_io_limited(value_slice, io)
+            Utils::Strip.string_slice_to_io_limited(value_slice || "".to_slice, io)
             c += 1
           end
         end

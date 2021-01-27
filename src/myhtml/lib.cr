@@ -14,7 +14,7 @@ module Myhtml
     type MyhtmlTagIndexT = Void*
     type MyhtmlTagIndexNodeT = Void*
     alias MyhtmlTagIdT = MyhtmlTags
-    type MycoreCallbackSerializeT = (UInt8*, LibC::SizeT, Void*) -> MyStatus
+    alias MycoreCallbackSerializeT = (UInt8*, LibC::SizeT, Void*) -> MyStatus
 
     struct MyhtmlVersion
       major : Int32
@@ -129,7 +129,7 @@ module Myhtml
 
     # FOR SAX Parsing
     type MyhtmlTokenNodeT = Void*
-    type MyhtmlCallbackTokenF = MyhtmlTreeT*, MyhtmlTokenNodeT*, Void* -> Void*
+    alias MyhtmlCallbackTokenF = MyhtmlTreeT*, MyhtmlTokenNodeT*, Void* -> Void*
     type MyhtmlIncomingBufferT = Void*
 
     struct MyhtmlPositionT
