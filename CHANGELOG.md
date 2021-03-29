@@ -1,3 +1,6 @@
+## 1.5.4 (2021-03-29)
+* update crystal to 1.0.0
+
 ## 1.5.3 (2021-01-27)
 * update crystal to 0.36
 
