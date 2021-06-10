@@ -1,15 +1,13 @@
 class Myhtml::Iterator::Collection
-  include ::Iterator(Node)
+  include ::Indexable(Node)
   include Iterator::Filter
 
-  @id : LibC::SizeT
   @tree : Tree
   @length : LibC::SizeT
   @list : Lib::MyhtmlTreeNodeT**
   @raw_collection : Lib::MyhtmlCollectionT*
 
   def initialize(@tree, @raw_collection)
-    @id = LibC::SizeT.new(0)
     if @raw_collection.null?
       @length = LibC::SizeT.new(0)
       @list = Pointer(Lib::MyhtmlTreeNodeT*).new(0)
@@ -20,18 +18,13 @@ class Myhtml::Iterator::Collection
     @finalized = false
   end
 
-  def next
-    if @id < @length
-      node = @list[@id]
-      @id += 1
-      Node.new(@tree, node)
-    else
-      stop
-    end
-  end
-
   def size
     @length
+  end
+
+  def unsafe_fetch(index : Int)
+    node = @list[index]
+    Node.new(@tree, node)
   end
 
   def finalize
@@ -43,10 +36,6 @@ class Myhtml::Iterator::Collection
       @finalized = true
       Lib.collection_destroy(@raw_collection)
     end
-  end
-
-  def rewind
-    @id = LibC::SizeT.new(0)
   end
 
   def inspect(io)
