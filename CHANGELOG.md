@@ -1,3 +1,6 @@
+## 1.5.5 (2021-06-11)
+* Collection now indexable (internal change #27)
+
 ## 1.5.4 (2021-03-29)
 * update crystal to 1.0.0
 
