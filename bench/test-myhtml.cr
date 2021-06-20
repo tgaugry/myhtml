@@ -14,7 +14,7 @@ s = 0
 links = [] of String
 myhtml = Myhtml::Parser.new(page)
 1000.times do
-  links = myhtml.css("div.g div.r a").map(&.attribute_by("href")).to_a
+  links = myhtml.css(%Q<div.g a[data-ved][href]:not([href="#"])>).map(&.attribute_by("href")).to_a
   s += links.size
 end
 p links.last?
