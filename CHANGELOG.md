@@ -1,3 +1,6 @@
+## 1.5.6
+* Use less memory when build (`make -j4` instead of `make -j`)
+
 ## 1.5.5 (2021-06-11)
 * Collection now indexable (internal change #27)
 
