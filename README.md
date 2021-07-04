@@ -1,6 +1,6 @@
 # MyHTML
 
-[![Build Status](https://travis-ci.org/kostya/myhtml.svg?branch=master)](http://travis-ci.org/kostya/myhtml)
+[![Build Status](https://github.com/kostya/myhtml/actions/workflows/ci.yml/badge.svg)](https://github.com/kostya/myhtml/actions/workflows/ci.yml?query=branch%3Amaster+event%3Apush)
 
 Fast HTML5 Parser (Crystal binding for awesome lexborisov's [myhtml](https://github.com/lexborisov/myhtml) and [Modest](https://github.com/lexborisov/Modest)). This shard used in production to parse millions of pages per day, very stable and fast.
 
