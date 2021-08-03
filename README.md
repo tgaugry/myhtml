@@ -102,8 +102,8 @@ Parse 1000 times google page, and 1000 times css select. [myhtml-program](https:
 
 | Lang     | Shard      | Lib             | Parse time, s | Css time, s | Memory, MiB |
 | -------- | ---------- | --------------- | ------------- | ----------- | ----------- |
-| Crystal  | lexbor     | lexbor          | 2.66          | -           | 8.1         |
-| Crystal  | myhtml     | myhtml(+modest) | 3.06          | 0.15        | 10.6        |
+| Crystal  | lexbor     | lexbor          | 2.54          | 0.099       | 7.8         |
+| Crystal  | myhtml     | myhtml(+modest) | 3.17          | 0.16        | 8.4         |
 | Ruby 2.7 | Nokogiri   | libxml2         | 9.19          | 10.76       | 139.8       |
 | Crystal  | Crystagiri | libxml2         | 11.27         | -           | 25.0        |
 
