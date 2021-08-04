@@ -47,7 +47,7 @@ struct Myhtml::Node
       each_raw_attribute do |attr|
         if attribute_name(attr) == slice
           v = attribute_value(attr)
-          return v ? String.new(v) : ""
+          return String.new(v)
         end
       end
       nil
@@ -62,7 +62,7 @@ struct Myhtml::Node
     @attributes ||= begin
       res = {} of String => String
       each_attribute do |k, v|
-        res[String.new(k)] = v ? String.new(v) : ""
+        res[String.new(k)] = String.new(v)
       end
       res
     end
@@ -97,7 +97,7 @@ struct Myhtml::Node
   @[AlwaysInline]
   private def attribute_value(attr)
     value = Lib.attribute_value(attr, out value_length)
-    value.null? ? nil : Slice(UInt8).new(value, value_length)
+    Slice(UInt8).new(value, value_length)
   end
 
   def attribute_by(slice : Slice(UInt8))
