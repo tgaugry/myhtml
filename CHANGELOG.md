@@ -1,3 +1,6 @@
+## 1.5.7
+* Add `Myhtml.decode_html_entities(bytes : Bytes)` method
+
 ## 1.5.6
 * Use less memory when build (`make -j4` instead of `make -j`)
 
