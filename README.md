@@ -98,7 +98,7 @@ crystal spec
 
 ## Benchmark
 
-Parse 1000 times google page, and 1000 times css select. [myhtml-program](https://github.com/kostya/myhtml/tree/master/bench/test-myhtml.cr), [crystagiri-program](https://github.com/kostya/myhtml/tree/master/bench/test-libxml.cr), [nokogiri-program](https://github.com/kostya/myhtml/tree/master/bench/test-libxml.rb)
+Parse 1000 times google page(600Kb), and 1000 times css select. [myhtml-program](https://github.com/kostya/myhtml/tree/master/bench/test-myhtml.cr), [crystagiri-program](https://github.com/kostya/myhtml/tree/master/bench/test-libxml.cr), [nokogiri-program](https://github.com/kostya/myhtml/tree/master/bench/test-libxml.rb)
 
 | Lang     | Shard      | Lib             | Parse time, s | Css time, s | Memory, MiB |
 | -------- | ---------- | --------------- | ------------- | ----------- | ----------- |
