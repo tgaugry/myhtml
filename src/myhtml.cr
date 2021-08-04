@@ -14,8 +14,12 @@ module Myhtml
   # Decode html entities
   #   Myhtml.decode_html_entities("&#61 &amp; &Auml") # => "= & Ä"
   #
-  def self.decode_html_entities(str)
+  def self.decode_html_entities(str : String)
     Utils::HtmlEntities.decode(str)
+  end
+
+  def self.decode_html_entities(bytes : Bytes)
+    Utils::HtmlEntities.decode(bytes)
   end
 end
 

@@ -20,5 +20,6 @@ describe Myhtml do
     Myhtml.decode_html_entities(" ").should eq " "
     Myhtml.decode_html_entities("Chris").should eq "Chris"
     Myhtml.decode_html_entities("asdf &#61 &amp - &amp; bla -- &Auml; asdf").should eq "asdf = & - & bla -- Ä asdf"
+    Myhtml.decode_html_entities("asdf &#61 &amp - &amp; bla -- &Auml; asdf".to_slice).should eq "asdf = & - & bla -- Ä asdf".to_slice
   end
 end

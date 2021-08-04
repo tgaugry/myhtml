@@ -6,4 +6,9 @@ module Myhtml::Utils::HtmlEntities
     HTML_ENTITIES_NODE.tag_text_set(str, encoding)
     HTML_ENTITIES_NODE.tag_text
   end
+
+  def self.decode(bytes : Bytes, encoding = Lib::MyEncodingList::MyENCODING_DEFAULT)
+    HTML_ENTITIES_NODE.tag_text_set(bytes, encoding)
+    HTML_ENTITIES_NODE.tag_text_slice
+  end
 end
