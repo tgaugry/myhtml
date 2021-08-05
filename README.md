@@ -4,6 +4,8 @@
 
 Fast HTML5 Parser (Crystal binding for awesome lexborisov's [myhtml](https://github.com/lexborisov/myhtml) and [Modest](https://github.com/lexborisov/Modest)). This shard used in production to parse millions of pages per day, very stable and fast.
 
+## WARNING: original libraries (myhtml and Modest) not maintained since july 2020, i recommend switch to successor parser: [Lexbor](https://github.com/kostya/lexbor).
+
 ## Installation
 
 
