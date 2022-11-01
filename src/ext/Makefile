@@ -4,7 +4,7 @@ REV := 393338d994c921705ff71dfbd1d98ceb31328f14
 package: ./modest-c/lib/libmodest_static.a
 
 ./modest-c:
-	git clone https://github.com/lexborisov/Modest.git ./modest-c
+	git clone https://github.com/tgaugry/Modest.git ./modest-c
 	cd modest-c && git reset --hard $(REV)
 
 ./modest-c/lib/libmodest_static.a: ./modest-c
