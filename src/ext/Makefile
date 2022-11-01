@@ -1,4 +1,4 @@
-REV := 393338d994c921705ff71dfbd1d98ceb31328f14
+REV := master
 
 .PHONY: package
 package: ./modest-c/lib/libmodest_static.a
